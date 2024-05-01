@@ -74,10 +74,36 @@ export class AuthSignUpComponent implements OnInit {
      * @param user_type_id 
      */
     onChangeUserType(user_type_id: number) {
+        let employee_controls: string[] = ['name', 'dob', 'gender_id'];
+        let employer_controls: string[] = ['company_name', 'location'];
         if (user_type_id == 1) {
             //Employee
+
+            employer_controls.forEach((control: string) => {
+                if (this.sign_up_form.contains(control)) {
+                    this.sign_up_form.removeControl(control);
+                }
+            });
+
+            employee_controls.forEach((control: string) => {
+                if (!this.sign_up_form.contains(control)) {
+                    this.sign_up_form.addControl(control, new FormControl('', Validators.required));
+                }
+            });
         } else {
             //Employer
+
+            employee_controls.forEach((control: string) => {
+                if (this.sign_up_form.contains(control)) {
+                    this.sign_up_form.removeControl(control);
+                }
+            });
+
+            employer_controls.forEach((control: string) => {
+                if (!this.sign_up_form.contains(control)) {
+                    this.sign_up_form.addControl(control, new FormControl('', Validators.required));
+                }
+            });
         }
     }
 
