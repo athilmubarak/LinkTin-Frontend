@@ -5,6 +5,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { FuseValidators } from '@fuse/validators';
 import { AuthService } from 'app/core/auth/auth.service';
+import { UserType } from 'app/models/user-type.types';
+import { SignUpService } from './services/sign-up.service';
+import { CommonResponse } from 'app/models/common-response.types';
+import { SharedService } from 'app/shared/services/shared.service';
 
 @Component({
     selector: 'auth-sign-up',
@@ -18,12 +22,14 @@ export class AuthSignUpComponent implements OnInit {
 
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
 
+    //Variables
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: ''
     };
     showAlert: boolean = false;
     signUpForm: FormGroup;
+    user_types: UserType[];
 
     /**
      * Constructor
@@ -31,7 +37,9 @@ export class AuthSignUpComponent implements OnInit {
     constructor(
         private _authService: AuthService,
         private form_builder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private sign_up_service: SignUpService,
+        public shared_service: SharedService
     ) {
     }
 
@@ -66,6 +74,35 @@ export class AuthSignUpComponent implements OnInit {
                 validators: FuseValidators.mustMatch('password', 'password_confirm')
             }
         );
+
+        this.getUserTypes();
+        this.shared_service.getGenders();
+    }
+
+    /**
+     * to get user types
+     */
+    getUserTypes() {
+        this.user_types = [];
+        this.sign_up_service.getUserTypes().subscribe({
+            next: (res: CommonResponse<UserType[]>) => {
+                console.log(res);
+
+                this.user_types = res.data;
+            },
+            error: () => {
+                this.user_types = [
+                    {
+                        user_type_id: 1,
+                        user_type: 'Employee'
+                    },
+                    {
+                        user_type_id: 2,
+                        user_type: 'Employer'
+                    }
+                ];
+            }
+        });
     }
 
     /**

@@ -27,9 +27,11 @@
                 <div class="flex flex-col md:flex-row w-full">
                     <div class="flex flex-col flex-1">
 
-                        <mat-radio-group class="mb-4">
-                            <mat-radio-button color="primary" class="mr-2" [value]="1">Employee</mat-radio-button>
-                            <mat-radio-button color="primary" [value]="2">Employer</mat-radio-button>
+                        <mat-radio-group class="mb-4" formControlName="user_type_id">
+                            <mat-radio-button color="primary" class="mr-2" *ngFor="let type of user_types"
+                                [value]="type.user_type_id">
+                                {{ type?.user_type }}
+                            </mat-radio-button>
                         </mat-radio-group>
 
                         <!-- Name field -->
