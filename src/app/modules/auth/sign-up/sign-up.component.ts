@@ -9,6 +9,7 @@ import { UserType } from 'app/models/user-type.types';
 import { SignUpService } from './services/sign-up.service';
 import { CommonResponse } from 'app/models/common-response.types';
 import { SharedService } from 'app/shared/services/shared.service';
+import { User } from 'app/models/user.types';
 
 @Component({
     selector: 'auth-sign-up',
@@ -20,15 +21,12 @@ export class AuthSignUpComponent implements OnInit {
     //FormGroup
     sign_up_form: FormGroup;
 
-    @ViewChild('signUpNgForm') signUpNgForm: NgForm;
-
     //Variables
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: ''
     };
     showAlert: boolean = false;
-    signUpForm: FormGroup;
     user_types: UserType[];
 
     /**
@@ -51,16 +49,6 @@ export class AuthSignUpComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        // Create the form
-        this.signUpForm = this.form_builder.group({
-            name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
-            company: [''],
-            agreements: ['', Validators.requiredTrue]
-        }
-        );
-
         this.sign_up_form = this.form_builder.group(
             {
                 user_type_id: new FormControl(1, Validators.required),
@@ -77,6 +65,7 @@ export class AuthSignUpComponent implements OnInit {
 
         this.getUserTypes();
         this.shared_service.getGenders();
+        this.onChangeUserType(1);
     }
 
     /**
@@ -153,41 +142,23 @@ export class AuthSignUpComponent implements OnInit {
      */
     signUp(): void {
         // Do nothing if the form is invalid
-        if (this.signUpForm.invalid) {
+        if (this.sign_up_form.invalid) {
             return;
         }
 
         // Disable the form
-        this.signUpForm.disable();
+        this.sign_up_form.disable();
 
         // Hide the alert
         this.showAlert = false;
 
-        // Sign up
-        this._authService.signUp(this.signUpForm.value)
-            .subscribe(
-                (response) => {
+        this.sign_up_service.signUpUser(this.sign_up_form.value).subscribe({
+            next: (res: CommonResponse<User>) => {
+                console.log(res);
 
-                    // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
-                },
-                (response) => {
-
-                    // Re-enable the form
-                    this.signUpForm.enable();
-
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
-
-                    // Set the alert
-                    this.alert = {
-                        type: 'error',
-                        message: 'Something went wrong, please try again.'
-                    };
-
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+            },
+            complete: () => this.sign_up_form.enable(),
+            error: () => this.sign_up_form.enable()
+        });
     }
 }

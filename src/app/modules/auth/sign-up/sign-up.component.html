@@ -27,7 +27,8 @@
                 <div class="flex flex-col md:flex-row w-full">
                     <div class="flex flex-col flex-1">
 
-                        <mat-radio-group class="mb-4" formControlName="user_type_id">
+                        <mat-radio-group class="mb-4" formControlName="user_type_id"
+                            (change)="onChangeUserType($event.value)">
                             <mat-radio-button color="primary" class="mr-2" *ngFor="let type of user_types"
                                 [value]="type.user_type_id">
                                 {{ type?.user_type }}
@@ -35,11 +36,19 @@
                         </mat-radio-group>
 
                         <!-- Name field -->
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="w-full" *ngIf="sign_up_form?.get('user_type_id')?.value == 1">
                             <mat-label>Full name</mat-label>
-                            <input id="name" matInput [formControlName]="'name'">
-                            <mat-error *ngIf="signUpForm.get('name').hasError('required')">
+                            <input matInput [formControlName]="'name'">
+                            <mat-error *ngIf="sign_up_form.get('name').hasError('required')">
                                 Full name is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full" *ngIf="sign_up_form?.get('user_type_id')?.value == 2">
+                            <mat-label>Company Name</mat-label>
+                            <input matInput formControlName="company_name">
+                            <mat-error *ngIf="sign_up_form.get('company_name').hasError('required')">
+                                Company name is required
                             </mat-error>
                         </mat-form-field>
 
@@ -47,14 +56,58 @@
                         <mat-form-field class="w-full">
                             <mat-label>Email address</mat-label>
                             <input id="email" matInput [formControlName]="'email'">
-                            <mat-error *ngIf="signUpForm.get('email').hasError('required')">
+                            <mat-error *ngIf="sign_up_form.get('email').hasError('required')">
                                 Email address is required
                             </mat-error>
-                            <mat-error *ngIf="signUpForm.get('email').hasError('email')">
+                            <mat-error *ngIf="sign_up_form.get('email').hasError('email')">
                                 Please enter a valid email address
                             </mat-error>
                         </mat-form-field>
 
+                        <mat-form-field class="w-full">
+                            <mat-label>Phone Number</mat-label>
+                            <input type="text" matInput formControlName="phone_number">
+                            <mat-error *ngIf="sign_up_form.get('phone_number').hasError('required')">
+                                Phone Number is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full" *ngIf="sign_up_form?.get('user_type_id')?.value == 2">
+                            <mat-label>Location</mat-label>
+                            <input type="text" matInput formControlName="location">
+                            <mat-error *ngIf="sign_up_form.get('location').hasError('required')">
+                                Location is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full" *ngIf="sign_up_form?.get('user_type_id')?.value == 1">
+                            <mat-label>DOB</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="dob">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full" *ngIf="sign_up_form?.get('user_type_id')?.value == 1">
+                            <mat-label>Gender</mat-label>
+                            <mat-select formControlName="gender_id">
+                                <mat-option *ngFor="let item of shared_service?.genders" [value]="item?.gender_id">
+                                    {{ item?.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="sign_up_form.get('gender_id').hasError('required')">
+                                Gender is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="border-l-2 ml-6 flex flex-col flex-1 pl-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>Username</mat-label>
+                            <input matInput formControlName="user_name">
+                            <mat-error *ngIf="sign_up_form.get('user_name').hasError('required')">
+                                Username is required
+                            </mat-error>
+                        </mat-form-field>
                         <!-- Password field -->
                         <mat-form-field class="w-full">
                             <mat-label>Password</mat-label>
@@ -67,27 +120,32 @@
                                 <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
                                     [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                             </button>
-                            <mat-error>
+                            <mat-error *ngIf="sign_up_form.get('password').hasError('required')">
                                 Password is required
                             </mat-error>
                         </mat-form-field>
 
-                        <!-- Company field -->
                         <mat-form-field class="w-full">
-                            <mat-label>Company</mat-label>
-                            <input id="company-confirm" matInput [formControlName]="'company'">
+                            <mat-label>Confirm Password</mat-label>
+                            <input matInput type="password" [formControlName]="'password_confirm'">
+                            <mat-error *ngIf="sign_up_form.get('password_confirm').hasError('required')">
+                                Password is required
+                            </mat-error>
+                            <mat-error *ngIf="sign_up_form.get('password_confirm').hasError('mustMatch')">
+                                Password should match
+                            </mat-error>
                         </mat-form-field>
+
                     </div>
-                    <div class="flex flex-col flex-1"></div>
                 </div>
 
                 <!-- Submit button -->
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'"
-                    [disabled]="signUpForm.disabled" (click)="signUp()">
-                    <span *ngIf="!signUpForm.disabled">
+                    [disabled]="sign_up_form?.disabled" (click)="signUp()">
+                    <span *ngIf="!sign_up_form?.disabled">
                         Create new account
                     </span>
-                    <mat-progress-spinner *ngIf="signUpForm.disabled" [diameter]="24"
+                    <mat-progress-spinner *ngIf="sign_up_form?.disabled" [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
 
