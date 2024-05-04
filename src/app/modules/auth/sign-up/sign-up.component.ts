@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -10,6 +10,7 @@ import { SignUpService } from './services/sign-up.service';
 import { CommonResponse } from 'app/models/common-response.types';
 import { SharedService } from 'app/shared/services/shared.service';
 import { User } from 'app/models/user.types';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
     selector: 'auth-sign-up',
@@ -28,6 +29,8 @@ export class AuthSignUpComponent implements OnInit {
     };
     showAlert: boolean = false;
     user_types: UserType[];
+    email_input = new Subject<string>();
+    username_input = new Subject<string>();
 
     /**
      * Constructor
@@ -39,6 +42,33 @@ export class AuthSignUpComponent implements OnInit {
         private sign_up_service: SignUpService,
         public shared_service: SharedService
     ) {
+        this.email_input.pipe(debounceTime(400), distinctUntilChanged()).subscribe({
+            next: (value: string) => {
+                this.sign_up_service.checkForEmailExistance({ email: value }).subscribe({
+                    next: (res: CommonResponse<undefined>) => {
+                        if (!res.success) {
+                            this.sign_up_form.get('email').setErrors({ isExist: true });
+                        } else {
+                            this.sign_up_form.get('email').setErrors(null);
+                        }
+                    }
+                });
+            }
+        });
+
+        this.username_input.pipe(debounceTime(400), distinctUntilChanged()).subscribe({
+            next: (value: string) => {
+                this.sign_up_service.checkForUserNameExistance({ user_name: value }).subscribe({
+                    next: (res: CommonResponse<undefined>) => {
+                        if (!res.success) {
+                            this.sign_up_form.get('user_name').setErrors({ isExist: true });
+                        } else {
+                            this.sign_up_form.get('user_name').setErrors(null);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -156,9 +186,46 @@ export class AuthSignUpComponent implements OnInit {
             next: (res: CommonResponse<User>) => {
                 console.log(res);
 
+                this.alert = {
+                    type: res.success ? 'success' : 'error',
+                    message: res.message
+                };
+
+                if (res.success) {
+                    //Do the login
+                    this.sign_up_form.reset();
+                }
             },
             complete: () => this.sign_up_form.enable(),
             error: () => this.sign_up_form.enable()
         });
+    }
+
+    /**
+     * To check whether the entered email already exist or not
+     * 
+     * @param email 
+     * @returns 
+     */
+    checkEmail(email: string) {
+        if (this.sign_up_form.get('email').invalid) {
+            return;
+        }
+
+        this.email_input.next(email);
+    }
+
+    /**
+     * To check whether the entered user_name already exist or not
+     * 
+     * @param user_name 
+     * @returns 
+     */
+    checkUserName(user_name: string) {
+        if (this.sign_up_form.get('user_name').invalid) {
+            return;
+        }
+
+        this.username_input.next(user_name);
     }
 }
