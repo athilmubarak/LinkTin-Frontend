@@ -22,8 +22,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:contacts',
         link: '/employer/candidates'
+    },
+    {
+        id: 'vacancies',
+        title: 'Vacancies',
+        type: 'basic',
+        icon: 'mat_outline:people',
+        link: '/employer/vacancies'
     }
-
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -46,6 +52,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:contacts',
         link: '/employer/candidates'
+    },
+    {
+        id: 'vacancies',
+        title: 'Vacancies',
+        type: 'basic',
+        icon: 'mat_outline:people',
+        link: '/employer/vacancies'
     }
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -69,6 +82,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:contacts',
         link: '/employer/candidates'
+    },
+    {
+        id: 'vacancies',
+        title: 'Vacancies',
+        type: 'basic',
+        icon: 'mat_outline:people',
+        link: '/employer/vacancies'
     }
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -92,5 +112,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:contacts',
         link: '/employer/candidates'
+    },
+    {
+        id: 'vacancies',
+        title: 'Vacancies',
+        type: 'basic',
+        icon: 'mat_outline:people',
+        link: '/employer/vacancies'
     }
 ];
