@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateVacancyComponent } from '../update-vacancy/update-vacancy.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { FuseAlertType } from '@fuse/components/alert';
 
 @Component({
   selector: 'app-vacancies',
@@ -15,6 +16,11 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 })
 export class VacanciesComponent implements OnInit {
   //Variables
+  show_alert: boolean = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
 
   //Mat-table realted variables
   data_source = new MatTableDataSource<Vacancy>();
@@ -152,6 +158,11 @@ export class VacanciesComponent implements OnInit {
           this.vacancy_service.deleteVacancy(vacancy.vacancy_id).subscribe({
             next: (res: CommonResponse<number>) => {
               console.log(res);
+              this.alert = {
+                type: res.success ? 'success' : 'error',
+                message: res.message
+              };
+              this.show_alert = true;
 
               if (res.success) {
                 let data = this.data_source.data;

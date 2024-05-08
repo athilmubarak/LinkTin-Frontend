@@ -1,4 +1,10 @@
 <div class="flex flex-col w-full mx-6 my-3">
+    <div class="flex">
+        <fuse-alert class="mt-8 -mb-4" *ngIf="show_alert" [appearance]="'outline'" [showIcon]="false"
+            [type]="alert.type" [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+    </div>
     <div class="flex flex-row justify-end w-full px-4 py-9">
         <button mat-raised-button color="primary" (click)="clickOnVacancy()">
             <mat-icon svgIcon="mat_solid:add"></mat-icon>
