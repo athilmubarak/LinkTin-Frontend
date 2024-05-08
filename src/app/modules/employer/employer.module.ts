@@ -8,6 +8,7 @@ import { CandidatesComponent } from './components/candidates/candidates.componen
 import { VacanciesComponent } from './components/vacancies/vacancies.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { QuillModule } from 'ngx-quill';
+import { UpdateVacancyComponent } from './components/update-vacancy/update-vacancy.component';
 
 
 @NgModule({
@@ -15,13 +16,17 @@ import { QuillModule } from 'ngx-quill';
     MyAccountComponent,
     FindCandidatesComponent,
     CandidatesComponent,
-    VacanciesComponent
+    VacanciesComponent,
+    UpdateVacancyComponent
   ],
   imports: [
     CommonModule,
     EmployerRoutingModule,
     SharedModule,
     QuillModule.forRoot()
+  ],
+  entryComponents: [
+    UpdateVacancyComponent
   ]
 })
 export class EmployerModule { }

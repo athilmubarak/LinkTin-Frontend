@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const modules = [
   MatRadioModule,
@@ -17,7 +18,8 @@ const modules = [
   MatTableModule,
   MatSortModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatDialogModule
 ];
 
 
