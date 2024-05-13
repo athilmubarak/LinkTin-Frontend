@@ -35,6 +35,7 @@ export class UpdateVacancyComponent implements OnInit {
       ['clean']
     ]
   };
+  skills: Skill[];
 
   //FormGroup
   vacancy_form: FormGroup;
@@ -60,13 +61,16 @@ export class UpdateVacancyComponent implements OnInit {
       responsibilities: new FormControl(''),
       additional_qualifications: new FormControl(''),
       role_expectations: new FormControl(''),
-      employment_type_id: new FormControl('', Validators.required)
+      employment_type_id: new FormControl('', Validators.required),
+      skill: new FormControl('')
     });
     this.shared_service.getJobs();
     this.vacancy_service.getPlacementTypes();
+    this.shared_service.getSkills();
 
     setTimeout(() => {
       this.filterJobs('');
+      this.skills = [...this.shared_service.skills];
     }, 2000);
   }
 
@@ -122,10 +126,8 @@ export class UpdateVacancyComponent implements OnInit {
       application_starts_from: this.date_pipe.transform('yyyy-MM-dd', this.vacancy_form.value.application_starts_from),
       due_date: this.date_pipe.transform('yyyy-MM-dd', this.vacancy_form.value.due_date),
       job_id: this.vacancy_form.value.job?.job_id,
-      required_skills: this.required_skills.map(x => x.skill_id)
+      required_skills: this.data ? undefined : this.required_skills.map(x => x.skill_id)
     };
-
-
 
     if (this.data) {
       request = this.vacancy_service.updateVacany(
@@ -180,7 +182,7 @@ export class UpdateVacancyComponent implements OnInit {
    * 
    * @returns 
    */
-  showDoneButton(): boolean {
+  showDoneButtonForJob(): boolean {
     return ![null, undefined, '', ' '].includes(this.vacancy_form.get('job').value) && this.jobs.length == 0;
   }
 
@@ -199,5 +201,106 @@ export class UpdateVacancyComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * to filter skills
+   * 
+   * @param value 
+   */
+  filterSkills(value: string) {
+    if ([undefined, null, '', ' '].includes(value)) {
+      this.skills = [...this.shared_service.skills];
+    } else {
+      this.skills = this.shared_service.skills.filter(x => x.skill.toLowerCase().includes(value.toLowerCase()));
+    }
+  }
+
+  /**
+   * display function for skill auto-complete
+   * 
+   * @param skill 
+   * @returns 
+   */
+  displayFnSkill(skill: Skill): string {
+    return skill && skill.skill ? skill.skill : '';
+  }
+
+  /**
+   * to show or hide skill save button
+   * 
+   * @returns 
+   */
+  showDoneButtonForSkill(): boolean {
+    return ![null, undefined, '', ' '].includes(this.vacancy_form.get('skill').value) && this.skills.length == 0;
+  }
+
+  /**
+   * to save new skill
+   */
+  saveNewSkill() {
+    this.shared_service.createNewSkill({ skill: this.vacancy_form.get('skill').value }).subscribe({
+      next: (res: CommonResponse<Skill>) => {
+        console.log(res);
+
+        if (res.success) {
+          this.vacancy_form.get('skill').setValue('');
+          this.shared_service.skills.push(res.data);
+        }
+      }
+    });
+  }
+
+  /**
+   * while selecting a skill
+   * 
+   * @param skill 
+   */
+  skillSelected(skill: Skill) {
+    let index = this.required_skills.findIndex(x => x.skill_id == skill.skill_id);
+
+    if (index === -1) {
+      if (this.data) {
+        this.vacancy_service.addNewRequiredSkill(this.data.vacancy_id, { skill_id: skill.skill_id }).subscribe({
+          next: (res: CommonResponse<Skill>) => {
+            console.log(res);
+
+            if (res.success) {
+              this.required_skills.push(res.data);
+            }
+          }
+        });
+      } else {
+        this.required_skills.push(skill);
+      }
+    }
+
+    this.vacancy_form.get('skill').setValue('');
+  }
+
+  /**
+   * to remove skill
+   * 
+   * @param skill 
+   * @param index 
+   */
+  removeSkill(skill: Skill, index: number) {
+    if (skill.required_skill_id && skill.required_skill_id > 0) {
+      this.vacancy_service.deleteRequiredSkill(skill.required_skill_id).subscribe({
+        next: (res: CommonResponse<number>) => {
+          console.log(res);
+
+          this.alert = {
+            type: res.success ? 'success' : 'error',
+            message: res.message
+          };
+          if (res.success) {
+            this.required_skills.splice(index, 1);
+          }
+        }
+      });
+    } else if (index >= 0) {
+      this.required_skills.splice(index, 1);
+    }
   }
 }

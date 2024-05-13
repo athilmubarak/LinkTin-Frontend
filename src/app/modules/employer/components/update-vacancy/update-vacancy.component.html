@@ -8,8 +8,8 @@
                 <mat-label>Job</mat-label>
                 <input type="text" matInput formControlName="job" [matAutocomplete]="auto"
                     (keyup)="filterJobs($event.target.value)">
-                <mat-icon *ngIf="showDoneButton()" class="cursor-pointer" matSuffix svgIcon="mat_solid:check_circle"
-                    (click)="saveNewJob()"></mat-icon>
+                <mat-icon *ngIf="showDoneButtonForJob()" class="cursor-pointer" matSuffix
+                    svgIcon="mat_solid:check_circle" (click)="saveNewJob()"></mat-icon>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let option of jobs" [value]="option">
                         {{ option?.name }}
@@ -89,6 +89,29 @@
             <quill-editor class="mt-2" placeholder="Role Expectations" formControlName="role_expectations"
                 [modules]="quillModules">
             </quill-editor>
+        </div>
+        <div class="flex flex-col md:flex-row mt-4">
+            <mat-form-field class="flex flex-col w-full md:w-100">
+                <mat-label>Skill</mat-label>
+                <input type="text" matInput formControlName="skill" [matAutocomplete]="autoSkill"
+                    (keyup)="filterSkills($event.target.value)">
+                <mat-icon *ngIf="showDoneButtonForSkill()" class="cursor-pointer" matSuffix
+                    svgIcon="mat_solid:check_circle" (click)="saveNewJob()"></mat-icon>
+                <mat-autocomplete autoActiveFirstOption #autoSkill="matAutocomplete" [displayWith]="displayFnSkill"
+                    (optionSelected)="skillSelected($event.option.value)">
+                    <mat-option *ngFor="let option of skills" [value]="option">
+                        {{ option?.skill }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <div class="flex flex-wrap ml-2 items-center">
+                <mat-chip-list>
+                    <mat-chip *ngFor="let skill of required_skills; let i = index;" (removed)="removeSkill(skill, i)">
+                        {{skill?.skill}}
+                        <mat-icon class="cursor-pointer" matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
         </div>
     </form>
 </mat-dialog-content>

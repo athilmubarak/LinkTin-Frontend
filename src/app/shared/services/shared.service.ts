@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Gender } from 'app/models/gender.types';
 import { Job } from 'app/models/job.types';
+import { Skill } from 'app/models/skill.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class SharedService {
   root_url: string = environment.api_url;
   public genders: Gender[] = [];
   public jobs: Job[] = [];
+  public skills: Skill[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -113,5 +115,54 @@ export class SharedService {
    */
   createNewJob(request: { name: string }) {
     return this.http.post<CommonResponse<Job>>(`${this.root_url}/jobs/insert`, request);
+  }
+
+  /**
+   * to get all skills
+   * 
+   * @returns 
+   */
+  getSkills() {
+    if (this.skills.length > 0) {
+      return;
+    }
+
+    this.http.get<CommonResponse<Skill[]>>(`${this.root_url}/skills/get`).subscribe({
+      next: (res: CommonResponse<Skill[]>) => {
+        this.skills = res.data;
+      },
+      error: () => {
+        this.skills = [
+          { skill_id: 1, skill: 'Java' },
+          { skill_id: 2, skill: 'Python' },
+          { skill_id: 3, skill: 'JavaScript' },
+          { skill_id: 4, skill: 'SQL' },
+          { skill_id: 5, skill: 'HTML' },
+          { skill_id: 6, skill: 'CSS' },
+          { skill_id: 7, skill: 'React.js' },
+          { skill_id: 8, skill: 'Angular' },
+          { skill_id: 9, skill: 'Node.js' },
+          { skill_id: 10, skill: 'PHP' },
+          { skill_id: 11, skill: 'C#' },
+          { skill_id: 12, skill: 'C++' },
+          { skill_id: 13, skill: 'Ruby' },
+          { skill_id: 14, skill: 'Swift' },
+          { skill_id: 15, skill: 'Objective-C' },
+          { skill_id: 16, skill: 'Android Development' },
+          { skill_id: 17, skill: 'iOS Development' },
+          { skill_id: 18, skill: 'Machine Learning' },
+        ];
+      }
+    });
+  }
+
+  /**
+   * to create new skill
+   * 
+   * @param request 
+   * @returns 
+   */
+  createNewSkill(request: { skill: string }) {
+    return this.http.post<CommonResponse<Skill>>(`${this.root_url}/skills/insert`, request);
   }
 }
