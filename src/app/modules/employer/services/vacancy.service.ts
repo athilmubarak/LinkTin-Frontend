@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
+import { PlacementType } from 'app/models/placement-type.types';
 import { Skill } from 'app/models/skill.types';
 import { VacancyDetails } from 'app/models/vacancy-details.types';
 import { VacancyRequest } from 'app/models/vacancy-request.types';
@@ -13,6 +14,7 @@ import { environment } from 'environments/environment';
 export class VacancyService {
 
   readonly root_url: string = environment.api_url;
+  public placement_types: PlacementType[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -85,5 +87,31 @@ export class VacancyService {
    */
   deleteRequiredSkill(required_skill_id: number) {
     return this.http.delete<CommonResponse<number>>(`${this.root_url}/job-vacancy/skill/delete/${required_skill_id}`);
+  }
+
+  /**
+   * to get all placement types
+   */
+  getPlacementTypes() {
+    if (this.placement_types.length > 0) {
+      return;
+    }
+    this.http.get<CommonResponse<PlacementType[]>>(`${this.root_url}/placement-types/get`).subscribe({
+      next: (res: CommonResponse<PlacementType[]>) => {
+        this.placement_types = res.data;
+      },
+      error: () => {
+        this.placement_types = [
+          {
+            placement_type_id: 1,
+            placement_type: 'Full-time'
+          },
+          {
+            placement_type_id: 2,
+            placement_type: 'Part-time'
+          }
+        ];
+      }
+    });
   }
 }

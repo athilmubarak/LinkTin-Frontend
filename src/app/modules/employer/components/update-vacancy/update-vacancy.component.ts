@@ -8,6 +8,8 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { VacancyDetails } from 'app/models/vacancy-details.types';
 import { Skill } from 'app/models/skill.types';
 import { Observable } from 'rxjs';
+import { SharedService } from 'app/shared/services/shared.service';
+import { Job } from 'app/models/job.types';
 
 @Component({
   selector: 'app-update-vacancy',
@@ -23,6 +25,14 @@ export class UpdateVacancyComponent implements OnInit {
     message: ''
   };
   required_skills: Skill[];
+  jobs: Job[] = [];
+  quillModules: any = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
+      ['clean']
+    ]
+  };
 
   //FormGroup
   vacancy_form: FormGroup;
@@ -31,10 +41,11 @@ export class UpdateVacancyComponent implements OnInit {
     private dialog_ref: MatDialogRef<UpdateVacancyComponent>,
     private form_builder: FormBuilder,
     private vacancy_service: VacancyService,
+    private shared_service: SharedService,
     @Inject(MAT_DIALOG_DATA) public data?: Vacancy
   ) {
     this.vacancy_form = this.form_builder.group({
-      job_id: new FormControl('', Validators.required),
+      job: new FormControl('', Validators.required),
       description: new FormControl(''),
       location: new FormControl('', Validators.required),
       salary_range: new FormControl(''),
@@ -48,6 +59,8 @@ export class UpdateVacancyComponent implements OnInit {
       role_expectations: new FormControl(''),
       employment_type_id: new FormControl('', Validators.required)
     });
+    this.shared_service.getJobs();
+
   }
 
   ngOnInit(): void {
@@ -98,9 +111,21 @@ export class UpdateVacancyComponent implements OnInit {
     let request: Observable<CommonResponse<Vacancy>>;
 
     if (this.data) {
-      request = this.vacancy_service.updateVacany(this.data.vacancy_id, this.vacancy_form.value);
+      request = this.vacancy_service.updateVacany(
+        this.data.vacancy_id,
+        {
+          ...this.vacancy_form.value,
+          job_id: this.vacancy_form.value.job?.job_id
+        }
+      );
     } else {
-      request = this.vacancy_service.createVacancy({ ...this.vacancy_form.value, required_skills: this.required_skills.map(x => x.skill_id) });
+      request = this.vacancy_service.createVacancy(
+        {
+          ...this.vacancy_form.value,
+          job_id: this.vacancy_form.value.job?.job_id,
+          required_skills: this.required_skills.map(x => x.skill_id)
+        }
+      );
     }
 
     request.subscribe({
@@ -117,6 +142,29 @@ export class UpdateVacancyComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * to filter jobs
+   * 
+   * @param value 
+   */
+  filterJobs(value: string) {
+    if ([undefined, null, '', ' '].includes(value)) {
+      this.jobs = [...this.shared_service.jobs];
+    } else {
+      this.jobs = this.jobs.filter(x => x.name.toLowerCase().includes(value.toLowerCase()));
+    }
+  }
+
+  /**
+   * display function for job auto-complete
+   * 
+   * @param job 
+   * @returns 
+   */
+  displayFn(job: Job): string {
+    return job && job.name ? job.name : '';
   }
 
 }
