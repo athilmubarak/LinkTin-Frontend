@@ -5,6 +5,7 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { FindJobsComponent } from './components/find-jobs/find-jobs.component';
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
   ],
   imports: [
     CommonModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    SharedModule
   ]
 })
 export class EmployeeModule { }
