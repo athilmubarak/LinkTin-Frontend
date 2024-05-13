@@ -104,4 +104,14 @@ export class SharedService {
       }
     });
   }
+
+  /**
+   * to create new job
+   * 
+   * @param request 
+   * @returns 
+   */
+  createNewJob(request: { name: string }) {
+    return this.http.post<CommonResponse<Job>>(`${this.root_url}/jobs/insert`, request);
+  }
 }

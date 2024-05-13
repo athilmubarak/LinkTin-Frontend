@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -37,7 +37,8 @@ const modules = [
   ],
   exports: [...modules],
   providers: [
-    MatDatepickerModule
+    MatDatepickerModule,
+    DatePipe
   ]
 })
 export class MaterialModule { }
