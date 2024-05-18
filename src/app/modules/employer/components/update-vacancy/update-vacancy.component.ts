@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -57,7 +59,7 @@ export class UpdateVacancyComponent implements OnInit {
       expected_notice_period: new FormControl(30, [Validators.required, Validators.min(1)]),
       application_starts_from: new FormControl(new Date(), Validators.required),
       due_date: new FormControl(''),
-      vaccancy_count: new FormControl('', [Validators.required, Validators.min(1)]),
+      vacancy_count: new FormControl('', [Validators.required, Validators.min(1)]),
       responsibilities: new FormControl(''),
       additional_qualifications: new FormControl(''),
       role_expectations: new FormControl(''),
@@ -80,7 +82,7 @@ export class UpdateVacancyComponent implements OnInit {
       this.vacancy_service.getVacancyDetailsById(this.data.vacancy_id).subscribe({
         next: (res: CommonResponse<VacancyDetails>) => {
           if (res.success) {
-            let job = this.shared_service.jobs.find(x => x.job_id === res.data.job_id);
+            const job = this.shared_service.jobs.find(x => x.job_id === res.data.job_id);
             this.vacancy_form.patchValue({
               job: job,
               description: res.data.description,
@@ -90,7 +92,7 @@ export class UpdateVacancyComponent implements OnInit {
               expected_notice_period: res.data.expected_notice_period,
               application_starts_from: res.data.application_starts_from,
               due_date: res.data.due_date,
-              vaccancy_count: res.data.vaccancy_count,
+              vacancy_count: res.data.vacancy_count,
               responsibilities: res.data.responsibilities,
               additional_qualifications: res.data.additional_qualifications,
               role_expectations: res.data.role_expectations,
@@ -112,8 +114,8 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to save vacancy
-   * 
-   * @returns 
+   *
+   * @returns
    */
   saveVacancy() {
     if (this.vacancy_form.invalid || !this.vacancy_form.value.job.hasOwnProperty('job_id')) {
@@ -121,7 +123,7 @@ export class UpdateVacancyComponent implements OnInit {
     }
 
     let request: Observable<CommonResponse<Vacancy>>;
-    let vacancy: VacancyRequest = {
+    const vacancy: VacancyRequest = {
       ...this.vacancy_form.value,
       application_starts_from: this.date_pipe.transform('yyyy-MM-dd', this.vacancy_form.value.application_starts_from),
       due_date: this.date_pipe.transform('yyyy-MM-dd', this.vacancy_form.value.due_date),
@@ -130,7 +132,7 @@ export class UpdateVacancyComponent implements OnInit {
     };
 
     if (this.data) {
-      request = this.vacancy_service.updateVacany(
+      request = this.vacancy_service.updateVacancy(
         this.data.vacancy_id,
         vacancy
       );
@@ -156,8 +158,8 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to filter jobs
-   * 
-   * @param value 
+   *
+   * @param value
    */
   filterJobs(value: string) {
     if ([undefined, null, '', ' '].includes(value)) {
@@ -169,9 +171,9 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * display function for job auto-complete
-   * 
-   * @param job 
-   * @returns 
+   *
+   * @param job
+   * @returns
    */
   displayFn(job: Job): string {
     return job && job.name ? job.name : '';
@@ -179,11 +181,11 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to show or hide job save button
-   * 
-   * @returns 
+   *
+   * @returns
    */
   showDoneButtonForJob(): boolean {
-    return ![null, undefined, '', ' '].includes(this.vacancy_form.get('job').value) && this.jobs.length == 0;
+    return ![null, undefined, '', ' '].includes(this.vacancy_form.get('job').value) && this.jobs.length === 0;
   }
 
   /**
@@ -205,8 +207,8 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to filter skills
-   * 
-   * @param value 
+   *
+   * @param value
    */
   filterSkills(value: string) {
     if ([undefined, null, '', ' '].includes(value)) {
@@ -218,9 +220,9 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * display function for skill auto-complete
-   * 
-   * @param skill 
-   * @returns 
+   *
+   * @param skill
+   * @returns
    */
   displayFnSkill(skill: Skill): string {
     return skill && skill.skill ? skill.skill : '';
@@ -228,11 +230,11 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to show or hide skill save button
-   * 
-   * @returns 
+   *
+   * @returns
    */
   showDoneButtonForSkill(): boolean {
-    return ![null, undefined, '', ' '].includes(this.vacancy_form.get('skill').value) && this.skills.length == 0;
+    return ![null, undefined, '', ' '].includes(this.vacancy_form.get('skill').value) && this.skills.length === 0;
   }
 
   /**
@@ -253,11 +255,11 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * while selecting a skill
-   * 
-   * @param skill 
+   *
+   * @param skill
    */
   skillSelected(skill: Skill) {
-    let index = this.required_skills.findIndex(x => x.skill_id == skill.skill_id);
+    const index = this.required_skills.findIndex(x => x.skill_id === skill.skill_id);
 
     if (index === -1) {
       if (this.data) {
@@ -280,9 +282,9 @@ export class UpdateVacancyComponent implements OnInit {
 
   /**
    * to remove skill
-   * 
-   * @param skill 
-   * @param index 
+   *
+   * @param skill
+   * @param index
    */
   removeSkill(skill: Skill, index: number) {
     if (skill.required_skill_id && skill.required_skill_id > 0) {
