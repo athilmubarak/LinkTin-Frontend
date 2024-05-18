@@ -38,6 +38,9 @@ export class VacancyViewComponent implements OnInit {
       role_expectations: '<h1>Name</h1>',
       employment_type_id: null,
       placement_type: 'Full-time',
+      company_name: 'Company',
+      company_location: 'Kochi',
+      company_logo: '0',
       required_skills: [
         {
           skill_id: 1,

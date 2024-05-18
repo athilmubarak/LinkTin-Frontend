@@ -19,5 +19,8 @@ export interface VacancyDetails {
     role_expectations: string;
     employment_type_id: number;
     placement_type: string;
+    company_name: string;
+    company_logo: string;
+    company_location: string;
     required_skills: Skill[];
 }

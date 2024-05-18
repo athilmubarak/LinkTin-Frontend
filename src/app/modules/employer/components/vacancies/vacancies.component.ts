@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { VacancyService } from '../../services/vacancy.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateVacancyComponent } from '../update-vacancy/update-vacancy.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { FuseAlertType } from '@fuse/components/alert';
+import { VacancyViewComponent } from 'app/shared/components/vacancy-view/vacancy-view.component';
 
 @Component({
   selector: 'app-vacancies',
@@ -51,16 +55,16 @@ export class VacanciesComponent implements OnInit {
         this.data_source.sort = this.sort;
       },
       error: () => {
-        let data: Vacancy[] = [
+        const data: Vacancy[] = [
           {
             vacancy_id: 1,
-            job_id: "",
+            job_id: '',
             name: "test",
             description: "",
             location: "",
             application_starts_from: "",
             due_date: "",
-            vaccancy_count: 3,
+            vacancy_count: 3,
             employment_type_id: 1,
             placement_type: "test"
           },
@@ -72,7 +76,7 @@ export class VacanciesComponent implements OnInit {
             location: "",
             application_starts_from: "",
             due_date: "",
-            vaccancy_count: 2,
+            vacancy_count: 2,
             employment_type_id: 1,
             placement_type: "test"
           }
@@ -177,6 +181,19 @@ export class VacanciesComponent implements OnInit {
           })
         }
       }
+    });
+  }
+
+  /**
+   * to view vacancy's full details
+   * 
+   * @param vacancy 
+   */
+  viewVacancy(vacancy: Vacancy) {
+    this.mat_dialog.open(VacancyViewComponent, {
+      data: { vacancy_id: vacancy.vacancy_id },
+      disableClose: false,
+      width: '640px'
     });
   }
 }
