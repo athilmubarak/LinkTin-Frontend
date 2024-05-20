@@ -1,0 +1,94 @@
+<mat-dialog-content>
+    <div class="flex justify-center text-xl font-bold">
+        {{ vacancy_details?.name }}
+    </div>
+    <div class="flex mt-2 items-center">
+        <div class="flex items-center">
+            <img
+                [src]="vacancy_details.company_logo"
+                width="200"
+                height="200"
+            />
+        </div>
+        <div class="flex flex-col ml-2 justify-start">
+            <div class="flex font-bold">
+                {{ vacancy_details.company_name }}
+            </div>
+            <div class="flex">
+                {{ vacancy_details.company_location }}
+            </div>
+        </div>
+    </div>
+    <div class="flex font-bold mt-2">About the job</div>
+    <p>
+        {{ vacancy_details.description }}
+    </p>
+    <div class="flex mt-2">
+        <div class="font-bold">Experience:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.experience }}
+        </div>
+    </div>
+    <div
+        class="flex mt-2"
+        *ngIf="
+            ![undefined, null, '', ' '].includes(vacancy_details.salary_range)
+        "
+    >
+        <div class="font-bold">Salary:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.salary_range }}
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <div class="font-bold">Expected Notice Period:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.expected_notice_period }} Days
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <div class="font-bold">Experience:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.experience }}
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <div class="font-bold">Placement Type:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.placement_type }}
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <div class="font-bold">Application Accepted From:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.application_starts_from | date : "MM-dd-yyyy" }}
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <div class="font-bold">Application Accepted To:</div>
+        <div class="ml-1 flex">
+            {{ vacancy_details.due_date | date : "MM-dd-yyyy" }}
+        </div>
+    </div>
+    <div class="flex font-bold mt-2">Required Skills</div>
+    <mat-chip-list>
+        <mat-chip *ngFor="let skill of vacancy_details.required_skills">
+            {{ skill?.skill }}
+        </mat-chip>
+    </mat-chip-list>
+    <div class="flex font-bold mt-2">
+        Responsibilities
+    </div>
+    <div [innerHTML]="vacancy_details.responsibilities"></div>
+    <div class="flex font-bold mt-2">
+        Role Expectations
+    </div>
+    <div [innerHTML]="vacancy_details.role_expectations"></div>
+    <div class="flex font-bold mt-2">
+        Additional Qualifications
+    </div>
+    <div [innerHTML]="vacancy_details.additional_qualifications"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

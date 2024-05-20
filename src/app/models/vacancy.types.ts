@@ -6,7 +6,7 @@ export interface Vacancy {
     location: string;
     application_starts_from: string;
     due_date: string;
-    vaccancy_count: number;
+    vacancy_count: number;
     employment_type_id: number;
     placement_type: string;
 }
