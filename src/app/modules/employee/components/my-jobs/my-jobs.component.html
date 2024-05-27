@@ -61,7 +61,7 @@
                             <button mat-icon-button>
                                 <mat-icon svgIcon="mat_outline:visibility"></mat-icon>
                             </button>
-                            <button *ngIf="row?.applied_user_id === current_user_id && row.status === 2" mat-icon-button color="warn" (click)="deleteVacancy(row, i)">
+                            <button *ngIf="row?.applied_user_id === current_user_id && row.status === 2" mat-icon-button color="warn" (click)="deleteJob(row, i)">
                                 <mat-icon svgIcon="mat_outline:delete"></mat-icon>
                             </button>
                         </td>

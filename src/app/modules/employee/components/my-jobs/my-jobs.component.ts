@@ -8,6 +8,7 @@ import { myJobs } from 'app/models/my-jobs.type';
 import { FuseAlertType } from '@fuse/components/alert';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/models/user.types';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 @Component({
   selector: 'app-my-jobs',
   templateUrl: './my-jobs.component.html',
@@ -41,6 +42,7 @@ export class MyJobsComponent implements OnInit {
   constructor(
     private myJobs_service: MyJobsService,
     private _changeDetectorRef: ChangeDetectorRef,
+    private confirmation_dialog: FuseConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -137,6 +139,65 @@ export class MyJobsComponent implements OnInit {
   redirectUrl(row: any){
     window.open(row.attachment_url, '_blank');
   }
+  
+    /**
+   * to delete jobs
+   * 
+   * @param jobs 
+   * @param index 
+   */
+    deleteJob(jobs: myJobs, index: number) {
+    let dialog_ref = this.confirmation_dialog.open(
+      {
+        title: 'Remove Jobs',
+        message: `Are you sure you want to delete this job? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the job details.`,
+        icon: {
+          show: false,
+        },
+        actions: {
+          confirm: {
+            show: true,
+            label: "Confirm",
+            color: "primary"
+          },
+          cancel: {
+            show: true,
+            label: "Cancel"
+          }
+        },
+        dismissible: false
+      }
+    );
+
+    dialog_ref.afterClosed().subscribe({
+      next: (res: string) => {
+        if (res === 'confirmed') {
+          this.myJobs_service.deleteJob(jobs.sync_registry_id).subscribe({
+            next: (res: CommonResponse<number>) => {
+              console.log(res);
+              this.alert = {
+                type: res.success ? 'success' : 'error',
+                message: res.message
+              };
+              this.show_alert = true;
+
+              if (res.success) {
+                let data = this.data_source.data;
+                if (index >= 0) {
+                  data.splice(index, 1);
+                }
+
+                this.data_source = new MatTableDataSource(data);
+                this.data_source.sort = this.sort;
+              }
+            },
+          })
+        }
+      }
+    });
+  }
+
+
 
 }
 

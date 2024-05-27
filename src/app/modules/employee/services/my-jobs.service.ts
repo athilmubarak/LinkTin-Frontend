@@ -22,4 +22,13 @@ export class MyJobsService {
    getAllJobVacancies() {
     return this.http.get<CommonResponse<myJobs[]>>(`${this.root_url}/job-vacancy/sync/get`);
   }
+  /**
+   * to delete vacancy
+   *
+   * @param sync_registry_id
+   * @returns
+   */
+  deleteJob(sync_registry_id: number) {
+    return this.http.get<CommonResponse<number>>(`${this.root_url}job-vacancy/sync/delete/${sync_registry_id}`);
+  }
 }
