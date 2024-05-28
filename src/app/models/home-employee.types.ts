@@ -12,4 +12,5 @@ export interface HomeEmployee {
     resume_attachment_id: number;
     country_id: number;
     country_name: string;
+    swipe_state?: 'swipe-right' | 'swipe-left' | 'inactive';
 }

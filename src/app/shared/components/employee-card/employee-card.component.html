@@ -2,7 +2,19 @@
     <fuse-card
         class="flex flex-col max-w-80 w-full filter-info mr-6"
         *ngFor="let employee of employees"
+        (swipeleft)="onSwipeLeft(employee)"
+        (swiperight)="onSwipeRight(employee)"
     >
+        <div
+            class="background-overlay {{
+                employee?.swipe_state === 'swipe-right'
+                    ? 'bg-green-200'
+                    : employee?.swipe_state === 'swipe-left'
+                    ? 'bg-red-200'
+                    : ''
+            }}"
+            [@swipeAnimation]="employee?.swipe_state"
+        ></div>
         <div class="flex h-32">
             <img
                 *ngIf="employee.cover_url; else elseCover"

@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     constructor(private home_service: HomeService) {}
 
     ngOnInit(): void {
-        this.user_type = 1;
+        this.user_type = 2;
         this.home_data = [];
         if (this.user_type === 1) {
             //Employee
