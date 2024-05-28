@@ -5,13 +5,15 @@ import { MaterialModule } from 'app/material/material.module';
 import { VacancyViewComponent } from './components/vacancy-view/vacancy-view.component';
 import { EmployeeCardComponent } from './components/employee-card/employee-card.component';
 import { VacancyCardComponent } from './components/vacancy-card/vacancy-card.component';
+import { FuseCardModule } from '@fuse/components/card';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        FuseCardModule
     ],
     exports: [
         CommonModule,
