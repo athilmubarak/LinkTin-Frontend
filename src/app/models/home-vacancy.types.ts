@@ -11,4 +11,5 @@ export interface HomeVacancy {
     company_name: string;
     company_location: string;
     company_logo: string;
+    swipe_state?: 'swipe-right' | 'swipe-left' | 'inactive';
 }

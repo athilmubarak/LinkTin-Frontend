@@ -6,6 +6,7 @@ import { VacancyViewComponent } from './components/vacancy-view/vacancy-view.com
 import { EmployeeCardComponent } from './components/employee-card/employee-card.component';
 import { VacancyCardComponent } from './components/vacancy-card/vacancy-card.component';
 import { FuseCardModule } from '@fuse/components/card';
+import { HammerModule } from '@angular/platform-browser';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { FuseCardModule } from '@fuse/components/card';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        FuseCardModule
+        FuseCardModule,
+        HammerModule
     ],
     exports: [
         CommonModule,

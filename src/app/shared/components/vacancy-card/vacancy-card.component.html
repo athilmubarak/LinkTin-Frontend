@@ -2,7 +2,19 @@
     <fuse-card
         class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article mr-6"
         *ngFor="let vacancy of vacancies"
+        (swipeleft)="onSwipeLeft(vacancy)"
+        (swiperight)="onSwipeRight(vacancy)"
     >
+        <div
+            class="background-overlay {{
+                vacancy?.swipe_state === 'swipe-right'
+                    ? 'bg-green-200'
+                    : vacancy?.swipe_state === 'swipe-left'
+                    ? 'bg-red-200'
+                    : ''
+            }}"
+            [@swipeAnimation]="vacancy?.swipe_state"
+        ></div>
         <div class="flex items-center">
             <img
                 class="w-20 rounded-lg object-cover"
