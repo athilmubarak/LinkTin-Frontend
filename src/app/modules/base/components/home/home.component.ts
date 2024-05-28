@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     constructor(private home_service: HomeService) {}
 
     ngOnInit(): void {
-        this.user_type = 2;
+        this.user_type = 1;
         this.home_data = [];
         if (this.user_type === 1) {
             //Employee
@@ -37,12 +37,12 @@ export class HomeComponent implements OnInit {
                             job_id: 1,
                             job_name: 'Software Engineer',
                             employment_type_id: 1,
-                            placement_type: '',
-                            location: '',
-                            salary_range: '',
+                            placement_type: 'Full-Time',
+                            location: 'Kochi',
+                            salary_range: '20000/- to 35000/-',
                             employer_info_id: 1,
-                            company_name: '',
-                            company_location: '',
+                            company_name: 'Company Name',
+                            company_location: 'Location',
                             company_logo: '',
                         },
                         {
@@ -50,12 +50,12 @@ export class HomeComponent implements OnInit {
                             job_id: 1,
                             job_name: 'Software Engineer',
                             employment_type_id: 1,
-                            placement_type: '',
-                            location: '',
-                            salary_range: '',
+                            placement_type: 'Full-Time',
+                            location: 'Kochi',
+                            salary_range: '20000/- to 35000/-',
                             employer_info_id: 1,
-                            company_name: '',
-                            company_location: '',
+                            company_name: 'Company Name',
+                            company_location: 'Location',
                             company_logo: '',
                         },
                         {
@@ -63,12 +63,12 @@ export class HomeComponent implements OnInit {
                             job_id: 1,
                             job_name: 'Software Engineer',
                             employment_type_id: 1,
-                            placement_type: '',
-                            location: '',
-                            salary_range: '',
+                            placement_type: 'Full-Time',
+                            location: 'Kochi',
+                            salary_range: '20000/- to 35000/-',
                             employer_info_id: 1,
-                            company_name: '',
-                            company_location: '',
+                            company_name: 'Company Name',
+                            company_location: 'Location',
                             company_logo: '',
                         },
                         {
@@ -76,12 +76,12 @@ export class HomeComponent implements OnInit {
                             job_id: 1,
                             job_name: 'Software Engineer',
                             employment_type_id: 1,
-                            placement_type: '',
-                            location: '',
-                            salary_range: '',
+                            placement_type: 'Full-Time',
+                            location: 'Kochi',
+                            salary_range: '20000/- to 35000/-',
                             employer_info_id: 1,
-                            company_name: '',
-                            company_location: '',
+                            company_name: 'Company Name',
+                            company_location: 'Location',
                             company_logo: '',
                         },
                     ];
