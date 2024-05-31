@@ -1,1 +1,8 @@
-<p>home works!</p>
+<div class="flex flex-col w-full p-4">
+    <ng-container *ngIf="user_type === 1; else employeeCard">
+        <app-vacancy-card [vacancies]="home_data"></app-vacancy-card>
+    </ng-container>
+    <ng-template #employeeCard>
+        <app-employee-card [employees]="home_data"></app-employee-card>
+    </ng-template>
+</div>

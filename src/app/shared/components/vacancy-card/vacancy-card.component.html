@@ -1,0 +1,85 @@
+<div class="flex flex-col md:flex-row w-full px-14 py-4">
+    <fuse-card
+        class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article mr-6"
+        *ngFor="let vacancy of vacancies"
+        (swipeleft)="onSwipeLeft(vacancy)"
+        (swiperight)="onSwipeRight(vacancy)"
+    >
+        <div
+            class="background-overlay {{
+                vacancy?.swipe_state === 'swipe-right'
+                    ? 'bg-green-200'
+                    : vacancy?.swipe_state === 'swipe-left'
+                    ? 'bg-red-200'
+                    : ''
+            }}"
+            [@swipeAnimation]="vacancy?.swipe_state"
+        ></div>
+        <div class="flex items-center">
+            <img
+                class="w-20 rounded-lg object-cover"
+                [src]="
+                    vacancy.company_logo
+                        ? vacancy.company_logo
+                        : 'assets/images/avatars/male-04.jpg'
+                "
+                alt="Card cover image"
+            />
+            <div class="flex flex-col ml-6">
+                <div class="text-2xl font-semibold leading-tight">
+                    {{ vacancy.job_name }}
+                </div>
+                <div class="text-secondary font-medium text-md">
+                    {{ vacancy.company_name }}, {{ vacancy.company_location }}
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between">
+            <div class="mt-6 flex flex-col">
+                <div class="text-secondary font-medium text-sm">
+                    {{ vacancy.company_location }}
+                </div>
+                <div class="text-secondary font-medium text-sm">
+                    {{ vacancy.salary_range }}
+                </div>
+                <div class="text-secondary font-medium text-sm">
+                    {{ vacancy.placement_type }}
+                </div>
+            </div>
+            <div
+                class="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-green-100/10 ease-in-out"
+            >
+                <button mat-icon-button>
+                    <mat-icon
+                        class="icon-size-5 text-green-300"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                    ></mat-icon>
+                </button>
+            </div>
+            <div
+                class="flex items-center justify-center w-10 h-10 border rounded-full"
+            >
+                <button mat-icon-button color="warn">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:x-circle'"
+                    ></mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <button
+                class="px-3"
+                mat-button
+                class="text-sm hover:bg-slate-500 ease-in-out"
+                (click)="viewVacancy(vacancy)"
+            >
+                Read More
+                <mat-icon
+                    svgIcon="mat_solid:expand_more"
+                    class="icon-size-6"
+                ></mat-icon>
+            </button>
+        </div>
+    </fuse-card>
+</div>
