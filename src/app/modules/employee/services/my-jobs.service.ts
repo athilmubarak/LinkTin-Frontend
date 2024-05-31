@@ -31,4 +31,15 @@ export class MyJobsService {
   deleteJob(sync_registry_id: number) {
     return this.http.get<CommonResponse<number>>(`${this.root_url}job-vacancy/sync/delete/${sync_registry_id}`);
   }
+
+  /**
+   * To update attachment
+   * 
+   * @param sync_registery_id
+   * @returns
+   */
+  updateAttachment(sync_registry_id: number,request:{resume_attachment_id : number}){
+    return this.http.put<CommonResponse<number>>(`${this.root_url}job-vacancy/sync/attachment/update/${sync_registry_id}`,request)
+  }
+
 }

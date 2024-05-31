@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild,Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MyJobsService } from '../../services/my-jobs.service';
-import { Vacancy } from 'app/models/vacancy.types';
 import { MatSort } from '@angular/material/sort';
 import { CommonResponse } from 'app/models/common-response.types';
 import { myJobs } from 'app/models/my-jobs.type';
@@ -9,12 +8,19 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/models/user.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { editAttachmentComponent } from '../dialog/edit-attachment-component';
+
+export interface DialogData {
+  item:any;
+}
 @Component({
   selector: 'app-my-jobs',
   templateUrl: './my-jobs.component.html',
   styleUrls: ['./my-jobs.component.scss']
 })
 export class MyJobsComponent implements OnInit {
+
 
   //Variables
   show_alert: boolean = false;
@@ -42,7 +48,8 @@ export class MyJobsComponent implements OnInit {
   constructor(
     private myJobs_service: MyJobsService,
     private _changeDetectorRef: ChangeDetectorRef,
-    private confirmation_dialog: FuseConfirmationService
+    private confirmation_dialog: FuseConfirmationService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -197,8 +204,20 @@ export class MyJobsComponent implements OnInit {
     });
   }
 
-
-
+/**
+   * to edit attachments
+   * 
+   * @param jobs 
+   *  
+   */
+openDialog(item : any) {
+  this.dialog.open(editAttachmentComponent, {
+    width:'800px',
+    data: {item}
+  });
 }
+  
+}
+
 
 
