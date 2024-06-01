@@ -38,6 +38,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.user_type_id = this._authService.userType;
+        _userService.getUserDetails();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -52,7 +53,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
-                this.user = user.user_details;
+                this.user = user ? user.user_details : undefined;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -110,9 +111,9 @@ export class UserComponent implements OnInit, OnDestroy {
     getUserImageURL(): string {
         let url: string = '';
         if (this.user_type_id === 1) {
-            url = this.user.profile_url ?? '';
+            url = this.user?.profile_url ?? '';
         } else if (this.user_type_id === 2) {
-            url = this.user.logo1 ?? '';
+            url = this.user?.logo1 ?? '';
         }
         return url;
     }

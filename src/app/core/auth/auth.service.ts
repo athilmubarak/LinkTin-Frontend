@@ -182,9 +182,9 @@ export class AuthService {
         }
 
         // Check the access token expire date
-        if (AuthUtils.isTokenExpired(this.accessToken)) {
-            return of(false);
-        }
+        // if (AuthUtils.isTokenExpired(this.accessToken)) {
+        //     return of(false);
+        // }
 
         // If the access token exists and it didn't expire, sign in using it
         return this.signInUsingToken();
