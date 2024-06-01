@@ -98,6 +98,7 @@ export class AuthSignInComponent implements OnInit {
                     message: 'Invalid username or password. Please try again.',
                 };
             },
+            complete: () => this.signInForm.enable(),
         });
     }
 }
