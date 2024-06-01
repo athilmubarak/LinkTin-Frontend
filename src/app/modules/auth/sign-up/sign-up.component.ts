@@ -241,7 +241,11 @@ export class AuthSignUpComponent implements OnInit {
                     this.sign_up_form.reset();
                     this.onChangeUserType(1);
                     this._authService.setUserAsLoggedIn(res.data);
-                    this._router.navigate(['/home']);
+                    this._router.navigate([
+                        res.data.login_details.user_type_id === 1
+                            ? '/employee/my-account'
+                            : '/employer/my-account',
+                    ]);
                 }
             },
             complete: () => this.sign_up_form.enable(),
