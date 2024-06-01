@@ -25,7 +25,7 @@ export class UserComponent implements OnInit, OnDestroy {
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
-    user: UserDetails;
+    user: User;
     user_type_id: number;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
-                this.user = user ? user.user_details : undefined;
+                this.user = user;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -113,9 +113,9 @@ export class UserComponent implements OnInit, OnDestroy {
     getUserImageURL(): string {
         let url: string = '';
         if (this.user_type_id === 1) {
-            url = this.user?.profile_url ?? '';
+            url = this.user?.user_details?.profile_url ?? '';
         } else if (this.user_type_id === 2) {
-            url = this.user?.logo1 ?? '';
+            url = this.user?.user_details?.logo1 ?? '';
         }
         return url;
     }
