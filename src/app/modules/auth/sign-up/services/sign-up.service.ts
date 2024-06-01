@@ -1,3 +1,6 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -21,7 +24,7 @@ export class SignUpService {
    * @returns 
    */
   getUserTypes() {
-    return this.http.get<CommonResponse<UserType[]>>(`${this.root_url}/user-types/get`);
+    return this.http.get<CommonResponse<UserType[]>>(`${this.root_url}/user/user-types/get`);
   }
 
   /**
@@ -35,12 +38,12 @@ export class SignUpService {
   }
 
   /**
-   * To check whether the entered email already exist or not
+   * To check whether the entered email already exist or not existence
    * 
    * @param request 
    * @returns 
    */
-  checkForEmailExistance(request: { email: string }) {
+  checkForEmailExistence(request: { email: string }) {
     return this.http.post<CommonResponse<undefined>>(`${this.root_url}/user/email/is-exist`, request);
   }
 
@@ -50,7 +53,7 @@ export class SignUpService {
    * @param request 
    * @returns 
    */
-  checkForUserNameExistance(request: { user_name: string }) {
+  checkForUserNameExistence(request: { user_name: string }) {
     return this.http.post<CommonResponse<undefined>>(`${this.root_url}/user/user-name/is-exist`, request);
   }
 }

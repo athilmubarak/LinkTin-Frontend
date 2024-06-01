@@ -22,4 +22,5 @@ export interface User {
     references?: Reference[];
     other_accounts: OtherAccount[];
     attachments: Attachment[];
+    status?: string;
 }

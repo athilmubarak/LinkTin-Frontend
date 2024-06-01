@@ -1,9 +1,14 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
+import { User } from 'app/models/user.types';
 
 @Injectable()
 export class AuthService {
@@ -14,11 +19,7 @@ export class AuthService {
     /**
      * Constructor
      */
-    constructor(
-        private http: HttpClient,
-        private _userService: UserService
-    ) {
-    }
+    constructor(private http: HttpClient, private _userService: UserService) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -33,6 +34,17 @@ export class AuthService {
 
     get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    /**
+     * Setter & getter for user type
+     */
+    set userType(user_type_id: number) {
+        localStorage.setItem('userType', `${user_type_id}`);
+    }
+
+    get userType(): number {
+        return Number(localStorage.getItem('userType')) ?? 0;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -70,7 +82,6 @@ export class AuthService {
 
         return this.http.post('api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
-
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
 
@@ -91,29 +102,29 @@ export class AuthService {
      */
     signInUsingToken(): Observable<any> {
         // Renew token
-        return this.http.post('api/auth/refresh-access-token', {
-            accessToken: this.accessToken
-        }).pipe(
-            catchError(() =>
-
-                // Return false
-                of(false)
-            ),
-            switchMap((response: any) => {
-
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                this._userService.user = response.user;
-
-                // Return true
-                return of(true);
+        return this.http
+            .post('api/auth/refresh-access-token', {
+                accessToken: this.accessToken,
             })
-        );
+            .pipe(
+                catchError(() =>
+                    // Return false
+                    of(false)
+                ),
+                switchMap((response: any) => {
+                    // Store the access token in the local storage
+                    this.accessToken = response.accessToken;
+
+                    // Set the authenticated flag to true
+                    this._authenticated = true;
+
+                    // Store the user on the user service
+                    this._userService.user = response.user;
+
+                    // Return true
+                    return of(true);
+                })
+            );
     }
 
     /**
@@ -135,7 +146,12 @@ export class AuthService {
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any> {
+    signUp(user: {
+        name: string;
+        email: string;
+        password: string;
+        company: string;
+    }): Observable<any> {
         return this.http.post('api/auth/sign-up', user);
     }
 
@@ -144,7 +160,10 @@ export class AuthService {
      *
      * @param credentials
      */
-    unlockSession(credentials: { email: string; password: string }): Observable<any> {
+    unlockSession(credentials: {
+        email: string;
+        password: string;
+    }): Observable<any> {
         return this.http.post('api/auth/unlock-session', credentials);
     }
 
@@ -173,10 +192,26 @@ export class AuthService {
 
     /**
      * to get all user types
-     * 
-     * @returns 
+     *
+     * @returns
      */
     getUserTypes() {
         return this.http.get<any>(`${this.root_url}/user-types/get`);
+    }
+
+    /**
+     * to set as user logged in
+     *
+     * @param data
+     */
+    setUserAsLoggedIn(data: User) {
+        if (this._authenticated) {
+            return throwError('User is already logged in.');
+        }
+
+        this._authenticated = true;
+        this.accessToken = data.login_details.token;
+        this._userService.user = data;
+        this.userType = data.login_details.user_type_id;
     }
 }

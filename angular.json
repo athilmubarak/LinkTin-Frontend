@@ -37,6 +37,7 @@
                         "assets": [
                             "src/favicon-16x16.png",
                             "src/favicon-32x32.png",
+                            "src/linkTin-logo.png",
                             "src/assets",
                             {
                                 "glob": "_redirects",
@@ -121,6 +122,7 @@
                         "assets": [
                             "src/favicon-16x16.png",
                             "src/favicon-32x32.png",
+                            "src/linkTin-logo.png",
                             "src/assets"
                         ],
                         "styles": [

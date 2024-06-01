@@ -1,3 +1,6 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -28,7 +31,7 @@ export class SharedService {
     if (this.genders.length > 0) {
       return;
     }
-    this.http.get<CommonResponse<Gender[]>>(`${this.root_url}/genders/get`).subscribe({
+    this.http.get<CommonResponse<Gender[]>>(`${this.root_url}/user/genders/get`).subscribe({
       next: (res: CommonResponse<Gender[]>) => {
         this.genders = res.data;
       },
@@ -54,7 +57,7 @@ export class SharedService {
    */
   getJobs() {
     if (this.jobs.length > 0) {
-      return
+      return;
     }
     this.http.get<CommonResponse<Job[]>>(`${this.root_url}/jobs/get`).subscribe({
       next: (res: CommonResponse<Job[]>) => {
@@ -63,46 +66,46 @@ export class SharedService {
       error: () => {
         this.jobs = [
           {
-            "name": "Senior Brand Coordinator",
-            "job_id": 46
+            'name': 'Senior Brand Coordinator',
+            'job_id': 46
           },
           {
-            "name": "Central Solutions Director",
-            "job_id": 7
+            'name': 'Central Solutions Director',
+            'job_id': 7
           },
           {
-            "name": "Legacy Intranet Developer",
-            "job_id": 56
+            'name': 'Legacy Intranet Developer',
+            'job_id': 56
           },
           {
-            "name": "District Data Supervisor",
-            "job_id": 47
+            'name': 'District Data Supervisor',
+            'job_id': 47
           },
           {
-            "name": "Principal Directives Agent",
-            "job_id": 90
+            'name': 'Principal Directives Agent',
+            'job_id': 90
           },
           {
-            "name": "Product Tactics Developer",
-            "job_id": 4
+            'name': 'Product Tactics Developer',
+            'job_id': 4
           },
           {
-            "name": "District Creative Analyst",
-            "job_id": 54
+            'name': 'District Creative Analyst',
+            'job_id': 54
           },
           {
-            "name": "Senior Solutions Director",
-            "job_id": 98
+            'name': 'Senior Solutions Director',
+            'job_id': 98
           },
           {
-            "name": "Product Program Supervisor",
-            "job_id": 87
+            'name': 'Product Program Supervisor',
+            'job_id': 87
           },
           {
-            "name": "Corporate Factors Manager",
-            "job_id": 86
+            'name': 'Corporate Factors Manager',
+            'job_id': 86
           }
-        ]
+        ];
       }
     });
   }

@@ -5,8 +5,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
-import { User } from 'app/core/user/user.types';
-import { UserDetails } from 'app/models/user-details.types';
+import { User } from 'app/models/user.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { environment } from 'environments/environment';
 
@@ -15,8 +14,7 @@ import { environment } from 'environments/environment';
 })
 export class UserService {
     //Variables
-    private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
-    private user_details: ReplaySubject<UserDetails> = new ReplaySubject<UserDetails>();
+    private _user: ReplaySubject<User> = new ReplaySubject<User>();
     readonly root_url: string = environment.api_url;
 
     /**
@@ -27,21 +25,6 @@ export class UserService {
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for user-details
-     *
-     * @param value
-     */
-    set userDetails(value: UserDetails) {
-        this.user_details.next(value);
-    }
-
-    get userDetails$(): Observable<UserDetails> {
-        return this.user_details.asObservable();
-    }
-
-    
 
     /**
      * Setter & getter for user
@@ -89,12 +72,14 @@ export class UserService {
      * to get user details
      */
     getUserDetails() {
-        this._httpClient.get<CommonResponse<UserDetails>>(`${this.root_url}/user/information/get`).subscribe({
-            next: (res: CommonResponse<UserDetails>) => {
-                console.log(res);
-                
-                this.user_details.next(res.data);
-            }
-        });
+        this._httpClient
+            .get<CommonResponse<User>>(`${this.root_url}/user/information/get`)
+            .subscribe({
+                next: (res: CommonResponse<User>) => {
+                    console.log(res);
+
+                    this._user.next(res.data);
+                },
+            });
     }
 }
