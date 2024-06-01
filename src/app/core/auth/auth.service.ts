@@ -9,6 +9,7 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
 import { User } from 'app/models/user.types';
+import { CommonResponse } from 'app/models/common-response.types';
 
 @Injectable()
 export class AuthService {
@@ -213,5 +214,18 @@ export class AuthService {
         this.accessToken = data.login_details.token;
         this._userService.user = data;
         this.userType = data.login_details.user_type_id;
+    }
+
+    /**
+     * to login by credentials
+     * 
+     * @param credentials 
+     * @returns 
+     */
+    logIn(credentials: { user_name: string; password: string }) {
+        return this.http.post<CommonResponse<User>>(
+            `${this.root_url}/auth/login`,
+            credentials
+        );
     }
 }
