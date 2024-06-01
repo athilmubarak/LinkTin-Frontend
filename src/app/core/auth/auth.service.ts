@@ -173,22 +173,11 @@ export class AuthService {
      */
     check(): Observable<boolean> {
         // Check if the user is logged in
-        if (this._authenticated) {
+        if (![undefined, null, '', ' '].includes(this.accessToken)) {
             return of(true);
-        }
-
-        // Check the access token availability
-        if (!this.accessToken) {
+        } else {
             return of(false);
         }
-
-        // Check the access token expire date
-        // if (AuthUtils.isTokenExpired(this.accessToken)) {
-        //     return of(false);
-        // }
-
-        // If the access token exists and it didn't expire, sign in using it
-        return this.signInUsingToken();
     }
 
     /**
@@ -218,9 +207,9 @@ export class AuthService {
 
     /**
      * to login by credentials
-     * 
-     * @param credentials 
-     * @returns 
+     *
+     * @param credentials
+     * @returns
      */
     logIn(credentials: { user_name: string; password: string }) {
         return this.http.post<CommonResponse<User>>(
