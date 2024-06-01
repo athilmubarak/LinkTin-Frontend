@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -90,7 +91,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     navigateToMyAccount() {
-        // this._router.navigate(['/employer/my-account']);
-        this._router.navigate(['/employee/my-account']);
+        this._router.navigate(['/employer/my-account']);
+        // this._router.navigate(['/employee/my-account']);
     }
 }

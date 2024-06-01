@@ -24,7 +24,8 @@ import { HammerModule } from '@angular/platform-browser';
         MaterialModule,
         VacancyViewComponent,
         EmployeeCardComponent,
-        VacancyCardComponent
+        VacancyCardComponent,
+        FuseCardModule
     ],
     declarations: [
         VacancyViewComponent,

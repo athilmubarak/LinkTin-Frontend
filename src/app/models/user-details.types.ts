@@ -1,4 +1,6 @@
-export interface UserDetils {
+/* eslint-disable eol-last */
+/* eslint-disable @typescript-eslint/naming-convention */
+export interface UserDetails {
     user_id: number;
     user_name: string;
     last_login_date: Date | string;
@@ -6,7 +8,7 @@ export interface UserDetils {
     description?: string;
     country_id?: number;
     country_name?: string;
-    coutry_code?: string;
+    country_code?: string;
     personal_info_id?: number;
     name?: string;
     email: string;

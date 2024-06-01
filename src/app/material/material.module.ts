@@ -13,6 +13,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const modules = [
   MatRadioModule,
@@ -27,7 +30,10 @@ const modules = [
   MatAutocompleteModule,
   MatFormFieldModule,
   MatInputModule,
-  MatChipsModule
+  MatChipsModule,
+  MatMenuModule,
+  MatDividerModule,
+  MatTooltipModule
 ];
 
 
