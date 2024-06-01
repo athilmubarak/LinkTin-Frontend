@@ -26,6 +26,7 @@ export class UserService {
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
 
+
     /**
      * Setter & getter for user
      *
@@ -71,15 +72,13 @@ export class UserService {
     /**
      * to get user details
      */
-    getUserDetails() {
-        this._httpClient
-            .get<CommonResponse<User>>(`${this.root_url}/user/information/get`)
-            .subscribe({
-                next: (res: CommonResponse<User>) => {
-                    console.log(res);
+    getUserDetails(): Observable<User> {
+        return this._httpClient.get<CommonResponse<User>>(`${this.root_url}/user/information/get`).pipe(
+            map((response) => {
+                this._user.next(response.data);
 
-                    this._user.next(res.data);
-                },
-            });
+                return response.data;
+            })
+        );
     }
 }

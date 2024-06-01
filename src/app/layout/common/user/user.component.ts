@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -38,7 +40,7 @@ export class UserComponent implements OnInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.user_type_id = this._authService.userType;
-        _userService.getUserDetails();
+        this._userService.getUserDetails();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -105,8 +107,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
     /**
      * to get profile url
-     * 
-     * @returns 
+     *
+     * @returns
      */
     getUserImageURL(): string {
         let url: string = '';
