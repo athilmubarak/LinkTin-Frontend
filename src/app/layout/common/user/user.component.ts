@@ -3,7 +3,15 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,7 +25,7 @@ import { AuthService } from 'app/core/auth/auth.service';
     templateUrl: './user.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs: 'user'
+    exportAs: 'user',
 })
 export class UserComponent implements OnInit, OnDestroy {
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -54,11 +62,13 @@ export class UserComponent implements OnInit, OnDestroy {
         // Subscribe to user changes
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) => {
-                this.user = user;
+            .subscribe({
+                next: (user: User) => {
+                    this.user = user;
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
+                    // Mark for check
+                    this._changeDetectorRef.markForCheck();
+                },
             });
     }
 
@@ -101,8 +111,11 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     navigateToMyAccount() {
-        this._router.navigate(['/employer/my-account']);
-        // this._router.navigate(['/employee/my-account']);
+        this._router.navigate([
+            this.user_type_id === 1
+                ? '/employee/my-account'
+                : '/employer/my-account',
+        ]);
     }
 
     /**
