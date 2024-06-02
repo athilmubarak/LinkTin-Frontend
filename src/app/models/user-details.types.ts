@@ -11,8 +11,6 @@ export interface UserDetails {
     country_code?: string;
     personal_info_id?: number;
     name?: string;
-    email: string;
-    phone_number: string;
     dob?: Date | string;
     profile_url?: string;
     cover_url: string;
@@ -24,4 +22,10 @@ export interface UserDetails {
     logo2?: string;
     website_url?: string;
     number_of_employees?: number;
+    employee_about_us?: string;
+    employee_email?: string;
+    employee_phone_number?: string;
+    employer_about_us?: string;
+    employer_email?: string;
+    employer_phone_number?: string;
 }

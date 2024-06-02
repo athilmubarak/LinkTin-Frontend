@@ -49,7 +49,10 @@ export class AuthUnlockSessionComponent implements OnInit {
                 this._authService.userType === 1
                     ? user.user_details.name
                     : user.user_details.company_name;
-            this._email = user.user_details.email;
+            this._email =
+                this._authService.userType === 1
+                    ? user.user_details.employee_email
+                    : user.user_details.employer_email;
         });
 
         // Create the form
