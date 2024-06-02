@@ -13,7 +13,8 @@ export interface UserDetails {
     name?: string;
     dob?: Date | string;
     profile_url?: string;
-    cover_url: string;
+    employee_cover_url?: string;
+    employer_cover_url?: string;
     portfolio?: string;
     employer_info_id?: number;
     company_name: string;

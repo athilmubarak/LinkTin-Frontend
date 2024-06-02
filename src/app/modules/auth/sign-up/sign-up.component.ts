@@ -138,19 +138,7 @@ export class AuthSignUpComponent implements OnInit {
                 console.log(res);
 
                 this.user_types = res.data;
-            },
-            error: () => {
-                this.user_types = [
-                    {
-                        user_type_id: 1,
-                        user_type: 'Employee',
-                    },
-                    {
-                        user_type_id: 2,
-                        user_type: 'Employer',
-                    },
-                ];
-            },
+            }
         });
     }
 
