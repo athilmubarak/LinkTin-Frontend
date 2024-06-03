@@ -8,13 +8,8 @@
     <div class="flex flex-row justify-end w-full px-4 py-9">
         <div class="flex  sm:flex-row items-end  w-full max-w-xs sm:max-w-none">
            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
-                <mat-select
-                    [value]="0"
-                    (selectionChange)="filterDataByType($event)">
-                    <mat-option [value]="'all'">All</mat-option>
-                    <ng-container *ngFor="let types of jobTypes;">
-                        <mat-option [value]="types.id">{{types.value}}</mat-option>
-                    </ng-container>
+                <mat-select [value]="0" (selectionChange)="filterDataByType($event)">
+                        <mat-option *ngFor="let types of jobTypes;" [value]="types.id">{{types.value}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>

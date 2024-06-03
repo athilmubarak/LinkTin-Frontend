@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MyJobsService } from '../../services/my-jobs.service';
 import { MatSort } from '@angular/material/sort';
 import { CommonResponse } from 'app/models/common-response.types';
-import { myJobs } from 'app/models/my-jobs.type';
+import { MyJobs } from 'app/models/my-jobs.type';
 import { FuseAlertType } from '@fuse/components/alert';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/models/user.types';
@@ -34,12 +34,11 @@ export class MyJobsComponent implements OnInit {
     { id: 1, value: "Applied Jobs" },
     { id: 2, value: "Approached by company" }
   ];
-  current_user_id = 1;
-  filtered_data_source = new MatTableDataSource<myJobs>();
-  selectedFilterValue: number = 0;
+  current_user_id = 101;
+  filtered_data_source = new MatTableDataSource<MyJobs>();
   user: User;
   //Mat-table realted variables
-  data_source = new MatTableDataSource<myJobs>();
+  data_source = new MatTableDataSource<MyJobs>();
   displayed_columns: string[] = ['sl', 'name', 'placement_type', 'vaccancy_count', 'application_starts_from', 'admin'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   private _userService: any;
@@ -72,23 +71,19 @@ export class MyJobsComponent implements OnInit {
   */
   filterDataByType(e) {
 
-    console.log("filterEvent", e);
     const filterValue = e.value;
-    this.selectedFilterValue = filterValue;
-    if (filterValue === 0) {
-      // If "All" selected, display all data
-      this.filtered_data_source = this.data_source;
-      console.log("filterDataType", this.data_source);
-
-    } else {
-      // this.filtered_data_source = this.data_source.filter(row => {
-      //   // Assuming 'placement_type' is the column name for 'Applied / Requested on'
-      //   return row.placement_type === filterValue;
-      // });
-
-
+    if (filterValue === 0) { 
+      this.getVacancies();
+    } else if(filterValue === 1) {
+      this.data_source.data = this.filtered_data_source.data.filter(row => {
+        row.applied_user_id === this.current_user_id;
+      });
+    }else if(filterValue === 2){
+      this.data_source.data = this.filtered_data_source.data.filter(row => { 
+        row.approved_user_id === this.current_user_id;
+      });
     }
-  }
+}
   /**
   * to get all my jobs
   */
@@ -96,20 +91,19 @@ export class MyJobsComponent implements OnInit {
     this.data_source = new MatTableDataSource();
 
     this.myJobs_service.getAllJobVacancies().subscribe({
-      next: (res: CommonResponse<myJobs[]>) => {
+      next: (res: CommonResponse<MyJobs[]>) => {
         console.log(res);
-
-        this.data_source = new MatTableDataSource(res.data);
+        this.data_source = new MatTableDataSource(res.data);      
         this.data_source.sort = this.sort;
       },
       error: () => {
-        var data: myJobs[] = [
+        var data: MyJobs[] = [
           {
             sync_registry_id: 1,
             vacancy_id: 1,
             job_id: "1",
             job_name: "Frontend Developer",
-            applied_user_id: 1,
+            applied_user_id: 101,
             applied_user: "",
             approved_user_id: 1,
             approved_user: "ABC",
@@ -153,7 +147,7 @@ export class MyJobsComponent implements OnInit {
    * @param jobs 
    * @param index 
    */
-    deleteJob(jobs: myJobs, index: number) {
+    deleteJob(jobs: MyJobs, index: number) {
     let dialog_ref = this.confirmation_dialog.open(
       {
         title: 'Remove Jobs',

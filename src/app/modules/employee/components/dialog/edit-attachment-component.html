@@ -3,7 +3,7 @@
 </h1>
 <div mat-dialog-content>
     <div class="flex flex-row flex-wrap items-start mt-8">
-        <div class="flex flex-col  w-40 h-40 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card ng-star-inserted text-black bg-white" *ngFor="let item of allAttachments;" onClick="updateAttachment(item)">
+        <div class="flex flex-col  w-40 h-40 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card ng-star-inserted text-black bg-white" *ngFor="let item of allAttachments;" (click)="updateAttachment(item)">
             <div class="aspect-w-10 aspect-h-5 mt-4">
                 <div class="flex items-center justify-center border rounded-lg ">
                     <div class="relative">
@@ -12,12 +12,7 @@
                         [svgIcon]="'iconsmind:file'"> 
                     </mat-icon>
                     <div class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-red-600"
-                    [class.bg-red-600]="item.type === 'PDF'"
-                    [class.bg-blue-600]="item.type === 'DOC'"
-                    [class.bg-green-600]="item.type === 'XLS'"
-                    [class.bg-gray-600]="item.type === 'TXT'"
-                    [class.bg-amber-600]="item.type === 'JPG'"> 
-                    {{item.type.toUpperCase()}} 
+                    [class.bg-red-600]> PDF 
                 </div>
                     </div>
                     
@@ -26,7 +21,7 @@
             </div>
             
             <div class="flex flex-col items-start mt-4 text-sm text-center justify-center items-center">
-                <div class="text-xl font-medium">{{item.name}}</div>
+                <div class="text-xl font-medium">{{item.attachment_name}}</div>
                 
             </div>
         </div>

@@ -13,6 +13,12 @@ import { FuseAlertType } from '@fuse/components/alert';
 
 export class editAttachmentComponent implements OnInit{
   show_alert: boolean = false;
+  allAttachments = [
+    { attachment_id: 1, attachment_name: "efg",attachment_url:"#" },
+    { attachment_id: 2, attachment_name: "xyz",attachment_url:"#" },
+    { attachment_id: 3, attachment_name: "xyz",attachment_url:"#" },
+    { attachment_id: 4, attachment_name: "xyz",attachment_url:"#"},
+  ];
   alert: { type: FuseAlertType; message: string } = {
     type: 'success',
     message: ''
@@ -23,21 +29,11 @@ export class editAttachmentComponent implements OnInit{
   ngOnInit(): void {
         
   }
-  allAttachments = [
-    { resume_attachment_id: 0, name: "abc",url:"#", type:'PDF'},
-    { resume_attachment_id: 1, name: "efg",url:"#", type:'PDF' },
-    { resume_attachment_id: 2, name: "xyz",url:"#", type:'PDF' },
-    { resume_attachment_id: 3, name: "xyz",url:"#", type:'PDF' },
-    { resume_attachment_id: 4, name: "xyz",url:"#", type:'PDF' },
-    { resume_attachment_id: 1, name: "efg",url:"#", type:'PDF' },
-    { resume_attachment_id: 2, name: "xyz",url:"#", type:'PDF' },
-    { resume_attachment_id: 3, name: "xyz",url:"#", type:'PDF' },
-    { resume_attachment_id: 4, name: "xyz",url:"#", type:'PDF' },
-  ];
+  
   updateAttachment(item: any){
     console.log("this,data",this.data);
     
-    this.myJobs_service.updateAttachment(this.data.item.sync_registry_id ,item?.resume_attachment_id).subscribe({
+    this.myJobs_service.updateAttachment(this.data.item.sync_registry_id ,item?.attachment_id).subscribe({
       next: (res: CommonResponse<number>) => {
         console.log(res);
               this.alert = {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
-import { myJobs } from 'app/models/my-jobs.type';
+import { MyJobs } from 'app/models/my-jobs.type';
 import { Skill } from 'app/models/skill.types';
 import { environment } from 'environments/environment';
 
@@ -20,7 +20,7 @@ export class MyJobsService {
    * @returns 
    */
    getAllJobVacancies() {
-    return this.http.get<CommonResponse<myJobs[]>>(`${this.root_url}/job-vacancy/sync/get`);
+    return this.http.get<CommonResponse<MyJobs[]>>(`${this.root_url}/job-vacancy/sync/get`);
   }
   /**
    * to delete vacancy
