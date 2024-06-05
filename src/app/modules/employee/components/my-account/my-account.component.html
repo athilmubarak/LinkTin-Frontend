@@ -1,217 +1,202 @@
-<form [formGroup]="employee_form" class="w-full">
-    <div class="flex flex-col flex-auto min-w-0">
-        <div class="flex flex-col shadow bg-card">
-            <div>
-                <img
-                    class="h-40 lg:h-80 object-cover"
-                    [src]="getFormValue.cover_url"
-                    alt="Cover image"
-                />
-            </div>
-            <div class="flex">
-                <div
-                    class="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-8 lg:h-18 bg-card"
-                >
-                    <div class="-mt-26 lg:-mt-22 rounded-full">
-                        <img
-                            class="w-32 h-32 rounded-full ring-4 ring-bg-card"
-                            [src]="
-                                getFormValue.profile_url
-                                    ? getFormValue.profile_url
-                                    : 'assets/images/avatars/male-04.jpg'
-                            "
-                            alt="Logo"
-                        />
-                    </div>
-                    <div
-                        class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8"
-                    >
-                        <div class="text-lg font-bold leading-none mb-4">
-                            <ng-container *ngIf="!is_edit; else elseName">
-                                {{ getFormValue.name }}
-                            </ng-container>
-                            <ng-template #elseName>
-                                <mat-form-field class="w-full">
-                                    <mat-label>Name</mat-label>
-                                    <input
-                                        type="text"
-                                        matInput
-                                        formControlName="name"
-                                    />
-                                </mat-form-field>
-                            </ng-template>
-                        </div>
-                        <div class="text-secondary" *ngIf="!is_edit">
-                            {{ getFormValue.email }}
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-end items-center">
-                    <button
-                        mat-flat-button
-                        class="mr-2"
-                        (click)="is_edit = true"
-                        *ngIf="!is_edit"
-                    >
-                        <mat-icon
-                            [svgIcon]="'heroicons_outline:pencil'"
-                            class="mr-2"
-                        ></mat-icon>
-                        Edit
-                    </button>
-                    <button
-                        mat-flat-button
-                        class="mr-2"
-                        color="primary"
-                        *ngIf="is_edit"
-                        [disabled]="employee_form.disabled"
-                        (click)="saveEmployeeDetails()"
-                    >
-                        Save
-                    </button>
-                    <button
-                        mat-flat-button
-                        class="mr-2"
-                        *ngIf="is_edit"
-                        (click)="onClickClose()"
-                        [disabled]="employee_form.disabled"
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex flex-col shadow bg-card">
+        <div>
+            <img
+                class="h-40 lg:h-80 object-cover"
+                [src]="user.user_details.cover_url"
+                alt="Cover image"
+            />
         </div>
-
-        <div class="hidden lg:flex flex-col items-start mt-4 mx-14">
-            <fuse-card class="flex flex-col w-full p-8">
-                <div class="text-2xl font-semibold leading-tight">About Me</div>
-                <div class="mt-4">
-                    <ng-container *ngIf="!is_edit; else elseAbout">
-                        {{ getFormValue.about_us }}
-                    </ng-container>
-                    <ng-template #elseAbout>
-                        <mat-form-field class="w-full">
-                            <mat-label>About Us</mat-label>
-                            <textarea
-                                matInput
-                                formControlName="about_us"
-                                rows="5"
-                            ></textarea>
-                        </mat-form-field>
-                    </ng-template>
+        <div class="flex">
+            <div
+                class="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-8 lg:h-18 bg-card"
+            >
+                <div class="-mt-26 lg:-mt-22 rounded-full">
+                    <img
+                        class="w-32 h-32 rounded-full ring-4 ring-bg-card"
+                        [src]="
+                            user.user_details.profile_url
+                                ? user.user_details.profile_url
+                                : 'assets/images/avatars/male-04.jpg'
+                        "
+                        alt="Logo"
+                    />
                 </div>
-                <hr class="w-full border-t my-6" />
-                <div class="flex justify-evenly">
-                    <div class="flex flex-col">
-                        <div class="flex items-center mt-4">
-                            <mat-icon
-                                class="icon-size-5 mr-3"
-                                [svgIcon]="'mat_outline:location_on'"
-                            ></mat-icon>
-                            <span class="leading-none">
-                                <ng-container
-                                    *ngIf="!is_edit; else elseCountry"
-                                >
-                                    {{ getCountryName() }}
-                                </ng-container>
-                                <ng-template #elseCountry>
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Country</mat-label>
-                                        <mat-select
-                                            formControlName="country_id"
-                                        >
-                                            <mat-option
-                                                *ngFor="
-                                                    let country of shared_service.countries
-                                                "
-                                                [value]="country"
-                                            >
-                                                {{ country.country_name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </ng-template>
-                            </span>
-                        </div>
+                <div
+                    class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8"
+                >
+                    <div class="text-lg font-bold leading-none mb-4">
+                        {{ user.user_details.name }}
                     </div>
-                    <div class="flex flex-col">
-                        <div class="flex items-center mt-4">
-                            <mat-icon
-                                class="icon-size-5 mr-3"
-                                [svgIcon]="'mat_solid:phone'"
-                            ></mat-icon>
-                            <span class="leading-none">
-                                <ng-container *ngIf="!is_edit; else elsePhone">
-                                    {{ getFormValue.phone_number }}
-                                </ng-container>
-                                <ng-template #elsePhone>
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Phone number</mat-label>
-                                        <input
-                                            type="text"
-                                            matInput
-                                            formControlName="phone_number"
-                                        />
-                                    </mat-form-field>
-                                </ng-template>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex items-center mt-4">
-                            <mat-icon
-                                class="icon-size-5 mr-3"
-                                [svgIcon]="'mat_outline:transgender'"
-                            ></mat-icon>
-                            <span class="leading-none">
-                                <ng-container *ngIf="!is_edit; else elseGender">
-                                    {{ getGenderDescription() }}
-                                </ng-container>
-                                <ng-template #elseGender>
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Gender</mat-label>
-                                        <mat-select formControlName="gender_id">
-                                            <mat-option
-                                                *ngFor="
-                                                    let gender of shared_service.genders
-                                                "
-                                                [value]="gender.gender_id"
-                                            >
-                                                {{ gender.description }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </ng-template>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex items-center mt-4">
-                            <mat-icon
-                                class="icon-size-5 mr-3"
-                                [svgIcon]="'mat_solid:web'"
-                            ></mat-icon>
-                            <span class="leading-none">
-                                <ng-container
-                                    *ngIf="!is_edit; else elsePortfolio"
-                                >
-                                    {{ getFormValue.portfolio }}
-                                </ng-container>
-                                <ng-template #elsePortfolio>
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Portfolio</mat-label>
-                                        <input
-                                            type="text"
-                                            matInput
-                                            formControlName="portfolio"
-                                        />
-                                    </mat-form-field>
-                                </ng-template>
-                            </span>
-                        </div>
+                    <div class="text-secondary">
+                        {{ user.user_details.employee_email }}
                     </div>
                 </div>
-            </fuse-card>
+            </div>
         </div>
     </div>
-</form>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">About Me</div>
+                <button mat-icon-button>
+                    <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                </button>
+            </div>
+            <div class="mt-4">
+                {{ user.user_details.about_us }}
+            </div>
+            <hr class="w-full border-t my-6" />
+            <div class="flex justify-evenly">
+                <div class="flex flex-col">
+                    <div class="flex items-center mt-4">
+                        <mat-icon
+                            class="icon-size-5 mr-3"
+                            [svgIcon]="'mat_outline:location_on'"
+                        ></mat-icon>
+                        <span class="leading-none">
+                            {{ user.user_details.country_name }}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center mt-4">
+                        <mat-icon
+                            class="icon-size-5 mr-3"
+                            [svgIcon]="'mat_solid:phone'"
+                        ></mat-icon>
+                        <span class="leading-none">
+                            {{ user.user_details.employee_phone_number }}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center mt-4">
+                        <mat-icon
+                            class="icon-size-5 mr-3"
+                            [svgIcon]="'mat_outline:transgender'"
+                        ></mat-icon>
+                        <span class="leading-none">
+                            {{ user.user_details.description }}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center mt-4">
+                        <mat-icon
+                            class="icon-size-5 mr-3"
+                            [svgIcon]="'mat_solid:web'"
+                        ></mat-icon>
+                        <span class="leading-none">
+                            {{ user.user_details.portfolio }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    Experiences
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    Qualifications
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    Certificates
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    attachments
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    Social Accounts
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">Licenses</div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    References
+                </div>
+                <button mat-icon-button>
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+        </fuse-card>
+    </div>
+</div>

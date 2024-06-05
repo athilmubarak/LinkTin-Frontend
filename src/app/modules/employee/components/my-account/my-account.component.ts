@@ -51,11 +51,7 @@ export type ArrayTypes =
     styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
-    //FormGroup
-    employee_form: FormGroup;
-
     //Variables
-    is_edit: boolean;
     user: User;
     education_types: EducationType[];
     show_alert: boolean = false;
@@ -83,33 +79,11 @@ export class MyAccountComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.is_edit = false;
-        this.employee_form = this.form_builder.group({
-            gender_id: new FormControl('', Validators.required),
-            country_id: new FormControl('', Validators.required),
-            name: new FormControl('', Validators.required),
-            phone_number: new FormControl('', Validators.required),
-            email: new FormControl('', [Validators.required, Validators.email]),
-            dob: new FormControl('', Validators.required),
-            profile_url: new FormControl(''),
-            cover_url: new FormControl(''),
-            portfolio: new FormControl(''),
-            about_us: new FormControl('', Validators.required),
-            experiences: this.form_builder.array([]),
-            educations: this.form_builder.array([]),
-            skills: this.form_builder.array([]),
-            certifications: this.form_builder.array([]),
-            licenses: this.form_builder.array([]),
-            references: this.form_builder.array([]),
-            other_accounts: this.form_builder.array([]),
-            attachments: this.form_builder.array([]),
-        });
         // Subscribe to user changes
         this.user_service.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe({
                 next: (user: User) => {
-                    this.setEmployeeFormValue(user);
                     this.user = user;
 
                     // Mark for check
@@ -127,140 +101,6 @@ export class MyAccountComponent implements OnInit {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
-    }
-
-    /**
-     * to patch values to employee_form
-     *
-     * @param user
-     */
-    setEmployeeFormValue(user: User) {
-        this.employee_form.patchValue({
-            gender_id: user.user_details.gender_id,
-            country_id: user.user_details.country_id,
-            name: user.user_details.name,
-            phone_number: user.user_details.employee_phone_number,
-            email: user.user_details.employee_email,
-            dob: user.user_details.dob,
-            profile_url: user.user_details.profile_url,
-            cover_url: user.user_details.employee_cover_url,
-            portfolio: user.user_details.portfolio,
-            about_us: user.user_details.employee_about_us,
-        });
-
-        this.getFormArray('attachments').clear();
-        if (user.attachments.length > 0) {
-            //attachments
-            user.attachments.forEach((attachment: Attachment) => {
-                this.addRow(
-                    'attachments',
-                    this.returnFormGroup('attachments', attachment)
-                );
-            });
-        }
-
-        this.getFormArray('certifications').clear();
-        if (user.certifications.length > 0) {
-            //certifications
-            user.certifications.forEach((certification: Certification) => {
-                this.addRow(
-                    'certifications',
-                    this.returnFormGroup('certifications', certification)
-                );
-            });
-        }
-
-        this.getFormArray('educations').clear();
-        if (user.educations.length > 0) {
-            //educations
-            user.educations.forEach((education: Education) => {
-                this.addRow(
-                    'educations',
-                    this.returnFormGroup('educations', education)
-                );
-            });
-        }
-
-        this.getFormArray('experiences').clear();
-        if (user.experiences.length > 0) {
-            //experiences
-            user.experiences.forEach((experience: Experience) => {
-                this.addRow(
-                    'experiences',
-                    this.returnFormGroup('experiences', experience)
-                );
-            });
-        }
-
-        this.getFormArray('licenses').clear();
-        if (user.licenses.length > 0) {
-            //licenses
-            user.licenses.forEach((license: License) => {
-                this.addRow(
-                    'licenses',
-                    this.returnFormGroup('licenses', license)
-                );
-            });
-        }
-
-        this.getFormArray('other_accounts').clear();
-        if (user.other_accounts.length > 0) {
-            //other_accounts
-            user.other_accounts.forEach((other_account: OtherAccount) => {
-                this.addRow(
-                    'other_accounts',
-                    this.returnFormGroup('other_accounts', other_account)
-                );
-            });
-        }
-
-        this.getFormArray('references').clear();
-        if (user.references.length > 0) {
-            //references
-            user.references.forEach((reference: Reference) => {
-                this.addRow(
-                    'references',
-                    this.returnFormGroup('references', reference)
-                );
-            });
-        }
-
-        this.getFormArray('skills').clear();
-        if (user.skill.length > 0) {
-            //skills
-            user.skill.forEach((skill: Skill) => {
-                this.addRow('skills', this.returnFormGroup('skills', skill));
-            });
-        }
-    }
-
-    /**
-     * getter functions for all form arrays
-     *
-     * @param array_name
-     */
-    getFormArray(array_name: ArrayTypes): FormArray {
-        return this.employee_form.get(array_name) as FormArray;
-    }
-
-    /**
-     * to add row to an array
-     *
-     * @param array_name
-     * @param form
-     */
-    addRow(array_name: ArrayTypes, form: FormGroup) {
-        this.getFormArray(array_name).push(form);
-    }
-
-    /**
-     * to remove one row from an array
-     *
-     * @param array_name
-     * @param index
-     */
-    removeRow(array_name: ArrayTypes, index: number) {
-        this.getFormArray(array_name).removeAt(index);
     }
 
     /**
@@ -330,9 +170,7 @@ export class MyAccountComponent implements OnInit {
                         Validators.required
                     ),
                     display_order: new FormControl(
-                        value
-                            ? education.display_order
-                            : this.getFormArray('educations').length + 1
+                        value ? education.display_order : 1
                     ),
                 });
                 break;
@@ -365,9 +203,7 @@ export class MyAccountComponent implements OnInit {
                         value ? experience.is_currently_working : false
                     ),
                     display_order: new FormControl(
-                        value
-                            ? experience.display_order
-                            : this.getFormArray('experiences').length + 1
+                        value ? experience.display_order : 1
                     ),
                 });
                 break;
@@ -468,137 +304,6 @@ export class MyAccountComponent implements OnInit {
     }
 
     /**
-     * getter function for employee form
-     */
-    get getFormValue() {
-        return this.employee_form.value;
-    }
-
-    /**
-     * to cancel edit
-     */
-    onClickClose() {
-        const dialog_ref = this.confirm_service.open({
-            title: 'Confirmation',
-            message: 'Do you confirm your action ?',
-            icon: {
-                show: false,
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: 'Confirm',
-                    color: 'primary',
-                },
-                cancel: {
-                    show: true,
-                    label: 'Cancel',
-                },
-            },
-            dismissible: false,
-        });
-
-        dialog_ref.afterClosed().subscribe({
-            next: (confirmed: string) => {
-                if (confirmed === 'confirmed') {
-                    this.is_edit = false;
-                    this.setEmployeeFormValue(this.user);
-                }
-            },
-        });
-    }
-
-    /**
-     * to save employee details
-     *
-     * @returns
-     */
-    saveEmployeeDetails() {
-        if (this.employee_form.invalid) {
-            return;
-        }
-
-        const educations = this.getFormValue.educations.map((x) => ({
-            id: x.id,
-            education_type_id: x.education_type.education_type_id,
-            institution: x.institution,
-            academic_year: x.academic_year,
-            display_order: x.display_order,
-        }));
-
-        const experiences = this.getFormValue.experiences.map((x) => ({
-            id: x.id,
-            job_id: x.job.job_id,
-            company: x.company,
-            location: x.location,
-            joining_date: x.joining_date,
-            relieving_date: x.relieving_date,
-            is_currently_working: x.is_currently_working ? 1 : 0,
-            display_order: x.display_order,
-        }));
-
-        const other_accounts = this.getFormValue.other_accounts.map((x) => ({
-            other_account_id: x.other_account_id,
-            account_type_id: x.account_type.account_type_id,
-            account_url: x.account_url,
-        }));
-
-        const skills = this.getFormValue.skills.map((x) => ({
-            employee_skill_id: x.employee_skill_id,
-            skill_id: x.skill.skill_id,
-        }));
-
-        const user_details: UpdateUser = {
-            user_id: this.user.user_details.user_id,
-            user_type_id: this.auth_service.userType,
-            user_details: {
-                gender_id: this.getFormValue.gender_id,
-                country_id: this.getFormValue.country_id,
-                personal_info_id: this.user.user_details.personal_info_id,
-                name: this.getFormValue.name,
-                phone_number: this.getFormValue.phone_number,
-                profile_url: this.getFormValue.profile_url,
-                cover_url: this.getFormValue.cover_url,
-                portfolio: this.getFormValue.portfolio,
-                about_us: this.getFormValue.about_us,
-                dob: this.getFormValue.dob,
-            },
-            attachments: this.getFormValue.attachments,
-            certifications: this.getFormValue.certifications,
-            educations: educations,
-            experiences: experiences,
-            licenses: this.getFormValue.licenses,
-            other_accounts: other_accounts,
-            references: this.getFormValue.references,
-            skills: skills,
-        };
-
-        this.employee_form.disable();
-
-        this.shared_service.updateUserDetails(user_details).subscribe({
-            next: (res: CommonResponse<User>) => {
-                console.log(res);
-
-                this.show_alert = true;
-                this.alert = {
-                    type: res.success ? 'success' : 'error',
-                    message: res.message,
-                };
-
-                if (res.success) {
-                    this.user_service.user = res.data;
-                    this.is_edit = false;
-                }
-            },
-            complete: () => this.employee_form.enable(),
-            error: (error: any) => {
-                this.employee_form.enable();
-                this.showErrorMessage(error);
-            },
-        });
-    }
-
-    /**
      * to remove details
      *
      * @param array_type
@@ -608,81 +313,81 @@ export class MyAccountComponent implements OnInit {
         if (index >= 0) {
             let request: Observable<CommonResponse<number>>;
 
-            switch (array_type) {
-                case 'attachments':
-                    if (
-                        this.getFormValue.attachments[index].attachment_id > 0
-                    ) {
-                        request = this.shared_service.removeAttachment(
-                            this.getFormValue.attachments[index].attachment_id
-                        );
-                    }
-                    break;
+            // switch (array_type) {
+            //     case 'attachments':
+            //         if (
+            //             this.getFormValue.attachments[index].attachment_id > 0
+            //         ) {
+            //             request = this.shared_service.removeAttachment(
+            //                 this.getFormValue.attachments[index].attachment_id
+            //             );
+            //         }
+            //         break;
 
-                case 'certifications':
-                    if (
-                        this.getFormValue.certifications[index]
-                            .certification_id > 0
-                    ) {
-                        request = this.employee_service.removeCertification(
-                            this.getFormValue.certifications[index]
-                                .certification_id
-                        );
-                    }
-                    break;
+            //     case 'certifications':
+            //         if (
+            //             this.getFormValue.certifications[index]
+            //                 .certification_id > 0
+            //         ) {
+            //             request = this.employee_service.removeCertification(
+            //                 this.getFormValue.certifications[index]
+            //                     .certification_id
+            //             );
+            //         }
+            //         break;
 
-                case 'educations':
-                    if (this.getFormValue.educations[index].id > 0) {
-                        request = this.employee_service.removeEducation(
-                            this.getFormValue.educations[index].id
-                        );
-                    }
-                    break;
+            //     case 'educations':
+            //         if (this.getFormValue.educations[index].id > 0) {
+            //             request = this.employee_service.removeEducation(
+            //                 this.getFormValue.educations[index].id
+            //             );
+            //         }
+            //         break;
 
-                case 'experiences':
-                    if (this.getFormValue.experiences[index].id > 0) {
-                        request = this.employee_service.removeExperience(
-                            this.getFormValue.experiences[index].id
-                        );
-                    }
-                    break;
+            //     case 'experiences':
+            //         if (this.getFormValue.experiences[index].id > 0) {
+            //             request = this.employee_service.removeExperience(
+            //                 this.getFormValue.experiences[index].id
+            //             );
+            //         }
+            //         break;
 
-                case 'licenses':
-                    if (this.getFormValue.licenses[index].license_id > 0) {
-                        request = this.employee_service.removeLicense(
-                            this.getFormValue.licenses[index].license_id
-                        );
-                    }
-                    break;
+            //     case 'licenses':
+            //         if (this.getFormValue.licenses[index].license_id > 0) {
+            //             request = this.employee_service.removeLicense(
+            //                 this.getFormValue.licenses[index].license_id
+            //             );
+            //         }
+            //         break;
 
-                case 'other_accounts':
-                    if (
-                        this.getFormValue.other_accounts[index]
-                            .other_account_id > 0
-                    ) {
-                        request = this.shared_service.removeAttachment(
-                            this.getFormValue.other_accounts[index]
-                                .other_account_id
-                        );
-                    }
-                    break;
+            //     case 'other_accounts':
+            //         if (
+            //             this.getFormValue.other_accounts[index]
+            //                 .other_account_id > 0
+            //         ) {
+            //             request = this.shared_service.removeAttachment(
+            //                 this.getFormValue.other_accounts[index]
+            //                     .other_account_id
+            //             );
+            //         }
+            //         break;
 
-                case 'references':
-                    if (this.getFormValue.references[index].reference_id > 0) {
-                        request = this.employee_service.removeReference(
-                            this.getFormValue.references[index].reference_id
-                        );
-                    }
-                    break;
+            //     case 'references':
+            //         if (this.getFormValue.references[index].reference_id > 0) {
+            //             request = this.employee_service.removeReference(
+            //                 this.getFormValue.references[index].reference_id
+            //             );
+            //         }
+            //         break;
 
-                case 'skills':
-                    if (this.getFormValue.skills[index].employee_skill_id > 0) {
-                        request = this.employee_service.removeSkill(
-                            this.getFormValue.skills[index].employee_skill_id
-                        );
-                    }
-                    break;
-            }
+            //     case 'skills':
+            //         if (this.getFormValue.skills[index].employee_skill_id > 0) {
+            //             request = this.employee_service.removeSkill(
+            //                 this.getFormValue.skills[index].employee_skill_id
+            //             );
+            //         }
+            //         break;
+            // }
 
             if (request) {
                 const dialog_ref = this.confirm_service.open({
@@ -737,7 +442,7 @@ export class MyAccountComponent implements OnInit {
                     },
                 });
             } else {
-                this.removeRow(array_type, index);
+                // this.removeRow(array_type, index);
             }
         }
     }
@@ -753,31 +458,5 @@ export class MyAccountComponent implements OnInit {
             message:
                 'Your request cannot be processed at this time. Please try again later.',
         };
-    }
-
-    /**
-     * to get country name
-     *
-     * @returns
-     */
-    getCountryName(): string {
-        return (
-            this.shared_service.countries.find(
-                (x) => x.country_id === this.getFormValue.country_id
-            )?.country_name
-        );
-    }
-
-    /**
-     * to get gender description
-     * 
-     * @returns 
-     */
-    getGenderDescription(): string {
-        return (
-            this.shared_service.genders.find(
-                (x) => x.gender_id === this.getFormValue.gender_id
-            )?.description
-        );
     }
 }
