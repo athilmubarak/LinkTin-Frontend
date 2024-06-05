@@ -7,6 +7,11 @@ import { FindJobsComponent } from './components/find-jobs/find-jobs.component';
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { SharedModule } from 'app/shared/shared.module';
 import {editAttachmentComponent} from './components/dialog/edit-attachment-component';
+import { ExperienceComponent } from './components/experience/experience.component';
+import { EducationComponent } from './components/education/education.component';
+import { CertificationComponent } from './components/certification/certification.component';
+import { LicenseComponent } from './components/license/license.component';
+import { ReferenceComponent } from './components/reference/reference.component';
 
 
 @NgModule({
@@ -14,7 +19,12 @@ import {editAttachmentComponent} from './components/dialog/edit-attachment-compo
     MyAccountComponent,
     FindJobsComponent,
     MyJobsComponent,
-    editAttachmentComponent
+    editAttachmentComponent,
+    ExperienceComponent,
+    EducationComponent,
+    CertificationComponent,
+    LicenseComponent,
+    ReferenceComponent
     
   ],
   imports: [

@@ -7,6 +7,8 @@ import { EmployeeCardComponent } from './components/employee-card/employee-card.
 import { VacancyCardComponent } from './components/vacancy-card/vacancy-card.component';
 import { FuseCardModule } from '@fuse/components/card';
 import { HammerModule } from '@angular/platform-browser';
+import { OtherAccountComponent } from './components/other-account/other-account.component';
+import { AttachmentComponent } from './components/attachment/attachment.component';
 
 @NgModule({
     imports: [
@@ -30,7 +32,9 @@ import { HammerModule } from '@angular/platform-browser';
     declarations: [
         VacancyViewComponent,
         EmployeeCardComponent,
-        VacancyCardComponent
+        VacancyCardComponent,
+        OtherAccountComponent,
+        AttachmentComponent
     ],
     entryComponents: [
         VacancyViewComponent
