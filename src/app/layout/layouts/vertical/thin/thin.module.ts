@@ -19,10 +19,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { ThinLayoutComponent } from 'app/layout/layouts/vertical/thin/thin.component';
 
 @NgModule({
-    declarations: [
-        ThinLayoutComponent
-    ],
-    imports     : [
+    declarations: [ThinLayoutComponent],
+    imports: [
         HttpClientModule,
         RouterModule,
         MatButtonModule,
@@ -39,12 +37,8 @@ import { ThinLayoutComponent } from 'app/layout/layouts/vertical/thin/thin.compo
         SearchModule,
         ShortcutsModule,
         UserModule,
-        SharedModule
+        SharedModule,
     ],
-    exports     : [
-        ThinLayoutComponent
-    ]
+    exports: [ThinLayoutComponent],
 })
-export class ThinLayoutModule
-{
-}
+export class ThinLayoutModule {}

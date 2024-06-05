@@ -31,9 +31,10 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { Job } from 'app/models/job.types';
 import { AccountType } from 'app/models/account-type.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { UpdateUser } from 'app/models/update-user.types';
 import { AuthService } from 'app/core/auth/auth.service';
 import { FuseAlertType } from '@fuse/components/alert';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
 
 export type ArrayTypes =
     | 'attachments'
@@ -69,13 +70,9 @@ export class MyAccountComponent implements OnInit {
         public shared_service: SharedService,
         private employee_service: EmployeeService,
         private confirm_service: FuseConfirmationService,
-        private auth_service: AuthService
+        private mat_dialog: MatDialog
     ) {
-        this.shared_service.getGenders();
-        this.shared_service.getJobs();
         this.shared_service.getSkills();
-        this.shared_service.getAccountTypes();
-        this.shared_service.getCountries();
     }
 
     ngOnInit(): void {
@@ -458,5 +455,16 @@ export class MyAccountComponent implements OnInit {
             message:
                 'Your request cannot be processed at this time. Please try again later.',
         };
+    }
+
+    /**
+     * to open update employee dialog
+     */
+    onClickEmployeeDetails() {
+        this.mat_dialog.open(UpdateEmployeeComponent, {
+            disableClose: true,
+            width: '700px',
+            data: this.user,
+        });
     }
 }

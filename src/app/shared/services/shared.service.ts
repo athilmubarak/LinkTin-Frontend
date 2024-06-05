@@ -9,7 +9,6 @@ import { Country } from 'app/models/country.types';
 import { Gender } from 'app/models/gender.types';
 import { Job } from 'app/models/job.types';
 import { Skill } from 'app/models/skill.types';
-import { UpdateUser } from 'app/models/update-user.types';
 import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -130,18 +129,6 @@ export class SharedService {
             });
     }
 
-    /**
-     * to update user details
-     *
-     * @param user
-     * @returns
-     */
-    updateUserDetails(user: UpdateUser): Observable<CommonResponse<User>> {
-        return this.http.post<CommonResponse<User>>(
-            `${this.root_url}/user/information/update`,
-            user
-        );
-    }
 
     /**
      * to delete attachment

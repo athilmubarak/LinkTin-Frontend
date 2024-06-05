@@ -12,6 +12,7 @@ import { EducationComponent } from './components/education/education.component';
 import { CertificationComponent } from './components/certification/certification.component';
 import { LicenseComponent } from './components/license/license.component';
 import { ReferenceComponent } from './components/reference/reference.component';
+import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
 
 
 @NgModule({
@@ -24,13 +25,13 @@ import { ReferenceComponent } from './components/reference/reference.component';
     EducationComponent,
     CertificationComponent,
     LicenseComponent,
-    ReferenceComponent
-    
+    ReferenceComponent,
+    UpdateEmployeeComponent
   ],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
     SharedModule
-  ]
+  ],
 })
 export class EmployeeModule { }

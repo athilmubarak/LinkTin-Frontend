@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { EducationType } from 'app/models/education-type.types';
+import { UpdateEmployee } from 'app/models/update-employee.types';
+import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -65,9 +67,9 @@ export class EmployeeService {
 
     /**
      * to remove employee skill
-     * 
-     * @param employee_skill_id 
-     * @returns 
+     *
+     * @param employee_skill_id
+     * @returns
      */
     removeSkill(employee_skill_id: number): Observable<CommonResponse<number>> {
         return this.http.delete<CommonResponse<number>>(
@@ -77,31 +79,56 @@ export class EmployeeService {
 
     /**
      * to remove certification
-     * 
-     * @param certification_id 
-     * @returns 
+     *
+     * @param certification_id
+     * @returns
      */
-    removeCertification(certification_id: number): Observable<CommonResponse<number>> {
-        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/certification/delete/${certification_id}`);
+    removeCertification(
+        certification_id: number
+    ): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/certification/delete/${certification_id}`
+        );
     }
 
     /**
      * to remove license
-     * 
-     * @param license_id 
-     * @returns 
+     *
+     * @param license_id
+     * @returns
      */
     removeLicense(license_id: number): Observable<CommonResponse<number>> {
-        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/license/delete/${license_id}`);
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/license/delete/${license_id}`
+        );
     }
 
     /**
      * to remove reference
-     * 
-     * @param reference_id 
-     * @returns 
+     *
+     * @param reference_id
+     * @returns
      */
     removeReference(reference_id: number): Observable<CommonResponse<number>> {
-        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/reference/delete/${reference_id}`);
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/reference/delete/${reference_id}`
+        );
+    }
+
+    /**
+     * to update employee details
+     * 
+     * @param request 
+     * @param user_id 
+     * @returns 
+     */
+    updateEmployeeDetails(
+        request: UpdateEmployee,
+        user_id: number
+    ): Observable<CommonResponse<User>> {
+        return this.http.put<CommonResponse<User>>(
+            `${this.root_url}/user/employee/update/${user_id}`,
+            request
+        );
     }
 }
