@@ -61,6 +61,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     // Reload the app
                     location.reload();
                 }
+                console.log(error);
 
                 return throwError(error);
             })

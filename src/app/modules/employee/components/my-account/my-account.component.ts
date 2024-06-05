@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-trailing-spaces */
@@ -29,6 +30,10 @@ import { EducationType } from 'app/models/education-type.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Job } from 'app/models/job.types';
 import { AccountType } from 'app/models/account-type.types';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { UpdateUser } from 'app/models/update-user.types';
+import { AuthService } from 'app/core/auth/auth.service';
+import { FuseAlertType } from '@fuse/components/alert';
 
 export type ArrayTypes =
     | 'attachments'
@@ -53,6 +58,11 @@ export class MyAccountComponent implements OnInit {
     is_edit: boolean;
     user: User;
     education_types: EducationType[];
+    show_alert: boolean = false;
+    alert: { type: FuseAlertType; message: string } = {
+        type: 'success',
+        message: '',
+    };
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -61,7 +71,9 @@ export class MyAccountComponent implements OnInit {
         private change_detector_ref: ChangeDetectorRef,
         private form_builder: FormBuilder,
         public shared_service: SharedService,
-        private employee_service: EmployeeService
+        private employee_service: EmployeeService,
+        private confirm_service: FuseConfirmationService,
+        private auth_service: AuthService
     ) {
         this.shared_service.getGenders();
         this.shared_service.getJobs();
@@ -75,6 +87,7 @@ export class MyAccountComponent implements OnInit {
             gender: new FormControl('', Validators.required),
             country: new FormControl('', Validators.required),
             name: new FormControl('', Validators.required),
+            email: new FormControl(''),
             employee_phone_number: new FormControl('', Validators.required),
             employee_email: new FormControl('', [
                 Validators.required,
@@ -145,6 +158,7 @@ export class MyAccountComponent implements OnInit {
             about_us: user.user_details.employee_about_us,
         });
 
+        this.getFormArray('attachments').clear();
         if (user.attachments.length > 0) {
             //attachments
             user.attachments.forEach((attachment: Attachment) => {
@@ -155,6 +169,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('certifications').clear();
         if (user.certifications.length > 0) {
             //certifications
             user.certifications.forEach((certification: Certification) => {
@@ -165,6 +180,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('educations').clear();
         if (user.educations.length > 0) {
             //educations
             user.educations.forEach((education: Education) => {
@@ -175,6 +191,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('experiences').clear();
         if (user.experiences.length > 0) {
             //experiences
             user.experiences.forEach((experience: Experience) => {
@@ -185,6 +202,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('licenses').clear();
         if (user.licenses.length > 0) {
             //licenses
             user.licenses.forEach((license: License) => {
@@ -195,6 +213,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('other_accounts').clear();
         if (user.other_accounts.length > 0) {
             //other_accounts
             user.other_accounts.forEach((other_account: OtherAccount) => {
@@ -205,6 +224,7 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
+        this.getFormArray('references').clear();
         if (user.references.length > 0) {
             //references
             user.references.forEach((reference: Reference) => {
@@ -215,9 +235,10 @@ export class MyAccountComponent implements OnInit {
             });
         }
 
-        if (user.skills.length > 0) {
+        this.getFormArray('skills').clear();
+        if (user.skill.length > 0) {
             //skills
-            user.skills.forEach((skill: Skill) => {
+            user.skill.forEach((skill: Skill) => {
                 this.addRow('skills', this.returnFormGroup('skills', skill));
             });
         }
@@ -254,10 +275,10 @@ export class MyAccountComponent implements OnInit {
 
     /**
      * to create form-group according to form-array
-     * 
-     * @param array_name 
-     * @param value 
-     * @returns 
+     *
+     * @param array_name
+     * @param value
+     * @returns
      */
     returnFormGroup(array_name: ArrayTypes, value?: any): FormGroup {
         let form: FormGroup;
@@ -287,7 +308,6 @@ export class MyAccountComponent implements OnInit {
                     ),
                     certificate_name: new FormControl(
                         value ? certification.certificate_name : '',
-
                         Validators.required
                     ),
                     description: new FormControl(
@@ -453,6 +473,142 @@ export class MyAccountComponent implements OnInit {
         this.employee_service.getEducationTypes().subscribe({
             next: (res: CommonResponse<EducationType[]>) => {
                 this.education_types = res.data;
+            },
+        });
+    }
+
+    /**
+     * getter function for employee form
+     */
+    get getFormValue() {
+        return this.employee_form.value;
+    }
+
+    /**
+     * to cancel edit
+     */
+    onClickClose() {
+        const dialog_ref = this.confirm_service.open({
+            title: 'Confirmation',
+            message: 'Do you confirm your action ?',
+            icon: {
+                show: false,
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'Confirm',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'Cancel',
+                },
+            },
+            dismissible: false,
+        });
+
+        dialog_ref.afterClosed().subscribe({
+            next: (confirmed: string) => {
+                if (confirmed === 'confirmed') {
+                    this.is_edit = false;
+                    this.setEmployeeFormValue(this.user);
+                }
+            },
+        });
+    }
+
+    /**
+     * to save employee details
+     *
+     * @returns
+     */
+    saveEmployeeDetails() {
+        if (this.employee_form.invalid) {
+            return;
+        }
+
+        const educations = this.getFormValue.educations.map((x) => ({
+            id: x.id,
+            education_type_id: x.education_type.education_type_id,
+            institution: x.institution,
+            academic_year: x.academic_year,
+            display_order: x.display_order,
+        }));
+
+        const experiences = this.getFormValue.experiences.map((x) => ({
+            id: x.id,
+            job_id: x.job.job_id,
+            company: x.company,
+            location: x.location,
+            joining_date: x.joining_date,
+            relieving_date: x.relieving_date,
+            is_currently_working: x.is_currently_working ? 1 : 0,
+            display_order: x.display_order,
+        }));
+
+        const other_accounts = this.getFormValue.other_accounts.map((x) => ({
+            other_account_id: x.other_account_id,
+            account_type_id: x.account_type.account_type_id,
+            account_url: x.account_url,
+        }));
+
+        const skills = this.getFormValue.skills.map((x) => ({
+            employee_skill_id: x.employee_skill_id,
+            skill_id: x.skill.skill_id,
+        }));
+
+        const user_details: UpdateUser = {
+            user_id: this.user.user_details.user_id,
+            user_type_id: this.auth_service.userType,
+            user_details: {
+                gender_id: this.getFormValue.gender.gender_id,
+                country_id: this.getFormValue.country.country_id,
+                personal_info_id: this.user.user_details.personal_info_id,
+                name: this.getFormValue.name,
+                phone_number: this.getFormValue.phone_number,
+                profile_url: this.getFormValue.profile_url,
+                cover_url: this.getFormValue.cover_url,
+                portfolio: this.getFormValue.portfolio,
+                about_us: this.getFormValue.about_us,
+                dob: this.getFormValue.dob,
+            },
+            attachments: this.getFormValue.attachments,
+            certifications: this.getFormValue.certifications,
+            educations: educations,
+            experiences: experiences,
+            licenses: this.getFormValue.licenses,
+            other_accounts: other_accounts,
+            references: this.getFormValue.references,
+            skills: skills,
+        };
+
+        this.employee_form.disable();
+
+        this.shared_service.updateUserDetails(user_details).subscribe({
+            next: (res: CommonResponse<User>) => {
+                console.log(res);
+
+                this.show_alert = true;
+                this.alert = {
+                    type: res.success ? 'success' : 'error',
+                    message: res.message
+                };
+
+                if (res.success) {
+                    this.user_service.user = res.data;
+                    this.is_edit = false;
+                }
+            },
+            complete: () => this.employee_form.enable(),
+            error: (error: any) => {
+                console.log(error);
+                this.employee_form.enable();
+                this.show_alert = true;
+                this.alert = {
+                    type: 'error',
+                    message: 'Your request cannot be processed at this time. Please try again later.'
+                };
             },
         });
     }

@@ -35,7 +35,7 @@ export class EmployeeService {
      */
     getEducationTypes(): Observable<CommonResponse<EducationType[]>> {
         return this.http.get<CommonResponse<EducationType[]>>(
-            `${this.root_url}/education-types/get`
+            `${this.root_url}/education/education-types/get`
         );
     }
 }

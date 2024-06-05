@@ -8,7 +8,10 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { Gender } from 'app/models/gender.types';
 import { Job } from 'app/models/job.types';
 import { Skill } from 'app/models/skill.types';
+import { UpdateUser } from 'app/models/update-user.types';
+import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -83,7 +86,7 @@ export class SharedService {
         }
 
         this.http
-            .get<CommonResponse<Skill[]>>(`${this.root_url}/skills/get`)
+            .get<CommonResponse<Skill[]>>(`${this.root_url}/skill/get`)
             .subscribe({
                 next: (res: CommonResponse<Skill[]>) => {
                     this.skills = res.data;
@@ -116,12 +119,22 @@ export class SharedService {
 
         this.http
             .get<CommonResponse<AccountType[]>>(
-                `${this.root_url}/account-types/get`
+                `${this.root_url}/account/account-types/get`
             )
             .subscribe({
                 next: (res: CommonResponse<AccountType[]>) => {
                     this.account_types = res.data;
                 },
             });
+    }
+
+    /**
+     * to update user details
+     * 
+     * @param user 
+     * @returns 
+     */
+    updateUserDetails(user: UpdateUser): Observable<CommonResponse<User>> {
+        return this.http.post<CommonResponse<User>>(`${this.root_url}/user/information/update`, user);
     }
 }

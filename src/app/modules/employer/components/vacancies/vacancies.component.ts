@@ -28,7 +28,7 @@ export class VacanciesComponent implements OnInit {
     message: ''
   };
 
-  //Mat-table realted variables
+  //Mat-table related variables
   data_source = new MatTableDataSource<Vacancy>();
   displayed_columns: string[] = ['sl', 'name', 'placement_type', 'vaccancy_count', 'application_starts_from', 'admin'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -91,7 +91,7 @@ export class VacanciesComponent implements OnInit {
   }
 
   /**
-   * while click on vaccancy to add or edit
+   * while click on vacancy to add or edit
    * 
    * @param vacancy 
    */
