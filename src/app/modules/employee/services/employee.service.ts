@@ -30,12 +30,78 @@ export class EmployeeService {
 
     /**
      * to get all education types
-     * 
-     * @returns 
+     *
+     * @returns
      */
     getEducationTypes(): Observable<CommonResponse<EducationType[]>> {
         return this.http.get<CommonResponse<EducationType[]>>(
             `${this.root_url}/education/education-types/get`
         );
+    }
+
+    /**
+     * to remove experience
+     *
+     * @param id
+     * @returns
+     */
+    removeExperience(id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/experience/delete/${id}`
+        );
+    }
+
+    /**
+     * to remove education
+     *
+     * @param id
+     * @returns
+     */
+    removeEducation(id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/education/delete/${id}`
+        );
+    }
+
+    /**
+     * to remove employee skill
+     * 
+     * @param employee_skill_id 
+     * @returns 
+     */
+    removeSkill(employee_skill_id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/skill/delete/${employee_skill_id}`
+        );
+    }
+
+    /**
+     * to remove certification
+     * 
+     * @param certification_id 
+     * @returns 
+     */
+    removeCertification(certification_id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/certification/delete/${certification_id}`);
+    }
+
+    /**
+     * to remove license
+     * 
+     * @param license_id 
+     * @returns 
+     */
+    removeLicense(license_id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/license/delete/${license_id}`);
+    }
+
+    /**
+     * to remove reference
+     * 
+     * @param reference_id 
+     * @returns 
+     */
+    removeReference(reference_id: number): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(`${this.root_url}/user/reference/delete/${reference_id}`);
     }
 }

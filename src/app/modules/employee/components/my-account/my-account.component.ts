@@ -24,7 +24,7 @@ import { Reference } from 'app/models/reference.types';
 import { Skill } from 'app/models/skill.types';
 import { User } from 'app/models/user.types';
 import { SharedService } from 'app/shared/services/shared.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
 import { EducationType } from 'app/models/education-type.types';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -592,7 +592,7 @@ export class MyAccountComponent implements OnInit {
                 this.show_alert = true;
                 this.alert = {
                     type: res.success ? 'success' : 'error',
-                    message: res.message
+                    message: res.message,
                 };
 
                 if (res.success) {
@@ -602,14 +602,162 @@ export class MyAccountComponent implements OnInit {
             },
             complete: () => this.employee_form.enable(),
             error: (error: any) => {
-                console.log(error);
                 this.employee_form.enable();
-                this.show_alert = true;
-                this.alert = {
-                    type: 'error',
-                    message: 'Your request cannot be processed at this time. Please try again later.'
-                };
+                this.showErrorMessage(error);
             },
         });
+    }
+
+    /**
+     * to remove details
+     *
+     * @param array_type
+     * @param index
+     */
+    removeDetails(array_type: ArrayTypes, index: number) {
+        if (index >= 0) {
+            let request: Observable<CommonResponse<number>>;
+
+            switch (array_type) {
+                case 'attachments':
+                    if (
+                        this.getFormValue.attachments[index].attachment_id > 0
+                    ) {
+                        request = this.shared_service.removeAttachment(
+                            this.getFormValue.attachments[index].attachment_id
+                        );
+                    }
+                    break;
+
+                case 'certifications':
+                    if (this.getFormValue.certifications[index].certification_id > 0) {
+                        request = this.employee_service.removeCertification(
+                            this.getFormValue.certifications[index].certification_id
+                        );
+                    }
+                    break;
+
+                case 'educations':
+                    if (this.getFormValue.educations[index].id > 0) {
+                        request = this.employee_service.removeEducation(
+                            this.getFormValue.educations[index].id
+                        );
+                    }
+                    break;
+
+                case 'experiences':
+                    if (this.getFormValue.experiences[index].id > 0) {
+                        request = this.employee_service.removeExperience(
+                            this.getFormValue.experiences[index].id
+                        );
+                    }
+                    break;
+
+                case 'licenses':
+                    if (this.getFormValue.licenses[index].license_id > 0) {
+                        request = this.employee_service.removeLicense(
+                            this.getFormValue.licenses[index].license_id
+                        );
+                    }
+                    break;
+
+                case 'other_accounts':
+                    if (
+                        this.getFormValue.other_accounts[index]
+                            .other_account_id > 0
+                    ) {
+                        request = this.shared_service.removeAttachment(
+                            this.getFormValue.other_accounts[index]
+                                .other_account_id
+                        );
+                    }
+                    break;
+
+                case 'references':
+                    if (this.getFormValue.references[index].reference_id > 0) {
+                        request = this.employee_service.removeReference(
+                            this.getFormValue.references[index].reference_id
+                        );
+                    }
+                    break;
+
+                case 'skills':
+                    if (this.getFormValue.skills[index].employee_skill_id > 0) {
+                        request = this.employee_service.removeSkill(
+                            this.getFormValue.skills[index].employee_skill_id
+                        );
+                    }
+                    break;
+            }
+
+            if (request) {
+                const dialog_ref = this.confirm_service.open({
+                    title: 'Confirmation',
+                    message: `Do you want to remove this ${array_type.slice(
+                        0,
+                        array_type.length - 2
+                    )}. This cannot be undone.`,
+                    icon: {
+                        show: false,
+                    },
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'Confirm',
+                            color: 'primary',
+                        },
+                        cancel: {
+                            show: true,
+                            label: 'Cancel',
+                        },
+                    },
+                    dismissible: false,
+                });
+
+                dialog_ref.afterClosed().subscribe({
+                    next: (confirmed: string) => {
+                        if (confirmed === 'confirmed') {
+                            request.subscribe({
+                                next: (res: CommonResponse<number>) => {
+                                    console.log(res);
+
+                                    this.show_alert = true;
+                                    this.alert = {
+                                        type: res.success ? 'success' : 'error',
+                                        message: res.message,
+                                    };
+
+                                    if (res.success) {
+                                        this.user[
+                                            array_type === 'skills'
+                                                ? 'skill'
+                                                : array_type
+                                        ].splice(index, 0);
+                                        this.user_service.user = this.user;
+                                    }
+                                },
+                                error: (error: any) =>
+                                    this.showErrorMessage(error),
+                            });
+                        }
+                    },
+                });
+            } else {
+                this.removeRow(array_type, index);
+            }
+        }
+    }
+
+    /**
+     * to show common error message
+     */
+    showErrorMessage(error: any) {
+        console.log(error);
+        this.show_alert = true;
+        this.alert = {
+            type: 'error',
+            message:
+                'Your request cannot be processed at this time. Please try again later.',
+        };
     }
 }

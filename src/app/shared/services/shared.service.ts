@@ -130,11 +130,42 @@ export class SharedService {
 
     /**
      * to update user details
-     * 
-     * @param user 
-     * @returns 
+     *
+     * @param user
+     * @returns
      */
     updateUserDetails(user: UpdateUser): Observable<CommonResponse<User>> {
-        return this.http.post<CommonResponse<User>>(`${this.root_url}/user/information/update`, user);
+        return this.http.post<CommonResponse<User>>(
+            `${this.root_url}/user/information/update`,
+            user
+        );
+    }
+
+    /**
+     * to delete attachment
+     *
+     * @param attachment_id
+     * @returns
+     */
+    removeAttachment(
+        attachment_id: number
+    ): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/attachment/delete/${attachment_id}`
+        );
+    }
+
+    /**
+     * to remove other account
+     * 
+     * @param other_account_id 
+     * @returns 
+     */
+    removeOtherAccount(
+        other_account_id: number
+    ): Observable<CommonResponse<number>> {
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/user/other-account/delete/${other_account_id}`
+        );
     }
 }
