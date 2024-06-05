@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AccountType } from 'app/models/account-type.types';
 import { CommonResponse } from 'app/models/common-response.types';
+import { Country } from 'app/models/country.types';
 import { Gender } from 'app/models/gender.types';
 import { Job } from 'app/models/job.types';
 import { Skill } from 'app/models/skill.types';
@@ -23,6 +24,7 @@ export class SharedService {
     public jobs: Job[] = [];
     public skills: Skill[] = [];
     public account_types: AccountType[] = [];
+    public countries: Country[] = [];
 
     constructor(private http: HttpClient) {}
 
@@ -157,9 +159,9 @@ export class SharedService {
 
     /**
      * to remove other account
-     * 
-     * @param other_account_id 
-     * @returns 
+     *
+     * @param other_account_id
+     * @returns
      */
     removeOtherAccount(
         other_account_id: number
@@ -167,5 +169,28 @@ export class SharedService {
         return this.http.delete<CommonResponse<number>>(
             `${this.root_url}/user/other-account/delete/${other_account_id}`
         );
+    }
+
+    /**
+     * to get countries
+     * 
+     * @returns 
+     */
+    getCountries() {
+        if (this.countries.length > 0) {
+            return;
+        }
+
+        this.http
+            .get<CommonResponse<Country[]>>(
+                `${this.root_url}/user/countries/get`
+            )
+            .subscribe({
+                next: (res: CommonResponse<Country[]>) => {
+                    console.log(res);
+
+                    this.countries = res.data;
+                },
+            });
     }
 }

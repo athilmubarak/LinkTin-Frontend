@@ -79,25 +79,22 @@ export class MyAccountComponent implements OnInit {
         this.shared_service.getJobs();
         this.shared_service.getSkills();
         this.shared_service.getAccountTypes();
+        this.shared_service.getCountries();
     }
 
     ngOnInit(): void {
         this.is_edit = false;
         this.employee_form = this.form_builder.group({
-            gender: new FormControl('', Validators.required),
-            country: new FormControl('', Validators.required),
+            gender_id: new FormControl('', Validators.required),
+            country_id: new FormControl('', Validators.required),
             name: new FormControl('', Validators.required),
-            email: new FormControl(''),
-            employee_phone_number: new FormControl('', Validators.required),
-            employee_email: new FormControl('', [
-                Validators.required,
-                Validators.email,
-            ]),
+            phone_number: new FormControl('', Validators.required),
+            email: new FormControl('', [Validators.required, Validators.email]),
             dob: new FormControl('', Validators.required),
             profile_url: new FormControl(''),
             cover_url: new FormControl(''),
             portfolio: new FormControl(''),
-            employee_about_us: new FormControl('', Validators.required),
+            about_us: new FormControl('', Validators.required),
             experiences: this.form_builder.array([]),
             educations: this.form_builder.array([]),
             skills: this.form_builder.array([]),
@@ -139,15 +136,8 @@ export class MyAccountComponent implements OnInit {
      */
     setEmployeeFormValue(user: User) {
         this.employee_form.patchValue({
-            gender: {
-                gender_id: user.user_details.gender_id,
-                description: user.user_details.description,
-            },
-            country: {
-                country_id: user.user_details.country_id,
-                country_name: user.user_details.country_name,
-                country_code: user.user_details.country_code,
-            },
+            gender_id: user.user_details.gender_id,
+            country_id: user.user_details.country_id,
             name: user.user_details.name,
             phone_number: user.user_details.employee_phone_number,
             email: user.user_details.employee_email,
@@ -562,8 +552,8 @@ export class MyAccountComponent implements OnInit {
             user_id: this.user.user_details.user_id,
             user_type_id: this.auth_service.userType,
             user_details: {
-                gender_id: this.getFormValue.gender.gender_id,
-                country_id: this.getFormValue.country.country_id,
+                gender_id: this.getFormValue.gender_id,
+                country_id: this.getFormValue.country_id,
                 personal_info_id: this.user.user_details.personal_info_id,
                 name: this.getFormValue.name,
                 phone_number: this.getFormValue.phone_number,
@@ -630,9 +620,13 @@ export class MyAccountComponent implements OnInit {
                     break;
 
                 case 'certifications':
-                    if (this.getFormValue.certifications[index].certification_id > 0) {
+                    if (
+                        this.getFormValue.certifications[index]
+                            .certification_id > 0
+                    ) {
                         request = this.employee_service.removeCertification(
-                            this.getFormValue.certifications[index].certification_id
+                            this.getFormValue.certifications[index]
+                                .certification_id
                         );
                     }
                     break;
@@ -759,5 +753,31 @@ export class MyAccountComponent implements OnInit {
             message:
                 'Your request cannot be processed at this time. Please try again later.',
         };
+    }
+
+    /**
+     * to get country name
+     *
+     * @returns
+     */
+    getCountryName(): string {
+        return (
+            this.shared_service.countries.find(
+                (x) => x.country_id === this.getFormValue.country_id
+            )?.country_name
+        );
+    }
+
+    /**
+     * to get gender description
+     * 
+     * @returns 
+     */
+    getGenderDescription(): string {
+        return (
+            this.shared_service.genders.find(
+                (x) => x.gender_id === this.getFormValue.gender_id
+            )?.description
+        );
     }
 }
