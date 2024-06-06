@@ -193,28 +193,6 @@ export class ExperienceComponent implements OnInit {
                     this.dialog_ref.close();
                 }
             },
-            error: () => {
-                this.data.user.experiences.push({
-                    id: this.data.user.experiences.length + 1,
-                    job_id: this.experience_form.get('job').value.job_id,
-                    job_name: this.experience_form.get('job').value.name,
-                    company: this.experience_form.get('company').value,
-                    location: this.experience_form.get('location').value,
-                    joining_date:
-                        this.experience_form.get('joining_date').value,
-                    relieving_date:
-                        this.experience_form.get('relieving_date').value,
-                    is_currently_working: this.experience_form.get(
-                        'is_currently_working'
-                    ).value
-                        ? 1
-                        : 0,
-                    display_order:
-                        this.experience_form.get('display_order').value,
-                });
-                this.user_service.user = this.data.user;
-                this.dialog_ref.close();
-            },
         });
     }
 
