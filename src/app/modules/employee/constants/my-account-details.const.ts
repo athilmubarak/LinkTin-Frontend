@@ -4,6 +4,7 @@ import { ExperienceComponent } from '../components/experience/experience.compone
 import { EducationComponent } from '../components/education/education.component';
 import { CertificationComponent } from '../components/certification/certification.component';
 import { OtherAccountComponent } from 'app/shared/components/other-account/other-account.component';
+import { LicenseComponent } from '../components/license/license.component';
 
 /* eslint-disable eol-last */
 export type ArrayTypes =
@@ -39,6 +40,12 @@ export const MY_ACCOUNT_DETAILS: MyAccountDetail[] = [
         array_type: 'other_accounts',
         component: OtherAccountComponent,
         key: 'other_account',
+        width: '400px',
+    },
+    {
+        array_type: 'licenses',
+        component: LicenseComponent,
+        key: 'license',
         width: '400px',
     }
 ];

@@ -8,6 +8,7 @@ import { Country } from 'app/models/country.types';
 import { EducationType } from 'app/models/education-type.types';
 import { Education } from 'app/models/education.types';
 import { Experience } from 'app/models/experience.types';
+import { License } from 'app/models/license.types';
 import { Skill } from 'app/models/skill.types';
 import { UpdateEmployee } from 'app/models/update-employee.types';
 import { User } from 'app/models/user.types';
@@ -238,6 +239,32 @@ export class EmployeeService {
         return this.http.put<CommonResponse<Certification>>(
             `${this.root_url}/user/certification/update`,
             certification
+        );
+    }
+
+    /**
+     * to create new license
+     *
+     * @param license
+     * @returns
+     */
+    createNewLicense(license: License): Observable<CommonResponse<License>> {
+        return this.http.post<CommonResponse<License>>(
+            `${this.root_url}/user/license/insert`,
+            license
+        );
+    }
+
+    /**
+     * to update license
+     *
+     * @param license
+     * @returns
+     */
+    updateLicense(license: License): Observable<CommonResponse<License>> {
+        return this.http.put<CommonResponse<License>>(
+            `${this.root_url}/user/license/update`,
+            license
         );
     }
 }

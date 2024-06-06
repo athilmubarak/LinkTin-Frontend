@@ -113,21 +113,6 @@ export class MyAccountComponent implements OnInit {
                 });
                 break;
 
-
-            case 'licenses':
-                const license: License = value;
-                form = this.form_builder.group({
-                    license_id: new FormControl(value ? license.license_id : 0),
-                    license_name: new FormControl(
-                        value ? license.license_name : ''
-                    ),
-                    description: new FormControl(
-                        value ? license.description : ''
-                    ),
-                });
-                break;
-
-
             case 'references':
                 const reference: Reference = value;
                 form = this.form_builder.group({
