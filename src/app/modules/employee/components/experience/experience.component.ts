@@ -1,7 +1,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -24,11 +24,48 @@ import { Observable } from 'rxjs';
 import { CommonResponse } from 'app/models/common-response.types';
 import { User } from 'app/models/user.types';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import { default as _rollupMoment, Moment } from 'moment';
+import {
+    MomentDateAdapter,
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {
+    DateAdapter,
+    MAT_DATE_LOCALE,
+    MAT_DATE_FORMATS,
+} from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'MM/YYYY',
+    },
+    display: {
+        dateInput: 'MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'app-experience',
     templateUrl: './experience.component.html',
     styleUrls: ['./experience.component.scss'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ExperienceComponent implements OnInit {
     //FormGroup
@@ -58,8 +95,8 @@ export class ExperienceComponent implements OnInit {
             position: new FormControl('', Validators.required),
             company: new FormControl('', Validators.required),
             location: new FormControl(''),
-            joining_date: new FormControl('', Validators.required),
-            relieving_date: new FormControl(''),
+            joining_date: new FormControl(moment(), Validators.required),
+            relieving_date: new FormControl(moment()),
             is_currently_working: new FormControl(''),
             display_order: new FormControl(''),
         });
@@ -159,6 +196,29 @@ export class ExperienceComponent implements OnInit {
                     this.dialog_ref.close();
                 }
             },
+            error: () => {
+                this.data.user.experiences.push({
+                    id: this.data.user.experiences.length + 1,
+                    job_id: this.experience_form.get('job').value.job_id,
+                    job_name: this.experience_form.get('job').value.name,
+                    position: this.experience_form.get('position').value,
+                    company: this.experience_form.get('company').value,
+                    location: this.experience_form.get('location').value,
+                    joining_date:
+                        this.experience_form.get('joining_date').value,
+                    relieving_date:
+                        this.experience_form.get('relieving_date').value,
+                    is_currently_working: this.experience_form.get(
+                        'is_currently_working'
+                    ).value
+                        ? 1
+                        : 0,
+                    display_order:
+                        this.experience_form.get('display_order').value,
+                });
+                this.user_service.user = this.data.user;
+                this.dialog_ref.close();
+            },
         });
     }
 
@@ -217,5 +277,24 @@ export class ExperienceComponent implements OnInit {
                     }
                 },
             });
+    }
+
+    /**
+     * to set month and year of date picker
+     * 
+     * @param normalized_month_and_year 
+     * @param date_picker 
+     * @param form_control_name 
+     */
+    setMonthAndYear(
+        normalized_month_and_year: Moment,
+        date_picker: MatDatepicker<Moment>,
+        form_control_name: string
+    ) {
+        const ctrlValue = this.experience_form.get(form_control_name).value;
+        ctrlValue.month(normalized_month_and_year.month());
+        ctrlValue.year(normalized_month_and_year.year());
+        this.experience_form.get(form_control_name).setValue(ctrlValue);
+        date_picker.close();
     }
 }

@@ -109,6 +109,11 @@
                     ></mat-icon>
                 </button>
             </div>
+            <div class="flex flex-col md:flex-row w-full flex-wrap">
+                <div class="flex flex-col rounded" *ngFor="let experience of user.experiences">
+                    {{ experience.job_name }}
+                </div>
+            </div>
         </fuse-card>
     </div>
 

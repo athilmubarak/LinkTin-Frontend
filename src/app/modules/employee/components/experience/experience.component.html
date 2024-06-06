@@ -53,7 +53,12 @@
                 matSuffix
                 [for]="from_picker"
             ></mat-datepicker-toggle>
-            <mat-datepicker #from_picker></mat-datepicker>
+            <mat-datepicker
+                startView="multi-year"
+                #from_picker
+                (monthSelected)="setMonthAndYear($event, from_picker, 'joining_date')"
+            ></mat-datepicker>
+            <mat-hint>MM/YYYY</mat-hint>
         </mat-form-field>
         <section class="example-section mb-4">
             <mat-checkbox
@@ -77,7 +82,8 @@
                 matSuffix
                 [for]="to_picker"
             ></mat-datepicker-toggle>
-            <mat-datepicker #to_picker></mat-datepicker>
+            <mat-datepicker startView="multi-year" #to_picker (monthSelected)="setMonthAndYear($event, to_picker, 'relieving_date')"></mat-datepicker>
+            <mat-hint>MM/YYYY</mat-hint>
         </mat-form-field>
     </form>
 </mat-dialog-content>
