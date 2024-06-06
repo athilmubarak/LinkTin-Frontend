@@ -146,8 +146,8 @@ export class EducationComponent implements OnInit {
 
     /**
      * to save education
-     * 
-     * @returns 
+     *
+     * @returns
      */
     saveEducation() {
         if (this.education_form.invalid) {
@@ -162,13 +162,11 @@ export class EducationComponent implements OnInit {
             education_type_id:
                 this.education_form.get('education_type').value
                     ?.education_type_id,
+            id: this.data.education ? this.data.education.id : undefined,
         };
 
         if (this.data.education) {
-            request = this.employee_service.updateEducation(
-                education,
-                this.data.education.id
-            );
+            request = this.employee_service.updateEducation(education);
         } else {
             request = this.employee_service.createEducation(education);
         }

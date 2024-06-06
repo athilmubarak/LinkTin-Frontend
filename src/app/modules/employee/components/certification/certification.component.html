@@ -1,1 +1,24 @@
-<p>certification works!</p>
+<h2 mat-dialog-title>
+    {{ data?.certification ? "Update" : "Create new" }} certification
+</h2>
+<mat-dialog-content class="mat-typography">
+    <form
+        [formGroup]="certificate_form"
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    >
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Certificate</mat-label>
+            <input matInput formControlName="certificate_name" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="saveCertification()">
+        Submit
+    </button>
+</mat-dialog-actions>

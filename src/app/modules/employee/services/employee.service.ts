@@ -185,15 +185,13 @@ export class EmployeeService {
      * to update employee education
      *
      * @param education
-     * @param id
      * @returns
      */
     updateEducation(
-        education: Education,
-        id: number
+        education: Education
     ): Observable<CommonResponse<Education>> {
         return this.http.put<CommonResponse<Education>>(
-            `${this.root_url}/user/education/update/${id}`,
+            `${this.root_url}/user/education/update`,
             education
         );
     }
@@ -232,15 +230,13 @@ export class EmployeeService {
      * to update certification
      *
      * @param certification
-     * @param certification_id
      * @returns
      */
     updateCertification(
-        certification: Certification,
-        certification_id: number
+        certification: Certification
     ): Observable<CommonResponse<Certification>> {
         return this.http.put<CommonResponse<Certification>>(
-            `${this.root_url}/user/certification/update/${certification_id}`,
+            `${this.root_url}/user/certification/update`,
             certification
         );
     }
