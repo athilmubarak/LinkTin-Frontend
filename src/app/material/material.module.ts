@@ -17,38 +17,33 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const modules = [
-  MatRadioModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatSelectModule,
-  MatTableModule,
-  MatSortModule,
-  MatButtonModule,
-  MatIconModule,
-  MatDialogModule,
-  MatAutocompleteModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatChipsModule,
-  MatMenuModule,
-  MatDividerModule,
-  MatTooltipModule,
-  MatCheckboxModule
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatTooltipModule,
+    MatCheckboxModule,
+    MatSnackBarModule,
 ];
 
-
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    ...modules
-  ],
-  exports: [...modules],
-  providers: [
-    MatDatepickerModule,
-    DatePipe
-  ]
+    declarations: [],
+    imports: [CommonModule, ...modules],
+    exports: [...modules],
+    providers: [MatDatepickerModule, DatePipe],
 })
-export class MaterialModule { }
+export class MaterialModule {}

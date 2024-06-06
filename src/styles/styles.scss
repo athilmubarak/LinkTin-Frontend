@@ -2,3 +2,18 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+.error-message {
+    color: white !important;
+    background-color: red !important;
+    button {
+        color: white !important;
+    }
+}
+
+.success-message {
+    columns: white !important;
+    background-color: green !important;
+    button {
+        color: white !important;
+    }
+}

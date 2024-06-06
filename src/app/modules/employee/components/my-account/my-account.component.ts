@@ -478,7 +478,10 @@ export class MyAccountComponent implements OnInit {
         this.mat_dialog.open(ExperienceComponent, {
             disableClose: true,
             width: '500px',
-            data: experience,
+            data: {
+                experience: experience,
+                user: this.user
+            },
         });
     }
 }

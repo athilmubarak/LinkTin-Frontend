@@ -23,6 +23,7 @@ import { Job } from 'app/models/job.types';
 import { Observable } from 'rxjs';
 import { CommonResponse } from 'app/models/common-response.types';
 import { User } from 'app/models/user.types';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-experience',
@@ -34,11 +35,6 @@ export class ExperienceComponent implements OnInit {
     experience_form: FormGroup;
 
     //Variables
-    show_alert: boolean;
-    alert: { type: FuseAlertType; message: string } = {
-        type: 'success',
-        message: '',
-    };
     jobs: Job[] = [];
 
     constructor(
@@ -48,6 +44,7 @@ export class ExperienceComponent implements OnInit {
         private shared_service: SharedService,
         private dialog_ref: MatDialogRef<UpdateEmployeeComponent>,
         private mat_dialog: MatDialog,
+        private snack_bar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA)
         public data: {
             experience?: Experience;
@@ -137,6 +134,13 @@ export class ExperienceComponent implements OnInit {
             next: (res: CommonResponse<Experience>) => {
                 console.log(res);
 
+                this.snack_bar.open(res.message, 'Close', {
+                    duration: 2000,
+                    panelClass: res.success
+                        ? 'success-message'
+                        : 'error-message',
+                });
+
                 if (res.success) {
                     if (this.data.experience) {
                         this.data.user.experiences =
@@ -152,14 +156,7 @@ export class ExperienceComponent implements OnInit {
                     }
 
                     this.user_service.user = this.data.user;
-                } else {
-                    this.show_alert = true;
-                    this.alert = {
-                        type: 'error',
-                        message: res.message,
-                    };
-
-                    setTimeout(() => (this.show_alert = false), 3000);
+                    this.dialog_ref.close();
                 }
             },
         });
