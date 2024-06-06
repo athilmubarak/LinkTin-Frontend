@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Experience {
-    id: number;
+    id?: number;
     job_id: number;
-    job_name: string;
+    job_name?: string;
     position: string;
     company: string;
     location: string;

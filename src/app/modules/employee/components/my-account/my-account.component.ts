@@ -35,6 +35,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
+import { ExperienceComponent } from '../experience/experience.component';
 
 export type ArrayTypes =
     | 'attachments'
@@ -465,6 +466,19 @@ export class MyAccountComponent implements OnInit {
             disableClose: true,
             width: '700px',
             data: this.user,
+        });
+    }
+
+    /**
+     * to open experience dialog
+     * 
+     * @param experience 
+     */
+    onClickExperience(experience?: Experience) {
+        this.mat_dialog.open(ExperienceComponent, {
+            disableClose: true,
+            width: '500px',
+            data: experience,
         });
     }
 }

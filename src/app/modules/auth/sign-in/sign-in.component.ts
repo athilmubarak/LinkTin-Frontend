@@ -79,15 +79,16 @@ export class AuthSignInComponent implements OnInit {
             next: (res: CommonResponse<User>) => {
                 console.log(res);
 
-                this.alert = {
-                    type: res.success ? 'success' : 'error',
-                    message: res.message,
-                };
-                this.show_alert = true;
-
                 if (res.success) {
                     this._authService.setUserAsLoggedIn(res.data);
                     this._router.navigate(['/home']);
+                } else {
+                    this.alert = {
+                        type: 'error',
+                        message: res.message,
+                    };
+                    this.show_alert = true;
+                    setTimeout(() => (this.show_alert = false), 2000);
                 }
             },
             error: () => {
@@ -97,6 +98,8 @@ export class AuthSignInComponent implements OnInit {
                     type: 'error',
                     message: 'Invalid username or password. Please try again.',
                 };
+
+                setTimeout(() => (this.show_alert = false), 2000);
             },
             complete: () => this.signInForm.enable(),
         });

@@ -1,1 +1,89 @@
-<p>experience works!</p>
+<h2 mat-dialog-title>{{ data ? "Update" : "Create new" }} experience</h2>
+<mat-dialog-content class="mat-typography">
+    <form
+        [formGroup]="experience_form"
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    >
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Job</mat-label>
+            <input
+                type="text"
+                matInput
+                formControlName="job"
+                [matAutocomplete]="auto"
+                (keyup)="filterJobs($event.target.value)"
+            />
+            <mat-icon
+                *ngIf="showDoneButtonForJob()"
+                class="cursor-pointer"
+                matSuffix
+                svgIcon="mat_solid:check_circle"
+                (click)="saveNewJob()"
+            ></mat-icon>
+            <mat-autocomplete
+                autoActiveFirstOption
+                #auto="matAutocomplete"
+                [displayWith]="displayFn"
+            >
+                <mat-option *ngFor="let option of jobs" [value]="option">
+                    {{ option?.name }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Position</mat-label>
+            <input matInput formControlName="position" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Company</mat-label>
+            <input matInput formControlName="company" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Joining Date</mat-label>
+            <input
+                matInput
+                [matDatepicker]="from_picker"
+                formControlName="joining_date"
+            />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="from_picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #from_picker></mat-datepicker>
+        </mat-form-field>
+        <section class="example-section mb-4">
+            <mat-checkbox
+                formControlName="is_currently_working"
+                color="primary"
+            >
+                Currently Working
+            </mat-checkbox>
+        </section>
+        <mat-form-field
+            class="flex flex-col w-full"
+            *ngIf="!experience_form.get('is_currently_working').value"
+        >
+            <mat-label>Relieving Date</mat-label>
+            <input
+                matInput
+                [matDatepicker]="to_picker"
+                formControlName="relieving_date"
+            />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="to_picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #to_picker></mat-datepicker>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="saveExperience()">
+        Submit
+    </button>
+</mat-dialog-actions>

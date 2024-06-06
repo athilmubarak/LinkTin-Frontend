@@ -16,6 +16,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules = [
   MatRadioModule,
@@ -33,7 +34,8 @@ const modules = [
   MatChipsModule,
   MatMenuModule,
   MatDividerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatCheckboxModule
 ];
 
 
