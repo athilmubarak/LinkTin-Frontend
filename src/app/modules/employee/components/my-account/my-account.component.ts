@@ -31,11 +31,10 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { Job } from 'app/models/job.types';
 import { AccountType } from 'app/models/account-type.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { AuthService } from 'app/core/auth/auth.service';
-import { FuseAlertType } from '@fuse/components/alert';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
 import { ExperienceComponent } from '../experience/experience.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export type ArrayTypes =
     | 'attachments'
@@ -56,11 +55,6 @@ export class MyAccountComponent implements OnInit {
     //Variables
     user: User;
     education_types: EducationType[];
-    show_alert: boolean = false;
-    alert: { type: FuseAlertType; message: string } = {
-        type: 'success',
-        message: '',
-    };
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -71,7 +65,8 @@ export class MyAccountComponent implements OnInit {
         public shared_service: SharedService,
         private employee_service: EmployeeService,
         private confirm_service: FuseConfirmationService,
-        private mat_dialog: MatDialog
+        private mat_dialog: MatDialog,
+        private snack_bar: MatSnackBar
     ) {
         this.shared_service.getSkills();
     }
@@ -173,38 +168,6 @@ export class MyAccountComponent implements OnInit {
                 });
                 break;
 
-            case 'experiences':
-                const experience: Experience = value;
-                let job: Job;
-                if (value) {
-                    job = this.shared_service.jobs.find(
-                        (x) => x.job_id === experience.job_id
-                    );
-                }
-                form = this.form_builder.group({
-                    id: new FormControl(value ? experience.id : 0),
-                    job: new FormControl(value ? job : '', Validators.required),
-                    position: new FormControl(
-                        value ? experience.position : '',
-                        Validators.required
-                    ),
-                    company: new FormControl(value ? experience.company : ''),
-                    location: new FormControl(value ? experience.location : ''),
-                    joining_date: new FormControl(
-                        value ? experience.joining_date : '',
-                        Validators.required
-                    ),
-                    relieving_date: new FormControl(
-                        value ? experience.relieving_date : ''
-                    ),
-                    is_currently_working: new FormControl(
-                        value ? experience.is_currently_working : false
-                    ),
-                    display_order: new FormControl(
-                        value ? experience.display_order : 1
-                    ),
-                });
-                break;
 
             case 'licenses':
                 const license: License = value;
@@ -311,81 +274,55 @@ export class MyAccountComponent implements OnInit {
         if (index >= 0) {
             let request: Observable<CommonResponse<number>>;
 
-            // switch (array_type) {
-            //     case 'attachments':
-            //         if (
-            //             this.getFormValue.attachments[index].attachment_id > 0
-            //         ) {
-            //             request = this.shared_service.removeAttachment(
-            //                 this.getFormValue.attachments[index].attachment_id
-            //             );
-            //         }
-            //         break;
+            switch (array_type) {
+                case 'attachments':
+                    request = this.shared_service.removeAttachment(
+                        this.user.attachments[index].attachment_id
+                    );
+                    break;
 
-            //     case 'certifications':
-            //         if (
-            //             this.getFormValue.certifications[index]
-            //                 .certification_id > 0
-            //         ) {
-            //             request = this.employee_service.removeCertification(
-            //                 this.getFormValue.certifications[index]
-            //                     .certification_id
-            //             );
-            //         }
-            //         break;
+                case 'certifications':
+                    request = this.employee_service.removeCertification(
+                        this.user.certifications[index].certification_id
+                    );
+                    break;
 
-            //     case 'educations':
-            //         if (this.getFormValue.educations[index].id > 0) {
-            //             request = this.employee_service.removeEducation(
-            //                 this.getFormValue.educations[index].id
-            //             );
-            //         }
-            //         break;
+                case 'educations':
+                    request = this.employee_service.removeEducation(
+                        this.user.educations[index].id
+                    );
+                    break;
 
-            //     case 'experiences':
-            //         if (this.getFormValue.experiences[index].id > 0) {
-            //             request = this.employee_service.removeExperience(
-            //                 this.getFormValue.experiences[index].id
-            //             );
-            //         }
-            //         break;
+                case 'experiences':
+                    request = this.employee_service.removeExperience(
+                        this.user.experiences[index].id
+                    );
+                    break;
 
-            //     case 'licenses':
-            //         if (this.getFormValue.licenses[index].license_id > 0) {
-            //             request = this.employee_service.removeLicense(
-            //                 this.getFormValue.licenses[index].license_id
-            //             );
-            //         }
-            //         break;
+                case 'licenses':
+                    request = this.employee_service.removeLicense(
+                        this.user.licenses[index].license_id
+                    );
+                    break;
 
-            //     case 'other_accounts':
-            //         if (
-            //             this.getFormValue.other_accounts[index]
-            //                 .other_account_id > 0
-            //         ) {
-            //             request = this.shared_service.removeAttachment(
-            //                 this.getFormValue.other_accounts[index]
-            //                     .other_account_id
-            //             );
-            //         }
-            //         break;
+                case 'other_accounts':
+                    request = this.shared_service.removeAttachment(
+                        this.user.other_accounts[index].other_account_id
+                    );
+                    break;
 
-            //     case 'references':
-            //         if (this.getFormValue.references[index].reference_id > 0) {
-            //             request = this.employee_service.removeReference(
-            //                 this.getFormValue.references[index].reference_id
-            //             );
-            //         }
-            //         break;
+                case 'references':
+                    request = this.employee_service.removeReference(
+                        this.user.references[index].reference_id
+                    );
+                    break;
 
-            //     case 'skills':
-            //         if (this.getFormValue.skills[index].employee_skill_id > 0) {
-            //             request = this.employee_service.removeSkill(
-            //                 this.getFormValue.skills[index].employee_skill_id
-            //             );
-            //         }
-            //         break;
-            // }
+                case 'skills':
+                    request = this.employee_service.removeSkill(
+                        this.user.skill[index].employee_skill_id
+                    );
+                    break;
+            }
 
             if (request) {
                 const dialog_ref = this.confirm_service.open({
@@ -418,11 +355,12 @@ export class MyAccountComponent implements OnInit {
                                 next: (res: CommonResponse<number>) => {
                                     console.log(res);
 
-                                    this.show_alert = true;
-                                    this.alert = {
-                                        type: res.success ? 'success' : 'error',
-                                        message: res.message,
-                                    };
+                                    this.snack_bar.open(res.message, 'Close', {
+                                        duration: 2000,
+                                        panelClass: res.success
+                                            ? 'success-message'
+                                            : 'error-message',
+                                    });
 
                                     if (res.success) {
                                         this.user[
@@ -439,8 +377,6 @@ export class MyAccountComponent implements OnInit {
                         }
                     },
                 });
-            } else {
-                // this.removeRow(array_type, index);
             }
         }
     }
@@ -450,12 +386,15 @@ export class MyAccountComponent implements OnInit {
      */
     showErrorMessage(error: any) {
         console.log(error);
-        this.show_alert = true;
-        this.alert = {
-            type: 'error',
-            message:
-                'Your request cannot be processed at this time. Please try again later.',
-        };
+
+        this.snack_bar.open(
+            'Your request cannot be processed at this time. Please try again later.',
+            'Close',
+            {
+                duration: 2000,
+                panelClass: 'error-message',
+            }
+        );
     }
 
     /**
@@ -471,8 +410,8 @@ export class MyAccountComponent implements OnInit {
 
     /**
      * to open experience dialog
-     * 
-     * @param experience 
+     *
+     * @param experience
      */
     onClickExperience(experience?: Experience) {
         this.mat_dialog.open(ExperienceComponent, {
@@ -480,7 +419,7 @@ export class MyAccountComponent implements OnInit {
             width: '500px',
             data: {
                 experience: experience,
-                user: this.user
+                user: this.user,
             },
         });
     }

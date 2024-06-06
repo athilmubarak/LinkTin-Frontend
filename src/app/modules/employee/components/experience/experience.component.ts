@@ -92,9 +92,8 @@ export class ExperienceComponent implements OnInit {
 
         this.experience_form = this.form_builder.group({
             job: new FormControl('', Validators.required),
-            position: new FormControl('', Validators.required),
             company: new FormControl('', Validators.required),
-            location: new FormControl(''),
+            location: new FormControl('', Validators.required),
             joining_date: new FormControl(moment(), Validators.required),
             relieving_date: new FormControl(moment()),
             is_currently_working: new FormControl(''),
@@ -114,7 +113,6 @@ export class ExperienceComponent implements OnInit {
 
             this.experience_form.patchValue({
                 job: job,
-                position: this.data.experience.position,
                 company: this.data.experience.company,
                 location: this.data.experience.location,
                 joining_date: this.data.experience.joining_date,
@@ -143,7 +141,6 @@ export class ExperienceComponent implements OnInit {
 
         const experience: Experience = {
             job_id: this.experience_form.get('job').value.job_id,
-            position: this.experience_form.get('position').value,
             company: this.experience_form.get('company').value,
             location: this.experience_form.get('location').value,
             joining_date: this.experience_form.get('joining_date').value,
@@ -201,7 +198,6 @@ export class ExperienceComponent implements OnInit {
                     id: this.data.user.experiences.length + 1,
                     job_id: this.experience_form.get('job').value.job_id,
                     job_name: this.experience_form.get('job').value.name,
-                    position: this.experience_form.get('position').value,
                     company: this.experience_form.get('company').value,
                     location: this.experience_form.get('location').value,
                     joining_date:
@@ -281,10 +277,10 @@ export class ExperienceComponent implements OnInit {
 
     /**
      * to set month and year of date picker
-     * 
-     * @param normalized_month_and_year 
-     * @param date_picker 
-     * @param form_control_name 
+     *
+     * @param normalized_month_and_year
+     * @param date_picker
+     * @param form_control_name
      */
     setMonthAndYear(
         normalized_month_and_year: Moment,

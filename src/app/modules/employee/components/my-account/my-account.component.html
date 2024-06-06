@@ -109,11 +109,68 @@
                     ></mat-icon>
                 </button>
             </div>
-            <div class="flex flex-col md:flex-row w-full flex-wrap">
-                <div class="flex flex-col rounded" *ngFor="let experience of user.experiences">
-                    {{ experience.job_name }}
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.experiences.length > 0; else noExperiences"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2"
+                    *ngFor="let experience of user.experiences; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ experience.job_name }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="onClickExperience(experience)"
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('experiences', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ experience.company }}
+                    </div>
+                    <div class="flex text-secondary">
+                        {{ experience.joining_date | date : "MMM yyyy" }} -
+                        <ng-container
+                            *ngIf="
+                                experience.is_currently_working;
+                                else endDate
+                            "
+                        >
+                            Present
+                        </ng-container>
+                        <ng-template #endDate>
+                            {{ experience.relieving_date | date : "MMM yyyy" }}
+                        </ng-template>
+                    </div>
+                    <div class="flex text-secondary">
+                        {{ experience.location }}
+                    </div>
                 </div>
             </div>
+            <ng-template #noExperiences>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg" class="w-50" alt="">
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No experiences yet. Click the "Add" button on the right to add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 

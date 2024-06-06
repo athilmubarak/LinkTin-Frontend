@@ -3,7 +3,7 @@ export interface Experience {
     id?: number;
     job_id: number;
     job_name?: string;
-    position: string;
+    position?: string;
     company: string;
     location: string;
     joining_date: string;
