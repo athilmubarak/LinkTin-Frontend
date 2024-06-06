@@ -27,7 +27,9 @@ import { AttachmentComponent } from './components/attachment/attachment.componen
         VacancyViewComponent,
         EmployeeCardComponent,
         VacancyCardComponent,
-        FuseCardModule
+        FuseCardModule,
+        OtherAccountComponent,
+        AttachmentComponent
     ],
     declarations: [
         VacancyViewComponent,

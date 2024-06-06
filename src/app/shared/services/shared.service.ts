@@ -8,6 +8,7 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { Gender } from 'app/models/gender.types';
 import { Job } from 'app/models/job.types';
+import { OtherAccount } from 'app/models/other-account.types';
 import { Skill } from 'app/models/skill.types';
 import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
@@ -129,7 +130,6 @@ export class SharedService {
             });
     }
 
-
     /**
      * to delete attachment
      *
@@ -160,8 +160,8 @@ export class SharedService {
 
     /**
      * to get countries
-     * 
-     * @returns 
+     *
+     * @returns
      */
     getCountries() {
         if (this.countries.length > 0) {
@@ -179,5 +179,35 @@ export class SharedService {
                     this.countries = res.data;
                 },
             });
+    }
+
+    /**
+     * add new other account
+     * 
+     * @param account 
+     * @returns 
+     */
+    addNewOtherAccount(
+        account: OtherAccount
+    ): Observable<CommonResponse<OtherAccount>> {
+        return this.http.post<CommonResponse<OtherAccount>>(
+            `${this.root_url}/user/other-account/insert`,
+            account
+        );
+    }
+
+    /**
+     * update other account
+     * 
+     * @param account 
+     * @returns 
+     */
+    updateOtherAccount(
+        account: OtherAccount
+    ): Observable<CommonResponse<OtherAccount>> {
+        return this.http.put<CommonResponse<OtherAccount>>(
+            `${this.root_url}/user/other-account/update`,
+            account
+        );
     }
 }

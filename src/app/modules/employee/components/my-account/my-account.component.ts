@@ -127,30 +127,6 @@ export class MyAccountComponent implements OnInit {
                 });
                 break;
 
-            case 'other_accounts':
-                const other_account: OtherAccount = value;
-                let account_type: AccountType;
-                if (value) {
-                    account_type = this.shared_service.account_types.find(
-                        (x) =>
-                            x.account_type_id === other_account.account_type_id
-                    );
-                }
-                form = this.form_builder.group({
-                    other_account_id: new FormControl(
-                        value ? other_account.other_account_id : 0
-                    ),
-
-                    account_type: new FormControl(
-                        value ? account_type : '',
-                        Validators.required
-                    ),
-                    account_url: new FormControl(
-                        value ? other_account.account_url : '',
-                        Validators.required
-                    ),
-                });
-                break;
 
             case 'references':
                 const reference: Reference = value;

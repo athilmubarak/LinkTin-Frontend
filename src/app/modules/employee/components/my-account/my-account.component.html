@@ -114,7 +114,7 @@
                 *ngIf="user.experiences.length > 0; else noExperiences"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
                     *ngFor="let experience of user.experiences; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -198,7 +198,7 @@
                 *ngIf="user.educations.length > 0; else noEducation"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
                     *ngFor="let education of user.educations; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -271,7 +271,7 @@
                 *ngIf="user.certifications.length > 0; else noCertifications"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
                     *ngFor="
                         let certificate of user.certifications;
                         let i = index
@@ -333,7 +333,7 @@
                 <div class="text-2xl font-semibold leading-tight">
                     attachments
                 </div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="onClickDetails('attachments')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
@@ -348,7 +348,7 @@
                 <div class="text-2xl font-semibold leading-tight">
                     Social Accounts
                 </div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="onClickDetails('other_accounts')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
@@ -361,7 +361,7 @@
         <fuse-card class="flex flex-col w-full p-8">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-semibold leading-tight">Licenses</div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="onClickDetails('licenses')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
@@ -376,7 +376,7 @@
                 <div class="text-2xl font-semibold leading-tight">
                     References
                 </div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="onClickDetails('references')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
