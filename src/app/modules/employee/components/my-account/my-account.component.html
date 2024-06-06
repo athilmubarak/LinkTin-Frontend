@@ -125,7 +125,9 @@
                             <button
                                 mat-icon-button
                                 class="mr-1"
-                                (click)="onClickDetails('experiences', experience)"
+                                (click)="
+                                    onClickDetails('experiences', experience)
+                                "
                             >
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>
@@ -207,7 +209,9 @@
                             <button
                                 mat-icon-button
                                 class="mr-1"
-                                (click)="onClickDetails('educations', education)"
+                                (click)="
+                                    onClickDetails('educations', education)
+                                "
                             >
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>
@@ -253,12 +257,73 @@
                 <div class="text-2xl font-semibold leading-tight">
                     Certificates
                 </div>
-                <button mat-icon-button>
+                <button
+                    mat-icon-button
+                    (click)="onClickDetails('certifications')"
+                >
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.certifications.length > 0; else noCertifications"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2"
+                    *ngFor="
+                        let certificate of user.certifications;
+                        let i = index
+                    "
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ certificate.certificate_name }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="
+                                    onClickDetails(
+                                        'certifications',
+                                        certificate
+                                    )
+                                "
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('certifications', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ certificate.description }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noCertifications>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No certificates yet. Click the "Add" button on the right
+                        to add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 

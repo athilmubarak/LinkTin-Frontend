@@ -158,11 +158,10 @@ export class EmployeeService {
      * @returns
      */
     updateExperience(
-        experience: Experience,
-        id: number
+        experience: Experience
     ): Observable<CommonResponse<Experience>> {
         return this.http.put<CommonResponse<Experience>>(
-            `${this.root_url}/user/experience/update/${id}`,
+            `${this.root_url}/user/experience/update`,
             experience
         );
     }
@@ -216,9 +215,9 @@ export class EmployeeService {
 
     /**
      * to add new certification of an employee
-     * 
-     * @param certification 
-     * @returns 
+     *
+     * @param certification
+     * @returns
      */
     createNewCertification(
         certification: Certification
@@ -231,10 +230,10 @@ export class EmployeeService {
 
     /**
      * to update certification
-     * 
-     * @param certification 
-     * @param certification_id 
-     * @returns 
+     *
+     * @param certification
+     * @param certification_id
+     * @returns
      */
     updateCertification(
         certification: Certification,

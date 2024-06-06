@@ -109,10 +109,10 @@ export class ExperienceComponent implements OnInit {
                 job: job,
                 company: this.data.experience.company,
                 location: this.data.experience.location,
-                joining_date: this.data.experience.joining_date,
-                relieving_date: this.data.experience.relieving_date,
+                joining_date: moment(this.data.experience.joining_date),
+                relieving_date: moment(this.data.experience.relieving_date),
                 is_currently_working:
-                    this.data.experience.is_currently_working === 1,
+                    this.data.experience.is_currently_working,
                 display_order: this.data.experience.display_order,
             });
         } else {
@@ -141,10 +141,10 @@ export class ExperienceComponent implements OnInit {
             relieving_date: this.experience_form.get('relieving_date').value,
             is_currently_working: this.experience_form.get(
                 'is_currently_working'
-            ).value
-                ? 1
-                : 0,
+            ).value,
             display_order: this.experience_form.get('display_order').value,
+            position: '',
+            id: this.data.experience ? this.data.experience.id : undefined
         };
 
         let request: Observable<CommonResponse<Experience>>;
@@ -152,7 +152,6 @@ export class ExperienceComponent implements OnInit {
         if (this.data.experience) {
             request = this.employee_service.updateExperience(
                 experience,
-                this.data.experience.id
             );
         } else {
             request = this.employee_service.createExperience(experience);

@@ -113,22 +113,6 @@ export class MyAccountComponent implements OnInit {
                 });
                 break;
 
-            case 'certifications':
-                const certification: Certification = value;
-                form = this.form_builder.group({
-                    certification_id: new FormControl(
-                        value ? certification.certification_id : 0
-                    ),
-                    certificate_name: new FormControl(
-                        value ? certification.certificate_name : '',
-                        Validators.required
-                    ),
-                    description: new FormControl(
-                        value ? certification.description : ''
-                    ),
-                });
-                break;
-
 
             case 'licenses':
                 const license: License = value;
@@ -277,7 +261,7 @@ export class MyAccountComponent implements OnInit {
                     title: 'Confirmation',
                     message: `Do you want to remove this ${array_type.slice(
                         0,
-                        array_type.length - 2
+                        array_type.length - 1
                     )}. This cannot be undone.`,
                     icon: {
                         show: false,
@@ -315,7 +299,7 @@ export class MyAccountComponent implements OnInit {
                                             array_type === 'skills'
                                                 ? 'skill'
                                                 : array_type
-                                        ].splice(index, 0);
+                                        ].splice(index, 1);
                                         this.user_service.user = this.user;
                                     }
                                 },

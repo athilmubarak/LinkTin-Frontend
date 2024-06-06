@@ -14,8 +14,16 @@ import { environment } from 'environments/environment';
 })
 export class UserService {
     //Variables
+    user_init: User = {
+        user_details: {
+
+        },
+        other_accounts: [],
+        attachments: []
+    };
     private _user: ReplaySubject<User> = new ReplaySubject<User>();
     readonly root_url: string = environment.api_url;
+
 
     /**
      * Constructor
