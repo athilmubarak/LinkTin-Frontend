@@ -1,1 +1,54 @@
-<p>education works!</p>
+<h2 mat-dialog-title>
+    {{ data?.education ? "Update" : "Create new" }} education
+</h2>
+<mat-dialog-content class="mat-typography">
+    <form
+        [formGroup]="education_form"
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    >
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>School</mat-label>
+            <input matInput formControlName="institution" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Degree</mat-label>
+            <input
+                type="text"
+                matInput
+                formControlName="education_type"
+                [matAutocomplete]="auto"
+                (keyup)="filterEducationType($event.target.value)"
+            />
+            <!-- <mat-icon
+                *ngIf="showDoneButtonForEducationType()"
+                class="cursor-pointer"
+                matSuffix
+                svgIcon="mat_solid:check_circle"
+                (click)="saveNewEductionType()"
+            ></mat-icon> -->
+            <mat-autocomplete
+                autoActiveFirstOption
+                #auto="matAutocomplete"
+                [displayWith]="displayFn"
+            >
+                <mat-option
+                    *ngFor="let option of education_types"
+                    [value]="option"
+                >
+                    {{ option?.description }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Academic Year</mat-label>
+            <input matInput formControlName="academic_year" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="saveEducation()">
+        Submit
+    </button>
+</mat-dialog-actions>

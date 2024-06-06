@@ -165,9 +165,14 @@
             </div>
             <ng-template #noExperiences>
                 <div class="flex flex-col w-full justify-center items-center">
-                    <img src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg" class="w-50" alt="">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
                     <div class="flex flex-col items-center font-bold mt-2">
-                        No experiences yet. Click the "Add" button on the right to add one.
+                        No experiences yet. Click the "Add" button on the right
+                        to add one.
                     </div>
                 </div>
             </ng-template>
@@ -178,14 +183,67 @@
         <fuse-card class="flex flex-col w-full p-8">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-semibold leading-tight">
-                    Qualifications
+                    Education
                 </div>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="onClickEducation()">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.educations.length > 0; else noEducation"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2"
+                    *ngFor="let education of user.educations; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ education.institution }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="onClickEducation(education)"
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('educations', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ education.description }}
+                    </div>
+                    <div class="flex text-secondary">
+                        {{ education.academic_year }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noEducation>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No educations yet. Click the "Add" button on the right
+                        to add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 

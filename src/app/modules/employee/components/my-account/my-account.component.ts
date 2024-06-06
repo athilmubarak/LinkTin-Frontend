@@ -35,6 +35,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
 import { ExperienceComponent } from '../experience/experience.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EducationComponent } from '../education/education.component';
 
 export type ArrayTypes =
     | 'attachments'
@@ -148,24 +149,6 @@ export class MyAccountComponent implements OnInit {
                             x.education_type_id === education.education_type_id
                     );
                 }
-                form = this.form_builder.group({
-                    id: new FormControl(education.id),
-                    education_type: new FormControl(
-                        value ? education_type : '',
-                        Validators.required
-                    ),
-                    institution: new FormControl(
-                        value ? education.institution : '',
-                        Validators.required
-                    ),
-                    academic_year: new FormControl(
-                        value ? education.academic_year : '',
-                        Validators.required
-                    ),
-                    display_order: new FormControl(
-                        value ? education.display_order : 1
-                    ),
-                });
                 break;
 
 
@@ -419,6 +402,17 @@ export class MyAccountComponent implements OnInit {
             width: '500px',
             data: {
                 experience: experience,
+                user: this.user,
+            },
+        });
+    }
+
+    onClickEducation(education?: Education) {
+        this.mat_dialog.open(EducationComponent, {
+            disableClose: true,
+            width: '400px',
+            data: {
+                education: education,
                 user: this.user,
             },
         });

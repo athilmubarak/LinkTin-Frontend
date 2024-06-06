@@ -8,16 +8,11 @@ import {
     FormGroup,
     Validators,
 } from '@angular/forms';
-import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { EmployeeService } from '../../services/employee.service';
 import { SharedService } from 'app/shared/services/shared.service';
 import { Experience } from 'app/models/experience.types';
-import {
-    MatDialogRef,
-    MAT_DIALOG_DATA,
-    MatDialog,
-} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
 import { Job } from 'app/models/job.types';
 import { Observable } from 'rxjs';
@@ -80,7 +75,6 @@ export class ExperienceComponent implements OnInit {
         private employee_service: EmployeeService,
         private shared_service: SharedService,
         private dialog_ref: MatDialogRef<UpdateEmployeeComponent>,
-        private mat_dialog: MatDialog,
         private snack_bar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA)
         public data: {

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { EducationType } from 'app/models/education-type.types';
+import { Education } from 'app/models/education.types';
 import { Experience } from 'app/models/experience.types';
 import { UpdateEmployee } from 'app/models/update-employee.types';
 import { User } from 'app/models/user.types';
@@ -161,6 +162,38 @@ export class EmployeeService {
         return this.http.put<CommonResponse<Experience>>(
             `${this.root_url}/user/experience/update/${id}`,
             experience
+        );
+    }
+
+    /**
+     * to add new employee education
+     *
+     * @param education
+     * @returns
+     */
+    createEducation(
+        education: Education
+    ): Observable<CommonResponse<Education>> {
+        return this.http.post<CommonResponse<Education>>(
+            `${this.root_url}/user/education/insert`,
+            education
+        );
+    }
+
+    /**
+     * to update employee education
+     *
+     * @param education
+     * @param id
+     * @returns
+     */
+    updateEducation(
+        education: Education,
+        id: number
+    ): Observable<CommonResponse<Education>> {
+        return this.http.put<CommonResponse<Education>>(
+            `${this.root_url}/user/education/update/${id}`,
+            education
         );
     }
 }
