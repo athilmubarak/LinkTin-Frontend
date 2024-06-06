@@ -103,7 +103,7 @@
                 <div class="text-2xl font-semibold leading-tight">
                     Experiences
                 </div>
-                <button mat-icon-button (click)="onClickExperience()">
+                <button mat-icon-button (click)="onClickDetails('experiences')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
@@ -125,7 +125,7 @@
                             <button
                                 mat-icon-button
                                 class="mr-1"
-                                (click)="onClickExperience(experience)"
+                                (click)="onClickDetails('experiences', experience)"
                             >
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>
@@ -185,7 +185,7 @@
                 <div class="text-2xl font-semibold leading-tight">
                     Education
                 </div>
-                <button mat-icon-button (click)="onClickEducation()">
+                <button mat-icon-button (click)="onClickDetails('educations')">
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
@@ -207,7 +207,7 @@
                             <button
                                 mat-icon-button
                                 class="mr-1"
-                                (click)="onClickEducation(education)"
+                                (click)="onClickDetails('educations', education)"
                             >
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>

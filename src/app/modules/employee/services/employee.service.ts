@@ -2,11 +2,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Certification } from 'app/models/certification.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { EducationType } from 'app/models/education-type.types';
 import { Education } from 'app/models/education.types';
 import { Experience } from 'app/models/experience.types';
+import { Skill } from 'app/models/skill.types';
 import { UpdateEmployee } from 'app/models/update-employee.types';
 import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
@@ -194,6 +196,53 @@ export class EmployeeService {
         return this.http.put<CommonResponse<Education>>(
             `${this.root_url}/user/education/update/${id}`,
             education
+        );
+    }
+
+    /**
+     * to add new skill of employee
+     *
+     * @param request
+     * @returns
+     */
+    createNewUserSkill(request: {
+        skill_id: number;
+    }): Observable<CommonResponse<Skill>> {
+        return this.http.post<CommonResponse<Skill>>(
+            `${this.root_url}/user/skill/insert`,
+            request
+        );
+    }
+
+    /**
+     * to add new certification of an employee
+     * 
+     * @param certification 
+     * @returns 
+     */
+    createNewCertification(
+        certification: Certification
+    ): Observable<CommonResponse<Certification>> {
+        return this.http.post<CommonResponse<Certification>>(
+            `${this.root_url}/user/certification/insert`,
+            certification
+        );
+    }
+
+    /**
+     * to update certification
+     * 
+     * @param certification 
+     * @param certification_id 
+     * @returns 
+     */
+    updateCertification(
+        certification: Certification,
+        certification_id: number
+    ): Observable<CommonResponse<Certification>> {
+        return this.http.put<CommonResponse<Certification>>(
+            `${this.root_url}/user/certification/update/${certification_id}`,
+            certification
         );
     }
 }

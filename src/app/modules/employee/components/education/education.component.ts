@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'app/core/user/user.service';
 import { Education } from 'app/models/education.types';
 import { User } from 'app/models/user.types';
-import { SharedService } from 'app/shared/services/shared.service';
 import { EmployeeService } from '../../services/employee.service';
 import { EducationType } from 'app/models/education-type.types';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -37,7 +36,6 @@ export class EducationComponent implements OnInit {
         private form_builder: FormBuilder,
         private user_service: UserService,
         private employee_service: EmployeeService,
-        private shared_service: SharedService,
         private dialog_ref: MatDialogRef<EducationComponent>,
         private snack_bar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA)

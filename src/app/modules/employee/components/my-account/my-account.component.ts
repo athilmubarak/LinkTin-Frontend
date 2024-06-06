@@ -36,16 +36,8 @@ import { UpdateEmployeeComponent } from '../update-employee/update-employee.comp
 import { ExperienceComponent } from '../experience/experience.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EducationComponent } from '../education/education.component';
+import { ArrayTypes, MY_ACCOUNT_DETAILS } from '../../constants/my-account-details.const';
 
-export type ArrayTypes =
-    | 'attachments'
-    | 'certifications'
-    | 'educations'
-    | 'experiences'
-    | 'licenses'
-    | 'other_accounts'
-    | 'references'
-    | 'skills';
 
 @Component({
     selector: 'app-my-account',
@@ -55,7 +47,6 @@ export type ArrayTypes =
 export class MyAccountComponent implements OnInit {
     //Variables
     user: User;
-    education_types: EducationType[];
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -84,8 +75,6 @@ export class MyAccountComponent implements OnInit {
                     this.change_detector_ref.markForCheck();
                 },
             });
-
-        this.getEducationTypes();
     }
 
     /**
@@ -138,17 +127,6 @@ export class MyAccountComponent implements OnInit {
                         value ? certification.description : ''
                     ),
                 });
-                break;
-
-            case 'educations':
-                const education: Education = value;
-                let education_type;
-                if (value) {
-                    education_type = this.education_types.find(
-                        (x) =>
-                            x.education_type_id === education.education_type_id
-                    );
-                }
                 break;
 
 
@@ -232,19 +210,6 @@ export class MyAccountComponent implements OnInit {
         }
 
         return form;
-    }
-
-    /**
-     * to get education types
-     */
-    getEducationTypes() {
-        this.education_types = [];
-
-        this.employee_service.getEducationTypes().subscribe({
-            next: (res: CommonResponse<EducationType[]>) => {
-                this.education_types = res.data;
-            },
-        });
     }
 
     /**
@@ -392,29 +357,24 @@ export class MyAccountComponent implements OnInit {
     }
 
     /**
-     * to open experience dialog
-     *
-     * @param experience
+     * to add or update details
+     * 
+     * @param array_type 
+     * @param data 
      */
-    onClickExperience(experience?: Experience) {
-        this.mat_dialog.open(ExperienceComponent, {
-            disableClose: true,
-            width: '500px',
-            data: {
-                experience: experience,
-                user: this.user,
-            },
-        });
-    }
+    onClickDetails(array_type: ArrayTypes, data?: any) {
+        const content_type = MY_ACCOUNT_DETAILS.find(x => x.array_type === array_type);
+        const dialog_data = {
+            user: this.user
+        };
 
-    onClickEducation(education?: Education) {
-        this.mat_dialog.open(EducationComponent, {
-            disableClose: true,
-            width: '400px',
-            data: {
-                education: education,
-                user: this.user,
-            },
-        });
+        if (content_type) {
+            dialog_data[content_type.key] = data;
+            this.mat_dialog.open(content_type.component, {
+                disableClose: true,
+                width: content_type.width,
+                data: dialog_data
+            });
+        }
     }
 }
