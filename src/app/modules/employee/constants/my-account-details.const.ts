@@ -5,6 +5,7 @@ import { EducationComponent } from '../components/education/education.component'
 import { CertificationComponent } from '../components/certification/certification.component';
 import { OtherAccountComponent } from 'app/shared/components/other-account/other-account.component';
 import { LicenseComponent } from '../components/license/license.component';
+import { ReferenceComponent } from '../components/reference/reference.component';
 
 /* eslint-disable eol-last */
 export type ArrayTypes =
@@ -46,6 +47,12 @@ export const MY_ACCOUNT_DETAILS: MyAccountDetail[] = [
         array_type: 'licenses',
         component: LicenseComponent,
         key: 'license',
+        width: '400px',
+    },
+    {
+        array_type: 'references',
+        component: ReferenceComponent,
+        key: 'reference',
         width: '400px',
     }
 ];

@@ -55,8 +55,8 @@ export class CertificationComponent implements OnInit {
 
     /**
      * to save certifications
-     * 
-     * @returns 
+     *
+     * @returns
      */
     saveCertification() {
         if (this.certificate_form.invalid) {
@@ -96,7 +96,7 @@ export class CertificationComponent implements OnInit {
                             this.data.user.certifications.map((x) => {
                                 if (
                                     x.certification_id ===
-                                    certification.certification_id
+                                    res.data.certification_id
                                 ) {
                                     return res.data;
                                 } else {

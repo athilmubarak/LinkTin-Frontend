@@ -1,1 +1,35 @@
-<p>reference works!</p>
+<h2 mat-dialog-title>
+    {{ data?.reference ? "Update" : "Create new" }} reference
+</h2>
+<mat-dialog-content class="mat-typography">
+    <form
+        [formGroup]="reference_form"
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    >
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="reference_name" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+        </mat-form-field>
+        <mat-form-field class="flex flex-col w-full">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone_number" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close [disabled]="reference_form.disabled">
+        Close
+    </button>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="saveReference()"
+        [disabled]="reference_form.disabled"
+    >
+        Submit
+    </button>
+</mat-dialog-actions>

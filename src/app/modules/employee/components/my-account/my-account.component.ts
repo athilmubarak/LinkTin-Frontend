@@ -113,27 +113,6 @@ export class MyAccountComponent implements OnInit {
                 });
                 break;
 
-            case 'references':
-                const reference: Reference = value;
-                form = this.form_builder.group({
-                    reference_id: new FormControl(
-                        value ? reference.reference_id : 0
-                    ),
-                    reference_name: new FormControl(
-                        value ? reference.reference_name : '',
-                        Validators.required
-                    ),
-                    email: new FormControl(
-                        value ? reference.email : '',
-                        Validators.required
-                    ),
-                    phone_number: new FormControl(
-                        value ? reference.phone_number : '',
-                        Validators.required
-                    ),
-                });
-                break;
-
             case 'skills':
                 const skill: Skill = value;
                 let skill_data: Skill;
