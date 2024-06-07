@@ -182,15 +182,18 @@ export class EducationComponent implements OnInit {
                 });
 
                 if (res.success) {
-                    this.data.user.educations = this.data.user.educations.map(
-                        (x) => {
-                            if (x.id === res.data.id) {
-                                return res.data;
-                            } else {
-                                return x;
-                            }
-                        }
-                    );
+                    if (this.data.education) {
+                        this.data.user.educations =
+                            this.data.user.educations.map((x) => {
+                                if (x.id === res.data.id) {
+                                    return res.data;
+                                } else {
+                                    return x;
+                                }
+                            });
+                    } else {
+                        this.data.user.educations.push(res.data);
+                    }
 
                     this.user_service.user = this.data.user;
                     this.dialog_ref.close();

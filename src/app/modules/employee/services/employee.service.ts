@@ -192,7 +192,7 @@ export class EmployeeService {
         education: Education
     ): Observable<CommonResponse<Education>> {
         return this.http.put<CommonResponse<Education>>(
-            `${this.root_url}/user/education/update`,
+            `${this.root_url}/user/education_dto/update`,
             education
         );
     }
