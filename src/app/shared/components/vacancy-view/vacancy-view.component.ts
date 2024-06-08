@@ -44,19 +44,19 @@ export class VacancyViewComponent implements OnInit {
       required_skills: [
         {
           skill_id: 1,
-          skill: 'Angular',
+          skill1: 'Angular',
         },
         {
           skill_id: 2,
-          skill: 'React',
+          skill1: 'React',
         },
         {
           skill_id: 3,
-          skill: 'Vue',
+          skill1: 'Vue',
         },
         {
           skill_id: 4,
-          skill: 'Node',
+          skill1: 'Node',
         }
       ]
     };

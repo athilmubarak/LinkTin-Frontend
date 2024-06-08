@@ -100,6 +100,49 @@
     <div class="lg:flex flex-col items-start mt-4 mx-14">
         <fuse-card class="flex flex-col w-full p-8">
             <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">Skills</div>
+                <button mat-icon-button (click)="onClickDetails('skills')">
+                    <mat-icon
+                        svgIcon="mat_outline:add_circle_outline"
+                    ></mat-icon>
+                </button>
+            </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.skill.length > 0; else noSkills"
+            >
+                <mat-chip-list class="flex flex-wrap">
+                    <mat-chip
+                        *ngFor="let skill of user.skill; let i = index"
+                        removable="true"
+                        (removed)="removeDetails(skill, i)"
+                    >
+                        {{ skill.skill1 }}
+                        <button matChipRemove>
+                            <mat-icon svgIcon="mat_solid:cancel"></mat-icon>
+                        </button>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <ng-template #noSkills>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No skills yet. Click the "Add" button on the right to
+                        add one.
+                    </div>
+                </div>
+            </ng-template>
+        </fuse-card>
+    </div>
+
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
                 <div class="text-2xl font-semibold leading-tight">
                     Experiences
                 </div>
@@ -114,7 +157,7 @@
                 *ngIf="user.experiences.length > 0; else noExperiences"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="let experience of user.experiences; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -198,7 +241,7 @@
                 *ngIf="user.educations.length > 0; else noEducation"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="let education of user.educations; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -271,7 +314,7 @@
                 *ngIf="user.certifications.length > 0; else noCertifications"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="
                         let certificate of user.certifications;
                         let i = index
@@ -347,7 +390,7 @@
                     *ngFor="let file of user.attachments; let i = index"
                 >
                     <a
-                        class="flex flex-col w-40 h-50 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card border-2"
+                        class="flex flex-col w-40 h-50 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card border-2 my-1"
                     >
                         <button
                             mat-icon-button
@@ -433,7 +476,7 @@
                 *ngIf="user.other_accounts.length > 0; else noAccounts"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="let account of user.other_accounts; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -498,7 +541,7 @@
                 *ngIf="user.licenses.length > 0; else noLicenses"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="let license of user.licenses; let i = index"
                 >
                     <div class="flex justify-between items-center">
@@ -563,7 +606,7 @@
                 *ngIf="user.references.length > 0; else noReferences"
             >
                 <div
-                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
                     *ngFor="let reference of user.references; let i = index"
                 >
                     <div class="flex justify-between items-center">

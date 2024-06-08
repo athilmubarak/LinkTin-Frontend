@@ -214,7 +214,7 @@ export class UpdateVacancyComponent implements OnInit {
     if ([undefined, null, '', ' '].includes(value)) {
       this.skills = [...this.shared_service.skills];
     } else {
-      this.skills = this.shared_service.skills.filter(x => x.skill.toLowerCase().includes(value.toLowerCase()));
+      this.skills = this.shared_service.skills.filter(x => x.skill1.toLowerCase().includes(value.toLowerCase()));
     }
   }
 
@@ -225,7 +225,7 @@ export class UpdateVacancyComponent implements OnInit {
    * @returns
    */
   displayFnSkill(skill: Skill): string {
-    return skill && skill.skill ? skill.skill : '';
+    return skill && skill.skill1 ? skill.skill1 : '';
   }
 
   /**

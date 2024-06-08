@@ -229,8 +229,11 @@ export class MyAccountComponent implements OnInit {
         };
 
         if (content_type) {
-            dialog_data[content_type.key] =
-                array_type === 'attachments' ? true : data;
+            if (array_type !== 'skills') {
+                dialog_data[content_type.key] =
+                    array_type === 'attachments' ? true : data;
+            }
+
             this.mat_dialog.open(content_type.component, {
                 disableClose: true,
                 width: content_type.width,
@@ -261,8 +264,8 @@ export class MyAccountComponent implements OnInit {
 
     /**
      * to view attachment
-     * 
-     * @param attachment 
+     *
+     * @param attachment
      */
     viewAttachment(attachment: Attachment) {
         window.open(`${this.url}${attachment.attachment_url}`, '_blank');
