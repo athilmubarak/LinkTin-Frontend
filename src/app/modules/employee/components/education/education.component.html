@@ -19,13 +19,13 @@
                 [matAutocomplete]="auto"
                 (keyup)="filterEducationType($event.target.value)"
             />
-            <!-- <mat-icon
+            <mat-icon
                 *ngIf="showDoneButtonForEducationType()"
                 class="cursor-pointer"
                 matSuffix
                 svgIcon="mat_solid:check_circle"
                 (click)="saveNewEductionType()"
-            ></mat-icon> -->
+            ></mat-icon>
             <mat-autocomplete
                 autoActiveFirstOption
                 #auto="matAutocomplete"

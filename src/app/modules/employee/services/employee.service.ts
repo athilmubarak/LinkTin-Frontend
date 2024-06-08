@@ -271,9 +271,9 @@ export class EmployeeService {
 
     /**
      * to add new reference
-     * 
-     * @param reference 
-     * @returns 
+     *
+     * @param reference
+     * @returns
      */
     addNewReference(
         reference: Reference
@@ -286,9 +286,9 @@ export class EmployeeService {
 
     /**
      * to update reference
-     * 
-     * @param reference 
-     * @returns 
+     *
+     * @param reference
+     * @returns
      */
     updateReference(
         reference: Reference
@@ -296,6 +296,21 @@ export class EmployeeService {
         return this.http.put<CommonResponse<Reference>>(
             `${this.root_url}/user/reference/update`,
             reference
+        );
+    }
+
+    /**
+     * to add new education type
+     * 
+     * @param education_type 
+     * @returns 
+     */
+    addEducationType(
+        education_type: EducationType
+    ): Observable<CommonResponse<EducationType>> {
+        return this.http.post<CommonResponse<EducationType>>(
+            `${this.root_url}/education/education-types/insert`,
+            education_type
         );
     }
 }

@@ -130,18 +130,33 @@ export class EducationComponent implements OnInit {
      * to save new job
      */
     saveNewEductionType() {
-        // this.shared_service
-        //     .createNewJob({ name: this.experience_form.get('job').value })
-        //     .subscribe({
-        //         next: (res: CommonResponse<Job>) => {
-        //             console.log(res);
-        //             if (res.success) {
-        //                 this.experience_form.get('job').setValue(res.data);
-        //                 this.jobs = [res.data];
-        //                 this.shared_service.jobs.push(res.data);
-        //             }
-        //         },
-        //     });
+        if (
+            [null, undefined, '', ' '].includes(
+                this.education_form.get('education_type').value
+            )
+        ) {
+            return;
+        }
+
+        const education_type: EducationType = {
+            description: this.education_form.get('education_type').value,
+            priority_order: this.all_education_types.length + 1,
+            education_type_id: undefined,
+        };
+
+        this.employee_service.addEducationType(education_type).subscribe({
+            next: (res: CommonResponse<EducationType>) => {
+                console.log(res);
+
+                if (res.success) {
+                    this.all_education_types.push(res.data);
+                    this.education_form
+                        .get('education_type')
+                        .setValue(res.data);
+                    this.education_types = [res.data];
+                }
+            },
+        });
     }
 
     /**
