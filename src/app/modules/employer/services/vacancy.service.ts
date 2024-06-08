@@ -26,7 +26,7 @@ export class VacancyService {
    * @returns
    */
   getAllVacancies() {
-    return this.http.get<CommonResponse<Vacancy[]>>(`${this.root_url}/job-vacancy/get/all`);
+    return this.http.get<CommonResponse<Vacancy[]>>(`${this.root_url}/job_vacancy/get/all`);
   }
 
   /**
@@ -36,7 +36,7 @@ export class VacancyService {
    * @returns
    */
   getVacancyDetailsById(vacancy_id: number) {
-    return this.http.get<CommonResponse<VacancyDetails>>(`${this.root_url}/job-vacancy/get/${vacancy_id}`);
+    return this.http.get<CommonResponse<VacancyDetails>>(`${this.root_url}/job_vacancy/get/${vacancy_id}`);
   }
 
   /**
@@ -46,7 +46,7 @@ export class VacancyService {
    * @returns
    */
   createVacancy(vacancy: VacancyRequest) {
-    return this.http.post<CommonResponse<Vacancy>>(`${this.root_url}/job-vacancy/insert`, vacancy);
+    return this.http.post<CommonResponse<Vacancy>>(`${this.root_url}/job_vacancy/insert`, vacancy);
   }
 
   /**
@@ -57,7 +57,7 @@ export class VacancyService {
    * @returns
    */
   updateVacancy(vacancy_id: number, vacancy: VacancyRequest) {
-    return this.http.put<CommonResponse<Vacancy>>(`${this.root_url}/job-vacancy/update/${vacancy_id}`, vacancy);
+    return this.http.put<CommonResponse<Vacancy>>(`${this.root_url}/job_vacancy/update/${vacancy_id}`, vacancy);
   }
 
   /**
@@ -67,7 +67,7 @@ export class VacancyService {
    * @returns
    */
   deleteVacancy(vacancy_id: number) {
-    return this.http.get<CommonResponse<number>>(`${this.root_url}/job-vacancy/delete/${vacancy_id}`);
+    return this.http.delete<CommonResponse<number>>(`${this.root_url}/job_vacancy/delete/${vacancy_id}`);
   }
 
   /**
@@ -78,7 +78,7 @@ export class VacancyService {
    * @returns
    */
   addNewRequiredSkill(vacancy_id: number, request: { skill_id: number }) {
-    return this.http.put<CommonResponse<Skill>>(`${this.root_url}/job-vacancy/skill/insert/${vacancy_id}`, request);
+    return this.http.put<CommonResponse<Skill>>(`${this.root_url}/job_vacancy/skill/insert/${vacancy_id}`, request);
   }
 
   /**
@@ -88,7 +88,7 @@ export class VacancyService {
    * @returns
    */
   deleteRequiredSkill(required_skill_id: number) {
-    return this.http.delete<CommonResponse<number>>(`${this.root_url}/job-vacancy/skill/delete/${required_skill_id}`);
+    return this.http.delete<CommonResponse<number>>(`${this.root_url}/job_vacancy/skill/delete/${required_skill_id}`);
   }
 
   /**
