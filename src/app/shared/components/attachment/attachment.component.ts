@@ -12,6 +12,7 @@ import {
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'app/core/auth/auth.service';
 import { UserService } from 'app/core/user/user.service';
 import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -28,6 +29,7 @@ export class AttachmentComponent implements OnInit {
     files: any[] = [];
     file_url: string;
     file_type: 'PDF' | 'JPG';
+    user_type_id: number;
 
     @ViewChild('fileDropRef', { static: false }) fileDropEl: ElementRef;
 
@@ -38,6 +40,7 @@ export class AttachmentComponent implements OnInit {
         private user_service: UserService,
         private dialog_ref: MatDialogRef<AttachmentComponent>,
         private snack_bar: MatSnackBar,
+        private auth_service: AuthService,
         @Inject(MAT_DIALOG_DATA)
         public data: {
             user: User;
@@ -45,6 +48,8 @@ export class AttachmentComponent implements OnInit {
         }
     ) {
         this.file_name = new FormControl('', Validators.required);
+
+        this.user_type_id = auth_service.userType;
     }
 
     ngOnInit(): void {}
@@ -71,7 +76,7 @@ export class AttachmentComponent implements OnInit {
     prepareFilesList(files: Array<any>) {
         for (const item of files) {
             this.files.push(item);
-            this.file_name.setValue(item.name);
+            this.file_name.setValue(item.name.slice(0, item.name.length - 4));
             this.file_type = item.type === 'application/pdf' ? 'PDF' : 'JPG';
         }
 
@@ -106,7 +111,13 @@ export class AttachmentComponent implements OnInit {
 
             const attachment: Attachment = {
                 attachment_id: undefined,
-                attachment_name: this.file_name.value,
+                attachment_name:
+                    this.file_name.value.includes('.pdf') ||
+                    this.file_name.value.includes('.jpg')
+                        ? this.file_name.value
+                        : `${
+                              this.file_name.value
+                          }.${this.file_type.toLowerCase()}`,
                 attachment_url: this.file_url,
             };
 

@@ -11,7 +11,9 @@
             id="fileDropRef"
             (change)="fileBrowseHandler($event.target.files)"
             class="opacity-0"
-            [accept]="data.is_user_attachment ? 'pdf' : 'jpg'"
+            [accept]="
+                data.is_user_attachment && user_type_id === 1 ? 'pdf' : 'jpg'
+            "
         />
         <img
             src="./assets/images/ui/angular-material/scenes/ic-upload-file.svg"
@@ -49,8 +51,8 @@
             <div
                 class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
             >
-                <div class="truncate" [matTooltip]="files[0].name">
-                    {{ files[0].name }}
+                <div class="truncate" [matTooltip]="file_name.value">
+                    {{ file_name.value }}
                 </div>
             </div>
         </a>

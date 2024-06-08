@@ -6,36 +6,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import {
-    FormArray,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
 import { UserService } from 'app/core/user/user.service';
-import { Attachment } from 'app/models/attachment.types';
-import { Certification } from 'app/models/certification.types';
-import { Education } from 'app/models/education.types';
-import { Experience } from 'app/models/experience.types';
-import { License } from 'app/models/license.types';
-import { OtherAccount } from 'app/models/other-account.types';
-import { Reference } from 'app/models/reference.types';
-import { Skill } from 'app/models/skill.types';
 import { User } from 'app/models/user.types';
 import { SharedService } from 'app/shared/services/shared.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
-import { EducationType } from 'app/models/education-type.types';
 import { CommonResponse } from 'app/models/common-response.types';
-import { Job } from 'app/models/job.types';
-import { AccountType } from 'app/models/account-type.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
-import { ExperienceComponent } from '../experience/experience.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EducationComponent } from '../education/education.component';
 import {
     ArrayTypes,
     MY_ACCOUNT_DETAILS,
@@ -55,7 +35,6 @@ export class MyAccountComponent implements OnInit {
     constructor(
         private user_service: UserService,
         private change_detector_ref: ChangeDetectorRef,
-        private form_builder: FormBuilder,
         public shared_service: SharedService,
         private employee_service: EmployeeService,
         private confirm_service: FuseConfirmationService,
@@ -248,7 +227,7 @@ export class MyAccountComponent implements OnInit {
 
         if (content_type) {
             dialog_data[content_type.key] =
-                array_type === 'attachments' ? false : data;
+                array_type === 'attachments' ? true : data;
             this.mat_dialog.open(content_type.component, {
                 disableClose: true,
                 width: content_type.width,

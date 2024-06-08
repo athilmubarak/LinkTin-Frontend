@@ -220,7 +220,7 @@ export class SharedService {
      */
     uploadFile(data: any): Observable<CommonResponse<string>> {
         return this.http.post<CommonResponse<string>>(
-            `${this.root_url}/file/upload`,
+            `${this.root_url}/fileupload/upload`,
             data
         );
     }
