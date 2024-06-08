@@ -1,0 +1,12 @@
+.delete-button {
+    position: relative;
+    top: -20px;
+    right: -100px;
+    opacity: 0;
+}
+
+a:hover {
+    .delete-button {
+        opacity: 1;
+    }
+}

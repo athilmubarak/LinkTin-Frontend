@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
+import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { User } from 'app/models/user.types';
 import {
@@ -14,6 +15,7 @@ import {
     MY_ACCOUNT_DETAILS,
 } from 'app/modules/employee/constants/my-account-details.const';
 import { SharedService } from 'app/shared/services/shared.service';
+import { environment } from 'environments/environment';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -24,6 +26,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export class MyAccountComponent implements OnInit {
     //Variables
     user_details: User;
+    readonly url: string = environment.url;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -147,8 +151,12 @@ export class MyAccountComponent implements OnInit {
                                     });
 
                                     if (res.success) {
-                                        this.user_details[array_type].splice(index, 1);
-                                        this.user_service.user = this.user_details;
+                                        this.user_details[array_type].splice(
+                                            index,
+                                            1
+                                        );
+                                        this.user_service.user =
+                                            this.user_details;
                                     }
                                 },
                                 error: (error: any) =>
@@ -175,5 +183,34 @@ export class MyAccountComponent implements OnInit {
                 panelClass: 'error-message',
             }
         );
+    }
+
+    /**
+     * to return attachment name or file type
+     *
+     * @param attachment
+     * @param type
+     * @returns
+     */
+    returnFile(attachment: Attachment, type: 'name' | 'file-type'): string {
+        if (type === 'file-type') {
+            return attachment.attachment_name
+                .slice(attachment.attachment_name.length - 3)
+                .toUpperCase();
+        } else {
+            return attachment.attachment_name.slice(
+                0,
+                attachment.attachment_name.length - 4
+            );
+        }
+    }
+
+    /**
+     * to view attachment
+     *
+     * @param attachment
+     */
+    viewAttachment(attachment: Attachment) {
+        window.open(`${this.url}${attachment.attachment_url}`, '_blank');
     }
 }

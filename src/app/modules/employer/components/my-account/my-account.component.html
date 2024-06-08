@@ -182,7 +182,61 @@
             <div
                 class="flex flex-col md:flex-row w-full flex-wrap"
                 *ngIf="user_details.attachments.length > 0; else noAttachments"
-            ></div>
+            >
+                <ng-container
+                    *ngFor="let file of user_details.attachments; let i = index"
+                >
+                    <a
+                        class="flex flex-col w-40 h-50 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card border-2"
+                    >
+                        <button
+                            mat-icon-button
+                            color="primary"
+                            class="delete-button"
+                            (click)="removeDetails('attachments', i)"
+                        >
+                            <mat-icon svgIcon="mat_outline:delete"></mat-icon>
+                        </button>
+                        <div
+                            class="aspect-w-9 aspect-h-6"
+                            (click)="viewAttachment(file)"
+                        >
+                            <div class="flex items-center justify-center">
+                                <!-- Icons -->
+                                <div class="flex flex-col justify-center">
+                                    <mat-icon
+                                        class="icon-size-14 text-hint mx-auto"
+                                        [svgIcon]="'iconsmind:file'"
+                                    ></mat-icon>
+                                    <div
+                                        class="flex justify-center mt-2 px-1.5 rounded text-sm font-semibold leading-5 text-white"
+                                        [class.bg-red-600]="
+                                            returnFile(file, 'file-type') ===
+                                            'PDF'
+                                        "
+                                        [class.bg-amber-600]="
+                                            returnFile(file, 'file-type') ===
+                                            'JPG'
+                                        "
+                                    >
+                                        {{ returnFile(file, "file-type") }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+                        >
+                            <div
+                                class="truncate"
+                                [matTooltip]="returnFile(file, 'name')"
+                            >
+                                {{ returnFile(file, "name") }}
+                            </div>
+                        </div>
+                    </a>
+                </ng-container>
+            </div>
             <ng-template #noAttachments>
                 <div class="flex flex-col w-full justify-center items-center">
                     <img

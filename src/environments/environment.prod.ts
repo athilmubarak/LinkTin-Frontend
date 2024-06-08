@@ -2,5 +2,5 @@
 export const environment = {
     production: true,
     api_url: 'http://192.168.18.172:81/api',
-    url: `${window.location.origin}`,
+    url: 'http://192.168.18.172:81/',
 };

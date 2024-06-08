@@ -20,6 +20,8 @@ import {
     ArrayTypes,
     MY_ACCOUNT_DETAILS,
 } from '../../constants/my-account-details.const';
+import { Attachment } from 'app/models/attachment.types';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-my-account',
@@ -29,6 +31,7 @@ import {
 export class MyAccountComponent implements OnInit {
     //Variables
     user: User;
+    readonly url: string = environment.url;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -234,5 +237,34 @@ export class MyAccountComponent implements OnInit {
                 data: dialog_data,
             });
         }
+    }
+
+    /**
+     * to return attachment name or file type
+     *
+     * @param attachment
+     * @param type
+     * @returns
+     */
+    returnFile(attachment: Attachment, type: 'name' | 'file-type'): string {
+        if (type === 'file-type') {
+            return attachment.attachment_name
+                .slice(attachment.attachment_name.length - 3)
+                .toUpperCase();
+        } else {
+            return attachment.attachment_name.slice(
+                0,
+                attachment.attachment_name.length - 4
+            );
+        }
+    }
+
+    /**
+     * to view attachment
+     * 
+     * @param attachment 
+     */
+    viewAttachment(attachment: Attachment) {
+        window.open(`${this.url}${attachment.attachment_url}`, '_blank');
     }
 }
