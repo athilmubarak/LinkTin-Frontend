@@ -9,6 +9,7 @@ import { FuseCardModule } from '@fuse/components/card';
 import { HammerModule } from '@angular/platform-browser';
 import { OtherAccountComponent } from './components/other-account/other-account.component';
 import { AttachmentComponent } from './components/attachment/attachment.component';
+import { DndDirective } from './directives/dnd.directive';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { AttachmentComponent } from './components/attachment/attachment.componen
         EmployeeCardComponent,
         VacancyCardComponent,
         OtherAccountComponent,
-        AttachmentComponent
+        AttachmentComponent,
+        DndDirective
     ],
     entryComponents: [
         VacancyViewComponent
