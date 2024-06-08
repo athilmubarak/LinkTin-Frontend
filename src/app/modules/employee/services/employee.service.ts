@@ -301,9 +301,9 @@ export class EmployeeService {
 
     /**
      * to add new education type
-     * 
-     * @param education_type 
-     * @returns 
+     *
+     * @param education_type
+     * @returns
      */
     addEducationType(
         education_type: EducationType
@@ -311,6 +311,21 @@ export class EmployeeService {
         return this.http.post<CommonResponse<EducationType>>(
             `${this.root_url}/education/education-types/insert`,
             education_type
+        );
+    }
+
+    /**
+     * to insert employee skills
+     * 
+     * @param skills 
+     * @returns 
+     */
+    insertEmployeeSkills(
+        skills: number[]
+    ): Observable<CommonResponse<Skill[]>> {
+        return this.http.post<CommonResponse<Skill[]>>(
+            `${this.root_url}/user/skill/insert`,
+            { skills: skills }
         );
     }
 }

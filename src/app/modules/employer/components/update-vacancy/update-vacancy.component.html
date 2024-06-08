@@ -108,7 +108,7 @@
                 <mat-chip-list>
                     <mat-chip *ngFor="let skill of required_skills; let i = index;" (removed)="removeSkill(skill, i)">
                         {{ skill?.skill1 }}
-                        <mat-icon class="cursor-pointer" matChipRemove>cancel</mat-icon>
+                        <mat-icon class="cursor-pointer" matChipRemove svgIcon="mat_solid:cancel"></mat-icon>
                     </mat-chip>
                 </mat-chip-list>
             </div>

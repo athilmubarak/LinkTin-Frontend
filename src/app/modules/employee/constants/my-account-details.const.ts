@@ -7,6 +7,7 @@ import { OtherAccountComponent } from 'app/shared/components/other-account/other
 import { LicenseComponent } from '../components/license/license.component';
 import { ReferenceComponent } from '../components/reference/reference.component';
 import { AttachmentComponent } from 'app/shared/components/attachment/attachment.component';
+import { EmployeeSkillComponent } from '../components/employee-skill/employee-skill.component';
 
 /* eslint-disable eol-last */
 export type ArrayTypes =
@@ -60,6 +61,12 @@ export const MY_ACCOUNT_DETAILS: MyAccountDetail[] = [
         array_type: 'attachments',
         component: AttachmentComponent,
         key: 'is_user_attachment',
+        width: '500px',
+    },
+    {
+        array_type: 'skills',
+        component: EmployeeSkillComponent,
+        key: 'skill',
         width: '500px',
     }
 ];

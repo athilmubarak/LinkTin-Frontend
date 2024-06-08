@@ -13,6 +13,7 @@ import { CertificationComponent } from './components/certification/certification
 import { LicenseComponent } from './components/license/license.component';
 import { ReferenceComponent } from './components/reference/reference.component';
 import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { EmployeeSkillComponent } from './components/employee-skill/employee-skill.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
     CertificationComponent,
     LicenseComponent,
     ReferenceComponent,
-    UpdateEmployeeComponent
+    UpdateEmployeeComponent,
+    EmployeeSkillComponent
   ],
   imports: [
     CommonModule,
