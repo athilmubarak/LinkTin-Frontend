@@ -92,7 +92,6 @@ export class OtherAccountComponent implements OnInit {
 
                 if (res.success) {
                     if (this.data.other_account) {
-                    } else {
                         this.data.user.other_accounts =
                             this.data.user.other_accounts.map((x) => {
                                 if (
@@ -104,6 +103,8 @@ export class OtherAccountComponent implements OnInit {
                                     return x;
                                 }
                             });
+                    } else {
+                        this.data.user.other_accounts.push(res.data);
                     }
 
                     this.user_service.user = this.data.user;

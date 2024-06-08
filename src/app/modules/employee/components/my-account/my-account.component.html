@@ -114,13 +114,14 @@
                 <mat-chip-list class="flex flex-wrap">
                     <mat-chip
                         *ngFor="let skill of user.skill; let i = index"
-                        removable="true"
-                        (removed)="removeDetails(skill, i)"
+                        (removed)="removeDetails('skills', i)"
                     >
-                        {{ skill.skill1 }}
-                        <button matChipRemove>
-                            <mat-icon svgIcon="mat_solid:cancel"></mat-icon>
-                        </button>
+                        {{ skill.skill }}
+                        <mat-icon
+                            matChipRemove
+                            class="cursor-pointer"
+                            svgIcon="mat_solid:cancel"
+                        ></mat-icon>
                     </mat-chip>
                 </mat-chip-list>
             </div>
@@ -481,7 +482,7 @@
                 >
                     <div class="flex justify-between items-center">
                         <div class="flex font-bold text-lg">
-                            {{ account.certificate_name }}
+                            {{ account.account_name }}
                         </div>
                         <div class="flex">
                             <button

@@ -5,4 +5,5 @@ export interface Skill {
     required_skill_id?: number;
     skill_id: number;
     skill1: string;
+    skill?: string;
 }
