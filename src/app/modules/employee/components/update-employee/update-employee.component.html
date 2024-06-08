@@ -1,7 +1,101 @@
 <h2 mat-dialog-title>Update User Details</h2>
 <mat-dialog-content class="mat-typography">
-    
+    <form [formGroup]="employee_form" class="w-full">
+        <mat-form-field class="w-full">
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name" />
+        </mat-form-field>
+        <div class="flex w-full">
+            <mat-form-field class="w-full">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender_id">
+                    <mat-option
+                        *ngFor="let gender of shared_service.genders"
+                        [value]="gender.gender_id"
+                    >
+                        {{ gender.description }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full ml-2">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="country_id">
+                    <mat-option
+                        *ngFor="let country of shared_service.countries"
+                        [value]="country.country_id"
+                    >
+                        {{ country.country_name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="flex w-full">
+            <mat-form-field class="w-full">
+                <mat-label>Phone Number</mat-label>
+                <input type="text" matInput formControlName="phone_number" />
+            </mat-form-field>
+            <mat-form-field class="w-full ml-2">
+                <mat-label>DOB</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="dob"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <mat-form-field class="w-full">
+            <mat-label>About Me</mat-label>
+            <textarea matInput formControlName="about_us" rows="4"></textarea>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Portfolio URL</mat-label>
+            <input type="text" matInput formControlName="portfolio" />
+        </mat-form-field>
+        <div class="flex w-full mt-2">
+            <div class="flex flex-col justify-center w-full items-center">
+                <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
+                    <img
+                        [src]="url + data.user_details.profile_url"
+                        *ngIf="data.user_details.profile_url"
+                        class="w-40 rounded"
+                    />
+                </div>
+                <button mat-flat-button (click)="uploadImage('profile_url')">
+                    Change Profile Picture
+                </button>
+            </div>
+            <div class="flex flex-col justify-center w-full items-center">
+                <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
+                    <img
+                        [src]="url + data.user_details.employee_cover_url"
+                        *ngIf="data.user_details.employee_cover_url"
+                        class="w-40 rounded"
+                    />
+                </div>
+
+                <button mat-flat-button (click)="uploadImage('cover_url')">
+                    Change Cover Picture
+                </button>
+            </div>
+        </div>
+    </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button mat-dialog-close [disabled]="employee_form.disabled">
+        Close
+    </button>
+    <button
+        mat-flat-button
+        color="primary"
+        [disabled]="employee_form.disabled"
+        (click)="updateEmployeeDetails()"
+    >
+        Submit
+    </button>
 </mat-dialog-actions>

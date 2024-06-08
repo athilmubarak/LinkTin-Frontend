@@ -83,7 +83,14 @@
                         [svgIcon]="'mat_solid:web'"
                     ></mat-icon>
                     <span class="leading-none">
-                        {{ user.user_details.portfolio }}
+                        <a
+                            *ngIf="user.user_details.portfolio"
+                            [href]="user.user_details.portfolio"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {{ user.user_details.portfolio }}
+                        </a>
                     </span>
                 </div>
             </div>
@@ -586,13 +593,19 @@
                     </div>
 
                     <div class="flex mb-2 items-center">
-                        <mat-icon svgIcon="mat_solid:email" class="icon-size-4"></mat-icon>
+                        <mat-icon
+                            svgIcon="mat_solid:email"
+                            class="icon-size-4"
+                        ></mat-icon>
                         <div class="flex font-semibold text-secondary ml-2">
                             {{ reference.email }}
                         </div>
                     </div>
                     <div class="flex items-center">
-                        <mat-icon svgIcon="mat_solid:phone" class="icon-size-4"></mat-icon>
+                        <mat-icon
+                            svgIcon="mat_solid:phone"
+                            class="icon-size-4"
+                        ></mat-icon>
                         <div class="flex font-semibold text-secondary ml-2">
                             {{ reference.phone_number }}
                         </div>

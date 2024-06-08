@@ -13,8 +13,15 @@ import { UserService } from 'app/core/user/user.service';
 import { SharedService } from 'app/shared/services/shared.service';
 import { EmployeeService } from '../../services/employee.service';
 import { User } from 'app/models/user.types';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
 import { CommonResponse } from 'app/models/common-response.types';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
+import { AttachmentComponent } from 'app/shared/components/attachment/attachment.component';
 
 @Component({
     selector: 'app-update-employee',
@@ -26,19 +33,17 @@ export class UpdateEmployeeComponent implements OnInit {
     employee_form: FormGroup;
 
     //Variables
-    show_alert: boolean;
-    alert: { type: FuseAlertType; message: string } = {
-        type: 'success',
-        message: '',
-    };
+    readonly url: string = environment.url;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: User,
         private form_builder: FormBuilder,
         private user_service: UserService,
-        private shared_service: SharedService,
+        public shared_service: SharedService,
         private employee_service: EmployeeService,
-        private dialog_ref: MatDialogRef<UpdateEmployeeComponent>
+        private dialog_ref: MatDialogRef<UpdateEmployeeComponent>,
+        private snack_bar: MatSnackBar,
+        private mat_dialog: MatDialog
     ) {
         this.employee_form = this.form_builder.group({
             gender_id: new FormControl('', Validators.required),
@@ -51,6 +56,9 @@ export class UpdateEmployeeComponent implements OnInit {
             portfolio: new FormControl(''),
             about_us: new FormControl('', Validators.required),
         });
+
+        this.shared_service.getGenders();
+        this.shared_service.getCountries();
     }
 
     ngOnInit(): void {
@@ -86,16 +94,16 @@ export class UpdateEmployeeComponent implements OnInit {
             .subscribe({
                 next: (res: CommonResponse<User>) => {
                     console.log(res);
+                    this.snack_bar.open(res.message, 'Close', {
+                        duration: 2000,
+                        panelClass: res.success
+                            ? 'success-message'
+                            : 'error-message',
+                    });
 
                     if (res.success) {
                         this.user_service.user = res.data;
                         this.dialog_ref.close();
-                    } else {
-                        this.show_alert = true;
-                        this.alert = {
-                            type: 'error',
-                            message: res.message,
-                        };
                     }
                 },
                 complete: () => this.employee_form.enable(),
@@ -104,5 +112,39 @@ export class UpdateEmployeeComponent implements OnInit {
                     this.employee_form.enable();
                 },
             });
+    }
+
+    /**
+     * to change images (profile picture or cover photo)
+     *
+     * @param form_control_name
+     */
+    uploadImage(form_control_name: 'cover_url' | 'profile_url') {
+        const attachment_dialog_ref = this.mat_dialog.open(
+            AttachmentComponent,
+            {
+                disableClose: true,
+                data: {
+                    user: this.data,
+                    is_user_attachment: false,
+                },
+                width: '500px',
+            }
+        );
+
+        attachment_dialog_ref.afterClosed().subscribe({
+            next: (res: CommonResponse<string>) => {
+                if (res && res.success) {
+                    this.employee_form
+                        .get(form_control_name)
+                        ?.setValue(res.data);
+                    if (form_control_name === 'cover_url') {
+                        this.data.user_details.employee_cover_url = res.data;
+                    } else {
+                        this.data.user_details.profile_url = res.data;
+                    }
+                }
+            },
+        });
     }
 }
