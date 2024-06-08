@@ -59,7 +59,7 @@ export const MY_ACCOUNT_DETAILS: MyAccountDetail[] = [
     {
         array_type: 'attachments',
         component: AttachmentComponent,
-        key: 'attachment',
-        width: '400px',
+        key: 'is_user_attachment',
+        width: '500px',
     }
 ];

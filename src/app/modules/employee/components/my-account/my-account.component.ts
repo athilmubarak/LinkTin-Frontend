@@ -36,8 +36,10 @@ import { UpdateEmployeeComponent } from '../update-employee/update-employee.comp
 import { ExperienceComponent } from '../experience/experience.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EducationComponent } from '../education/education.component';
-import { ArrayTypes, MY_ACCOUNT_DETAILS } from '../../constants/my-account-details.const';
-
+import {
+    ArrayTypes,
+    MY_ACCOUNT_DETAILS,
+} from '../../constants/my-account-details.const';
 
 @Component({
     selector: 'app-my-account',
@@ -84,56 +86,6 @@ export class MyAccountComponent implements OnInit {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
-    }
-
-    /**
-     * to create form-group according to form-array
-     *
-     * @param array_name
-     * @param value
-     * @returns
-     */
-    returnFormGroup(array_name: ArrayTypes, value?: any): FormGroup {
-        let form: FormGroup;
-        switch (array_name) {
-            case 'attachments':
-                const attachment: Attachment = value;
-                form = this.form_builder.group({
-                    attachment_id: new FormControl(
-                        value ? attachment.attachment_id : 0
-                    ),
-                    attachment_url: new FormControl(
-                        value ? attachment.attachment_url : '',
-                        Validators.required
-                    ),
-                    attachment_name: new FormControl(
-                        value ? attachment.attachment_name : '',
-                        Validators.required
-                    ),
-                });
-                break;
-
-            case 'skills':
-                const skill: Skill = value;
-                let skill_data: Skill;
-                if (value) {
-                    skill_data = this.shared_service.skills.find(
-                        (x) => x.skill_id === skill.skill_id
-                    );
-                }
-                form = this.form_builder.group({
-                    employee_skill_id: new FormControl(
-                        value ? skill.employee_skill_id : 0
-                    ),
-                    skill: new FormControl(
-                        value ? skill_data : '',
-                        Validators.required
-                    ),
-                });
-                break;
-        }
-
-        return form;
     }
 
     /**
@@ -282,22 +234,25 @@ export class MyAccountComponent implements OnInit {
 
     /**
      * to add or update details
-     * 
-     * @param array_type 
-     * @param data 
+     *
+     * @param array_type
+     * @param data
      */
     onClickDetails(array_type: ArrayTypes, data?: any) {
-        const content_type = MY_ACCOUNT_DETAILS.find(x => x.array_type === array_type);
+        const content_type = MY_ACCOUNT_DETAILS.find(
+            (x) => x.array_type === array_type
+        );
         const dialog_data = {
-            user: this.user
+            user: this.user,
         };
 
         if (content_type) {
-            dialog_data[content_type.key] = data;
+            dialog_data[content_type.key] =
+                array_type === 'attachments' ? false : data;
             this.mat_dialog.open(content_type.component, {
                 disableClose: true,
                 width: content_type.width,
-                data: dialog_data
+                data: dialog_data,
             });
         }
     }

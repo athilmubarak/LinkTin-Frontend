@@ -339,6 +339,23 @@
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.attachments.length > 0; else noAttachments"
+            ></div>
+            <ng-template #noAttachments>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No attachments yet. Click the "Add" button on the right
+                        to add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 
@@ -348,12 +365,67 @@
                 <div class="text-2xl font-semibold leading-tight">
                     Social Accounts
                 </div>
-                <button mat-icon-button (click)="onClickDetails('other_accounts')">
+                <button
+                    mat-icon-button
+                    (click)="onClickDetails('other_accounts')"
+                >
                     <mat-icon
                         svgIcon="mat_outline:add_circle_outline"
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.other_accounts.length > 0; else noAccounts"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    *ngFor="let account of user.other_accounts; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ account.certificate_name }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="
+                                    onClickDetails('other_accounts', account)
+                                "
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('other_accounts', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ account.description }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noAccounts>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No accounts yet. Click the "Add" button on the right to
+                        add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 
@@ -367,6 +439,56 @@
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.licenses.length > 0; else noLicenses"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    *ngFor="let license of user.licenses; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ license.license_name }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="onClickDetails('licenses', license)"
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('licenses', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ license.description }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noLicenses>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No licenses yet. Click the "Add" button on the right to
+                        add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 
@@ -382,6 +504,61 @@
                     ></mat-icon>
                 </button>
             </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user.references.length > 0; else noReferences"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2"
+                    *ngFor="let reference of user.references; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ reference.reference_name }}
+                        </div>
+                        <div class="flex">
+                            <button
+                                mat-icon-button
+                                class="mr-1"
+                                (click)="
+                                    onClickDetails('references', reference)
+                                "
+                            >
+                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="removeDetails('references', i)"
+                            >
+                                <mat-icon
+                                    svgIcon="mat_outline:delete_outline"
+                                ></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex font-semibold">
+                        {{ reference.email }}
+                    </div>
+                    <div class="flex font-semibold">
+                        {{ reference.phone_number }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noReferences>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No references yet. Click the "Add" button on the right
+                        to add one.
+                    </div>
+                </div>
+            </ng-template>
         </fuse-card>
     </div>
 </div>

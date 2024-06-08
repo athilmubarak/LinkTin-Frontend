@@ -4,6 +4,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AccountType } from 'app/models/account-type.types';
+import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { Gender } from 'app/models/gender.types';
@@ -183,9 +184,9 @@ export class SharedService {
 
     /**
      * add new other account
-     * 
-     * @param account 
-     * @returns 
+     *
+     * @param account
+     * @returns
      */
     addNewOtherAccount(
         account: OtherAccount
@@ -198,9 +199,9 @@ export class SharedService {
 
     /**
      * update other account
-     * 
-     * @param account 
-     * @returns 
+     *
+     * @param account
+     * @returns
      */
     updateOtherAccount(
         account: OtherAccount
@@ -208,6 +209,34 @@ export class SharedService {
         return this.http.put<CommonResponse<OtherAccount>>(
             `${this.root_url}/user/other-account/update`,
             account
+        );
+    }
+
+    /**
+     * to upload file
+     *
+     * @param data
+     * @returns
+     */
+    uploadFile(data: any): Observable<CommonResponse<string>> {
+        return this.http.post<CommonResponse<string>>(
+            `${this.root_url}/file/upload`,
+            data
+        );
+    }
+
+    /**
+     * to add new user's attachment
+     *
+     * @param attachment
+     * @returns
+     */
+    createNewAttachment(
+        attachment: Attachment
+    ): Observable<CommonResponse<Attachment>> {
+        return this.http.post<CommonResponse<Attachment>>(
+            `${this.root_url}/user/attachment/insert`,
+            attachment
         );
     }
 }

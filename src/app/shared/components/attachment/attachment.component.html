@@ -1,1 +1,69 @@
-<p>attachment works!</p>
+<h2 mat-dialog-title>Upload Attachment</h2>
+<mat-dialog-content class="mat-typography">
+    <div
+        class="flex flex-col items-center w-full p-2 border-2 rounded border-dashed"
+        appDnd
+        (fileDropped)="onFileDropped($event)"
+    >
+        <input
+            type="file"
+            #fileDropRef
+            id="fileDropRef"
+            (change)="fileBrowseHandler($event.target.files)"
+            class="opacity-0"
+            [accept]="data.is_user_attachment ? 'pdf' : 'jpg'"
+        />
+        <img
+            src="./assets/images/ui/angular-material/scenes/ic-upload-file.svg"
+            alt=""
+            class="w-30"
+        />
+        <h3 class="font-bold text-secondary">Drag and drop file here</h3>
+        <h3 class="font-bold text-secondary">or</h3>
+        <button mat-flat-button color="primary" (click)="fileDropRef.click()">
+            Browse for file
+        </button>
+    </div>
+    <div class="flex justify-center" *ngIf="files.length > 0">
+        <a
+            class="flex flex-col w-40 h-40 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card border-2"
+        >
+            <div class="aspect-w-9 aspect-h-6">
+                <div class="flex items-center justify-center">
+                    <!-- Icons -->
+                    <div class="flex flex-col justify-center">
+                        <mat-icon
+                            class="icon-size-14 text-hint mx-auto"
+                            [svgIcon]="'iconsmind:file'"
+                        ></mat-icon>
+                        <div
+                            class="flex justify-center mt-2 px-1.5 rounded text-sm font-semibold leading-5 text-white"
+                            [class.bg-red-600]="file_type === 'PDF'"
+                            [class.bg-amber-600]="file_type === 'JPG'"
+                        >
+                            {{ file_type }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+            >
+                <div class="truncate" [matTooltip]="files[0].name">
+                    {{ files[0].name }}
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <mat-form-field class="w-full mt-4" *ngIf="data.is_user_attachment">
+        <mat-label>File Name</mat-label>
+        <input type="text" matInput [formControl]="file_name" />
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="saveAttachment()">
+        Submit
+    </button>
+</mat-dialog-actions>
