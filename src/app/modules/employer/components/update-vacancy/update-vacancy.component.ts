@@ -9,7 +9,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FuseAlertType } from '@fuse/components/alert';
 import { Vacancy } from 'app/models/vacancy.types';
 import { VacancyService } from '../../services/vacancy.service';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -18,7 +17,6 @@ import { Skill } from 'app/models/skill.types';
 import { Observable } from 'rxjs';
 import { SharedService } from 'app/shared/services/shared.service';
 import { Job } from 'app/models/job.types';
-import { DatePipe } from '@angular/common';
 import { VacancyRequest } from 'app/models/vacancy-request.types';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -48,7 +46,6 @@ export class UpdateVacancyComponent implements OnInit {
         private form_builder: FormBuilder,
         public vacancy_service: VacancyService,
         private shared_service: SharedService,
-        private date_pipe: DatePipe,
         private snack_bar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data?: Vacancy
     ) {
