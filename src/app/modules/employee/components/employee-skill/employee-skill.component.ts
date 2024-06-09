@@ -135,8 +135,8 @@ export class EmployeeSkillComponent implements OnInit {
 
     /**
      * to insert new employee skills
-     * 
-     * @returns 
+     *
+     * @returns
      */
     saveEmployeeSkills() {
         if (this.selected_skills.length === 0) {
@@ -147,7 +147,7 @@ export class EmployeeSkillComponent implements OnInit {
         this.employee_service
             .insertEmployeeSkills(this.selected_skills.map((x) => x.skill_id))
             .subscribe({
-                next: (res: CommonResponse<Skill[]>) => {
+                next: (res: CommonResponse<{ skill: Skill[] }>) => {
                     console.log(res);
 
                     this.snack_bar.open(res.message, 'Close', {
@@ -158,7 +158,9 @@ export class EmployeeSkillComponent implements OnInit {
                     });
 
                     if (res.success) {
-                        this.data.user.skill.push(...res.data);
+                        this.data.user.skill.push(
+                            ...res.data.skill.filter((x) => !x.is_deleted)
+                        );
 
                         this.user_service.user = this.data.user;
                         this.dialog_ref.close();

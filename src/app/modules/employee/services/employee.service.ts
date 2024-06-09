@@ -316,14 +316,14 @@ export class EmployeeService {
 
     /**
      * to insert employee skills
-     * 
-     * @param skills 
-     * @returns 
+     *
+     * @param skills
+     * @returns
      */
     insertEmployeeSkills(
         skills: number[]
-    ): Observable<CommonResponse<Skill[]>> {
-        return this.http.post<CommonResponse<Skill[]>>(
+    ): Observable<CommonResponse<{ skill: Skill[] }>> {
+        return this.http.post<CommonResponse<{ skill: Skill[] }>>(
             `${this.root_url}/user/skill/insert`,
             { skills: skills }
         );

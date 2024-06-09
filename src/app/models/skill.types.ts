@@ -6,4 +6,5 @@ export interface Skill {
     skill_id: number;
     skill1: string;
     skill?: string;
+    is_deleted?: boolean;
 }
