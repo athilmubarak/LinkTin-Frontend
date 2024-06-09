@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-trailing-spaces */
@@ -20,6 +21,7 @@ import { User } from 'app/models/user.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserDetails } from 'app/models/user-details.types';
 import { AuthService } from 'app/core/auth/auth.service';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'user',
@@ -36,6 +38,7 @@ export class UserComponent implements OnInit, OnDestroy {
     @Input() showAvatar: boolean = true;
     user: User;
     user_type_id: number;
+    readonly url: string = environment.url;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -127,9 +130,9 @@ export class UserComponent implements OnInit, OnDestroy {
     getUserImageURL(): string {
         let url: string = '';
         if (this.user_type_id === 1) {
-            url = this.user?.user_details?.profile_url ?? '';
+            url = this.url + this.user?.user_details?.profile_url ?? '';
         } else if (this.user_type_id === 2) {
-            url = this.user?.user_details?.logo1 ?? '';
+            url = this.url + this.user?.user_details?.logo1 ?? '';
         }
         return url;
     }
