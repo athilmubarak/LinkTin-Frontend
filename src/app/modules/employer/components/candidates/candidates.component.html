@@ -1,25 +1,15 @@
 <div class="flex flex-col w-full mx-6 my-3">
-    <!-- <div class="flex">
-        <fuse-alert class="mt-8 -mb-4" *ngIf="show_alert" [appearance]="'outline'" [showIcon]="false"
-            [type]="alert.type" [@shake]="alert.type === 'error'">
-            {{alert.message}}
-        </fuse-alert>
-    </div> -->
     <div class="flex flex-row justify-end w-full px-4 py-9">
-        <div class="flex sm:flex-row items-end w-full max-w-xs sm:max-w-none">
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
-                <mat-select
-                    [value]="0"
-                    (selectionChange)="filterDataByType($event)"
-                >
-                    <mat-option
-                        *ngFor="let types of jobTypes"
-                        [value]="types.id"
-                        >{{ types.value }}</mat-option
-                    >
-                </mat-select>
-            </mat-form-field>
-        </div>
+        <mat-form-field class="flex w-full">
+            <mat-select
+                [value]="0"
+                (selectionChange)="filterDataByType($event)"
+            >
+                <mat-option *ngFor="let types of jobTypes" [value]="types.id">{{
+                    types.value
+                }}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="grid grid-cols-1 gap-8 w-full mt-4">
         <div class="xl:col-span-3 mt-2 flex flex-col flex-auto overflow-hidden">
@@ -56,7 +46,7 @@
                             }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="vaccancy_count">
+                    <ng-container matColumnDef="vacancy_count">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                             Applied / Requested on
                         </th>
@@ -83,7 +73,7 @@
                                 <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                             </button>
                             <button
-                                *ngIf="row.resume_attachement_id"
+                                *ngIf="row.resume_attachment_id"
                                 mat-icon-button
                                 (click)="redirectUrl(row)"
                             >

@@ -44,7 +44,7 @@ export class CandidatesComponent implements OnInit {
         'sl',
         'name',
         'placement_type',
-        'vaccancy_count',
+        'vacancy_count',
         'application_starts_from',
         'admin',
     ];
