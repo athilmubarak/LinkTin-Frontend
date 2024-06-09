@@ -18,6 +18,7 @@ import {
 import { CommonResponse } from 'app/models/common-response.types';
 import { UserService } from 'app/core/user/user.service';
 import { AttachmentComponent } from 'app/shared/components/attachment/attachment.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-update-employer',
@@ -29,6 +30,7 @@ export class UpdateEmployerComponent implements OnInit {
     employer_form: FormGroup;
 
     //Variables
+    readonly url: string = environment.url;
 
     constructor(
         private form_builder: FormBuilder,
@@ -48,7 +50,7 @@ export class UpdateEmployerComponent implements OnInit {
             website_url: new FormControl(''),
             cover_url: new FormControl(''),
             number_of_employees: new FormControl('', Validators.min(1)),
-            about_us: new FormControl(''),
+            about_us: new FormControl('', Validators.required),
         });
     }
 
@@ -106,7 +108,7 @@ export class UpdateEmployerComponent implements OnInit {
      *
      * @param form_control_name
      */
-    uploadImage(form_control_name: 'cover_url' | 'profile_url'): void {
+    uploadImage(form_control_name: 'cover_url' | 'logo1'): void {
         const attachment_dialog_ref = this.mat_dialog.open(
             AttachmentComponent,
             {
@@ -114,7 +116,7 @@ export class UpdateEmployerComponent implements OnInit {
                 data: {
                     user: this.data,
                     is_user_attachment: false,
-                    accept: '.jpg'
+                    accept: '.jpg',
                 },
                 width: '500px',
             }
@@ -126,7 +128,15 @@ export class UpdateEmployerComponent implements OnInit {
                     this.employer_form
                         .get(form_control_name)
                         ?.setValue(res.data);
+
+                    if (form_control_name === 'cover_url') {
+                        this.data.user_details.employer_cover_url = res.data;
+                    } else {
+                        this.data.user_details.logo1 = res.data;
+                    }
                 }
+
+                console.log(this.employer_form.value);
             },
         });
     }

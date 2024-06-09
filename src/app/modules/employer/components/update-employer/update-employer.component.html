@@ -17,12 +17,16 @@
             <mat-form-field class="w-full">
                 <mat-label>No. of employees</mat-label>
                 <input
-                    type="text"
+                    type="number"
                     matInput
                     formControlName="number_of_employees"
                 />
             </mat-form-field>
         </div>
+        <mat-form-field class="w-full">
+            <mat-label>About Me</mat-label>
+            <textarea matInput formControlName="about_us" rows="4"></textarea>
+        </mat-form-field>
         <mat-form-field class="w-full">
             <mat-label>Website</mat-label>
             <input type="text" matInput formControlName="website_url" />
@@ -37,17 +41,14 @@
                         class="w-40 rounded"
                     />
                 </div>
-                <button mat-flat-button (click)="uploadImage('profile_url')">
+                <button mat-flat-button (click)="uploadImage('logo1')">
                     Change Profile Picture
                 </button>
             </div>
             <div class="flex flex-col justify-center w-full items-center">
                 <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
                     <img
-                        [src]="
-                            url +
-                            data.user_details.employer_form.get('logo1').value
-                        "
+                        [src]="url + employer_form.get('cover_url').value"
                         *ngIf="data.user_details.employer_cover_url"
                         class="w-40 rounded"
                     />
