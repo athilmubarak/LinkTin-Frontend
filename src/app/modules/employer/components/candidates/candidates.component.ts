@@ -16,6 +16,7 @@ import { User } from 'app/models/user.types';
 import { editAttachmentComponent } from 'app/modules/employee/components/dialog/edit-attachment-component';
 import { Subject, takeUntil } from 'rxjs';
 import { MyJobsService } from '../../services/my-jobs.service';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
     selector: 'app-candidates',
@@ -24,83 +25,87 @@ import { MyJobsService } from '../../services/my-jobs.service';
 })
 export class CandidatesComponent implements OnInit {
     //Variables
-    show_alert: boolean = false;
-    alert: { type: FuseAlertType; message: string } = {
-        type: 'success',
-        message: '',
-    };
-
-    jobTypes = [
-        { id: 0, value: 'All' },
-        { id: 1, value: 'Company Initiated Contact' },
-        { id: 2, value: 'Candidate Applications' },
-    ];
-    current_user_id = 101;
-    filtered_data_source = new MatTableDataSource<MyJobs>();
     user: User;
+    candidates: MyJobs[] = [];
+    filter_type: number = 0;
+
     //Mat-table related variables
     data_source = new MatTableDataSource<MyJobs>();
     displayed_columns: string[] = [
         'sl',
-        'name',
-        'placement_type',
+        'job_name',
+        'candidate',
         'vacancy_count',
         'application_starts_from',
         'admin',
     ];
     @ViewChild(MatSort, { static: true }) sort: MatSort;
-    private _userService: any;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     constructor(
         private myJobs_service: MyJobsService,
-        private _changeDetectorRef: ChangeDetectorRef,
+        private change_detector_ref: ChangeDetectorRef,
         private confirmation_dialog: FuseConfirmationService,
+        private user_service: UserService,
         public dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
         this.getVacancies();
-        this.filtered_data_source = this.data_source;
 
-        this._userService.user$
+        this.user_service.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
                 this.user = user;
 
                 // Mark for check
-                this._changeDetectorRef.markForCheck();
+                this.change_detector_ref.markForCheck();
             });
     }
 
     /**
      * to get filtered job types
      */
-    filterDataByType(e) {
-        const filterValue = e.value;
-        if (filterValue === 0) {
-            this.getVacancies();
-        } else if (filterValue === 1) {
-            this.data_source.data = this.filtered_data_source.data.filter(
-                (row) => row.applied_user_id === this.current_user_id
+    filterDataByType() {
+        let data = [];
+
+        if (this.filter_type === 0) {
+            //All
+            data = this.candidates;
+        } else if (this.filter_type === 1) {
+            //Company Initiated Contact
+            data = this.candidates.filter(
+                (application) =>
+                    application.applied_user_id ===
+                    this.user.user_details.user_id
             );
-        } else if (filterValue === 2) {
-            this.data_source.data = this.filtered_data_source.data.filter(
-                (row) => row.approved_user_id === this.current_user_id
+            data = [];
+        } else {
+            //Candidate Applications
+            data = this.candidates.filter(
+                (application) =>
+                    application.approved_user_id ===
+                    this.user.user_details.user_id
             );
         }
+
+        this.data_source = new MatTableDataSource(data);
+        this.data_source.sort = this.sort;
     }
     /**
      * to get all my jobs
      */
     getVacancies() {
         this.data_source = new MatTableDataSource();
+        this.candidates = [];
 
         this.myJobs_service.getAllJobVacancies().subscribe({
             next: (res: CommonResponse<MyJobs[]>) => {
                 console.log(res);
                 this.data_source = new MatTableDataSource(res.data);
                 this.data_source.sort = this.sort;
+                this.candidates = res.data;
             },
             error: () => {
                 const data: MyJobs[] = [
@@ -117,7 +122,7 @@ export class CandidatesComponent implements OnInit {
                         approved_date: '',
                         status: 2,
                         status_description: 'Open',
-                        resume_attachement_id: 1,
+                        resume_attachment_id: 1,
                         attachment_url: '',
                     },
                     {
@@ -133,7 +138,7 @@ export class CandidatesComponent implements OnInit {
                         approved_date: '',
                         status: 0,
                         status_description: 'Open',
-                        resume_attachement_id: 1,
+                        resume_attachment_id: 1,
                         attachment_url: 'https://www.lycamobile.co.uk/en/',
                     },
                 ];
@@ -151,9 +156,8 @@ export class CandidatesComponent implements OnInit {
      * to delete jobs
      *
      * @param jobs
-     * @param index
      */
-    deleteJob(jobs: MyJobs, index: number) {
+    deleteJob(job: MyJobs) {
         const dialog_ref = this.confirmation_dialog.open({
             title: 'Remove Jobs',
             message:
@@ -179,44 +183,27 @@ export class CandidatesComponent implements OnInit {
             next: (confirmed: string) => {
                 if (confirmed === 'confirmed') {
                     this.myJobs_service
-                        .deleteJob(jobs.sync_registry_id)
+                        .deleteJob(job.sync_registry_id)
                         .subscribe({
                             next: (res: CommonResponse<number>) => {
                                 console.log(res);
-                                this.alert = {
-                                    type: res.success ? 'success' : 'error',
-                                    message: res.message,
-                                };
-                                this.show_alert = true;
 
                                 if (res.success) {
-                                    const data = this.data_source.data;
-                                    if (index >= 0) {
-                                        data.splice(index, 1);
-                                    }
-
-                                    this.data_source = new MatTableDataSource(
-                                        data
+                                    const index = this.candidates.findIndex(
+                                        (x) =>
+                                            x.sync_registry_id ===
+                                            job.sync_registry_id
                                     );
-                                    this.data_source.sort = this.sort;
+
+                                    if (index >= 0) {
+                                        this.candidates.splice(index, 1);
+                                        this.filterDataByType();
+                                    }
                                 }
                             },
                         });
                 }
             },
-        });
-    }
-
-    /**
-     * to edit attachments
-     *
-     * @param jobs
-     *
-     */
-    openDialog(item: any) {
-        this.dialog.open(editAttachmentComponent, {
-            width: '800px',
-            data: { item },
         });
     }
 }

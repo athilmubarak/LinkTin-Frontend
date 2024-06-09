@@ -125,7 +125,7 @@ export class MyJobsComponent implements OnInit {
                         approved_date: '',
                         status: 2,
                         status_description: 'Open',
-                        resume_attachement_id: 1,
+                        resume_attachment_id: 1,
                         attachment_url: '',
                     },
                     {
@@ -141,7 +141,7 @@ export class MyJobsComponent implements OnInit {
                         approved_date: '',
                         status: 0,
                         status_description: 'Open',
-                        resume_attachement_id: 1,
+                        resume_attachment_id: 1,
                         attachment_url: 'https://www.lycamobile.co.uk/en/',
                     },
                 ];

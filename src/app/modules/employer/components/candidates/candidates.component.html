@@ -2,12 +2,22 @@
     <div class="flex flex-row justify-end w-full px-4 py-9">
         <mat-form-field class="flex w-full">
             <mat-select
-                [value]="0"
-                (selectionChange)="filterDataByType($event)"
+                [(value)]="filter_type"
+                (selectionChange)="filterDataByType()"
             >
-                <mat-option *ngFor="let types of jobTypes" [value]="types.id">{{
-                    types.value
-                }}</mat-option>
+                <mat-option
+                    *ngFor="
+                        let type of [
+                            'All',
+                            'Company Initiated Contact',
+                            'Candidate Applications'
+                        ];
+                        let i = index
+                    "
+                    [value]="index"
+                >
+                    {{ types }}
+                </mat-option>
             </mat-select>
         </mat-form-field>
     </div>
@@ -26,23 +36,22 @@
                             {{ i + 1 }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="name">
+                    <ng-container matColumnDef="job_name">
                         <th mat-header-cell *matHeaderCellDef>Position</th>
                         <td mat-cell *matCellDef="let row">
                             {{ row?.job_name }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="placement_type">
+                    <ng-container matColumnDef="candidate">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Company name
+                            Candidate
                         </th>
                         <td mat-cell *matCellDef="let row">
                             {{
-                                row?.approved_user_id === current_user_id
-                                    ? row.applied_user
-                                    : row?.applied_user_id === current_user_id
+                                row.applied_user_id ===
+                                user?.user_details?.user_id
                                     ? row.approved_user
-                                    : ""
+                                    : row.applied_user
                             }}
                         </td>
                     </ng-container>
@@ -51,7 +60,7 @@
                             Applied / Requested on
                         </th>
                         <td mat-cell *matCellDef="let row">
-                            {{ row?.applied_date }}
+                            {{ row?.applied_date | date: 'MM/dd/yyyy' }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="application_starts_from">
@@ -65,13 +74,6 @@
                     <ng-container matColumnDef="admin">
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let row; let i = index">
-                            <button
-                                *ngIf="row.status === 2"
-                                mat-icon-button
-                                (click)="openDialog(row)"
-                            >
-                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
-                            </button>
                             <button
                                 *ngIf="row.resume_attachment_id"
                                 mat-icon-button
@@ -88,12 +90,13 @@
                             </button>
                             <button
                                 *ngIf="
-                                    row?.applied_user_id === current_user_id &&
+                                    row?.applied_user_id ===
+                                        user?.user_details?.user_id &&
                                     row.status === 2
                                 "
                                 mat-icon-button
                                 color="warn"
-                                (click)="deleteJob(row, i)"
+                                (click)="deleteJob(row)"
                             >
                                 <mat-icon
                                     svgIcon="mat_outline:delete"
