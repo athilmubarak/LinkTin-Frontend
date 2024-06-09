@@ -235,6 +235,10 @@ export class MyAccountComponent implements OnInit {
                     array_type === 'attachments' ? true : data;
             }
 
+            if (array_type === 'attachments') {
+                dialog_data['accept'] = '.jpg';
+            }
+
             this.mat_dialog.open(content_type.component, {
                 disableClose: true,
                 width: content_type.width,

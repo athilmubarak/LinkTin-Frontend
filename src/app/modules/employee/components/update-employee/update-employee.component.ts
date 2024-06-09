@@ -125,6 +125,7 @@ export class UpdateEmployeeComponent implements OnInit {
                 data: {
                     user: this.data,
                     is_user_attachment: false,
+                    accept: '.jpg'
                 },
                 width: '500px',
             }
