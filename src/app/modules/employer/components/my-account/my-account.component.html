@@ -43,8 +43,8 @@
     <div class="lg:flex flex-col items-start mt-4 mx-14">
         <fuse-card class="flex flex-col w-full p-8">
             <div class="flex justify-between items-center">
-                <div class="text-2xl font-semibold leading-tight">About Me</div>
-                <button mat-icon-button>
+                <div class="text-2xl font-semibold leading-tight">About Us</div>
+                <button mat-icon-button (click)="clickOnUpdateEmployer()">
                     <mat-icon svgIcon="mat_outline:edit"></mat-icon>
                 </button>
             </div>
@@ -157,7 +157,10 @@
                                     class="icon-size-5"
                                 ></mat-icon>
                             </button>
-                            <button mat-icon-button (click)="goToAccount(account)">
+                            <button
+                                mat-icon-button
+                                (click)="goToAccount(account)"
+                            >
                                 <mat-icon
                                     svgIcon="mat_solid:link"
                                     class="icon-size-5"

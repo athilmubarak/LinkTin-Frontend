@@ -19,6 +19,7 @@ import {
 import { SharedService } from 'app/shared/services/shared.service';
 import { environment } from 'environments/environment';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { UpdateEmployerComponent } from '../update-employer/update-employer.component';
 
 @Component({
     selector: 'app-my-account',
@@ -223,5 +224,16 @@ export class MyAccountComponent implements OnInit {
      */
     goToAccount(account: OtherAccount) {
         window.open(account.account_url, '_blank');
+    }
+
+    /**
+     * to open update employer dialog
+     */
+    clickOnUpdateEmployer() {
+        this.mat_dialog.open(UpdateEmployerComponent, {
+            data: this.user_details,
+            disableClose: true,
+            width: '600px'
+        });
     }
 }
