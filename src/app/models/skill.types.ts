@@ -4,7 +4,7 @@ export interface Skill {
     employee_skill_id?: number;
     required_skill_id?: number;
     skill_id: number;
-    skill1: string;
+    skill1?: string;
     skill?: string;
     is_deleted?: boolean;
 }

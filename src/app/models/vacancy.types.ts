@@ -1,3 +1,5 @@
+/* eslint-disable eol-last */
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Vacancy {
     vacancy_id: number;
     job_id: string;

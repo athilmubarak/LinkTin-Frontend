@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable quotes */
 /* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -19,6 +21,7 @@ import { SharedService } from 'app/shared/services/shared.service';
 import { Job } from 'app/models/job.types';
 import { VacancyRequest } from 'app/models/vacancy-request.types';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'app-update-vacancy',
@@ -47,6 +50,7 @@ export class UpdateVacancyComponent implements OnInit {
         public vacancy_service: VacancyService,
         private shared_service: SharedService,
         private snack_bar: MatSnackBar,
+        private confirmation_dialog: FuseConfirmationService,
         @Inject(MAT_DIALOG_DATA) public data?: Vacancy
     ) {
         this.vacancy_form = this.form_builder.group({
@@ -63,7 +67,7 @@ export class UpdateVacancyComponent implements OnInit {
                 new Date(),
                 Validators.required
             ),
-            due_date: new FormControl(''),
+            due_date: new FormControl(null),
             vacancy_count: new FormControl('', [
                 Validators.required,
                 Validators.min(1),
@@ -300,7 +304,7 @@ export class UpdateVacancyComponent implements OnInit {
             if (this.data) {
                 this.vacancy_service
                     .addNewRequiredSkill(this.data.vacancy_id, {
-                        skill_id: skill.skill_id,
+                        skill_id: skill.skill_id
                     })
                     .subscribe({
                         next: (res: CommonResponse<Skill>) => {
@@ -327,24 +331,50 @@ export class UpdateVacancyComponent implements OnInit {
      */
     removeSkill(skill: Skill, index: number) {
         if (skill.required_skill_id && skill.required_skill_id > 0) {
-            this.vacancy_service
-                .deleteRequiredSkill(skill.required_skill_id)
-                .subscribe({
-                    next: (res: CommonResponse<number>) => {
-                        console.log(res);
-
-                        this.snack_bar.open(res.message, 'Close', {
-                            duration: 2000,
-                            panelClass: res.success
-                                ? 'success-message'
-                                : 'error-message',
-                        });
-
-                        if (res.success) {
-                            this.required_skills.splice(index, 1);
-                        }
+            const dialog_ref = this.confirmation_dialog.open({
+                title: 'Remove Vacancy',
+                message: `Are you sure you want to delete this skill? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the vacancy details.`,
+                icon: {
+                    show: false,
+                },
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'Confirm',
+                        color: 'primary',
                     },
-                });
+                    cancel: {
+                        show: true,
+                        label: 'Cancel',
+                    },
+                },
+                dismissible: false,
+            });
+
+            dialog_ref.afterClosed().subscribe({
+                next: (confirmed: string) => {
+                    if (confirmed === 'confirmed') {
+                        this.vacancy_service
+                            .deleteRequiredSkill(skill.required_skill_id)
+                            .subscribe({
+                                next: (res: CommonResponse<number>) => {
+                                    console.log(res);
+
+                                    this.snack_bar.open(res.message, 'Close', {
+                                        duration: 2000,
+                                        panelClass: res.success
+                                            ? 'success-message'
+                                            : 'error-message',
+                                    });
+
+                                    if (res.success) {
+                                        this.required_skills.splice(index, 1);
+                                    }
+                                },
+                            });
+                    }
+                },
+            });
         } else if (index >= 0) {
             this.required_skills.splice(index, 1);
         }
