@@ -3,7 +3,7 @@
         <div>
             <img
                 class="h-40 lg:h-80 object-cover"
-                [src]="user.user_details.cover_url"
+                [src]="url + user.user_details.employee_cover_url"
                 alt="Cover image"
             />
         </div>
@@ -16,7 +16,7 @@
                         class="w-32 h-32 rounded-full ring-4 ring-bg-card"
                         [src]="
                             user.user_details.profile_url
-                                ? user.user_details.profile_url
+                                ? url + user.user_details.profile_url
                                 : 'assets/images/avatars/male-04.jpg'
                         "
                         alt="Logo"
@@ -45,7 +45,7 @@
                 </button>
             </div>
             <div class="mt-4">
-                {{ user.user_details.about_us }}
+                {{ user.user_details.employee_about_us }}
             </div>
             <hr class="w-full border-t my-6" />
             <div class="flex justify-evenly">
@@ -88,8 +88,9 @@
                             [href]="user.user_details.portfolio"
                             target="_blank"
                             rel="noopener noreferrer"
+                            class="cursor-pointer"
                         >
-                            {{ user.user_details.portfolio }}
+                            View Portfolio
                         </a>
                     </span>
                 </div>

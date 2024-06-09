@@ -62,7 +62,7 @@
                 <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
                     <img
                         [src]="url + employee_form.get('profile_url').value"
-                        *ngIf="data.user_details.profile_url"
+                        *ngIf="employee_form.get('profile_url').value"
                         class="w-40 rounded"
                     />
                 </div>
@@ -74,7 +74,7 @@
                 <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
                     <img
                         [src]="url + employee_form.get('cover_url').value"
-                        *ngIf="data.user_details.employee_cover_url"
+                        *ngIf="employee_form.get('cover_url').value"
                         class="w-40 rounded"
                     />
                 </div>
