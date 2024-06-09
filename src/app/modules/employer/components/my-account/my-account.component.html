@@ -4,7 +4,7 @@
         <div>
             <img
                 class="h-40 lg:h-80 object-cover"
-                [src]="user_details?.user_details?.cover_url"
+                [src]="url + user_details?.user_details?.employer_cover_url"
                 alt="Cover image"
             />
         </div>
@@ -19,7 +19,7 @@
                     class="w-32 h-32 rounded-full ring-4 ring-bg-card"
                     [src]="
                         user_details?.user_details?.logo1
-                            ? user_details?.user_details?.logo1
+                            ? url + user_details?.user_details?.logo1
                             : 'assets/images/avatars/male-04.jpg'
                     "
                     alt="Logo"
@@ -49,7 +49,7 @@
                 </button>
             </div>
             <div class="mt-4">
-                {{ user_details?.user_details.about_us }}
+                {{ user_details?.user_details.employer_about_us }}
             </div>
             <hr class="w-full border-t my-6" />
             <div class="flex justify-evenly items-center">

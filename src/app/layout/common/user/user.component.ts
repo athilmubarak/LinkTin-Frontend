@@ -31,9 +31,8 @@ import { environment } from 'environments/environment';
     exportAs: 'user',
 })
 export class UserComponent implements OnInit, OnDestroy {
-    /* eslint-disable @typescript-eslint/naming-convention */
+    //Variables
     static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
     user: User;
@@ -130,9 +129,13 @@ export class UserComponent implements OnInit, OnDestroy {
     getUserImageURL(): string {
         let url: string = '';
         if (this.user_type_id === 1) {
-            url = this.url + this.user?.user_details?.profile_url ?? '';
+            url = this.user?.user_details?.profile_url
+                ? this.url + this.user?.user_details?.profile_url
+                : '';
         } else if (this.user_type_id === 2) {
-            url = this.url + this.user?.user_details?.logo1 ?? '';
+            url = this.user?.user_details?.logo1
+                ? this.url + this.user?.user_details?.logo1
+                : '';
         }
         return url;
     }
