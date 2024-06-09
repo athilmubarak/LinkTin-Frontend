@@ -87,10 +87,7 @@ export class UpdateEmployeeComponent implements OnInit {
 
         this.employee_form.disable();
         this.employee_service
-            .updateEmployeeDetails(
-                this.employee_form.value,
-                this.data.user_details.user_id
-            )
+            .updateEmployeeDetails(this.employee_form.value)
             .subscribe({
                 next: (res: CommonResponse<User>) => {
                     console.log(res);
@@ -102,6 +99,7 @@ export class UpdateEmployeeComponent implements OnInit {
                     });
 
                     if (res.success) {
+                        this.user_service.user = null;
                         this.user_service.user = res.data;
                         this.dialog_ref.close();
                     }

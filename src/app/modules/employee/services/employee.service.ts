@@ -125,15 +125,13 @@ export class EmployeeService {
      * to update employee details
      *
      * @param request
-     * @param user_id
      * @returns
      */
     updateEmployeeDetails(
-        request: UpdateEmployee,
-        user_id: number
+        request: UpdateEmployee
     ): Observable<CommonResponse<User>> {
         return this.http.put<CommonResponse<User>>(
-            `${this.root_url}/user/employee/update/${user_id}`,
+            `${this.root_url}/user/employee/update`,
             request
         );
     }
