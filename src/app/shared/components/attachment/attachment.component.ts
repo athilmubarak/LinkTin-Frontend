@@ -12,7 +12,6 @@ import {
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'app/core/auth/auth.service';
 import { UserService } from 'app/core/user/user.service';
 import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
@@ -29,7 +28,6 @@ export class AttachmentComponent implements OnInit {
     files: any[] = [];
     file_url: string;
     file_type: 'PDF' | 'JPG';
-    user_type_id: number;
 
     @ViewChild('fileDropRef', { static: false }) fileDropEl: ElementRef;
 
@@ -40,16 +38,14 @@ export class AttachmentComponent implements OnInit {
         private user_service: UserService,
         private dialog_ref: MatDialogRef<AttachmentComponent>,
         private snack_bar: MatSnackBar,
-        private auth_service: AuthService,
         @Inject(MAT_DIALOG_DATA)
         public data: {
             user: User;
             is_user_attachment: boolean;
+            accept: string;
         }
     ) {
         this.file_name = new FormControl('', Validators.required);
-
-        this.user_type_id = auth_service.userType;
     }
 
     ngOnInit(): void {}

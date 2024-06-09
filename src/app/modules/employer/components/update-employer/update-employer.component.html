@@ -1,6 +1,75 @@
 <h2 mat-dialog-title>Update user details</h2>
-<mat-dialog-content> </mat-dialog-content>
+<mat-dialog-content>
+    <form [formGroup]="employer_form" class="w-full">
+        <mat-form-field class="w-full">
+            <mat-label>Company Name</mat-label>
+            <input type="text" matInput formControlName="company_name" />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Location</mat-label>
+            <input type="text" matInput formControlName="location" />
+        </mat-form-field>
+        <div class="flex w-full">
+            <mat-form-field class="w-full mr-2">
+                <mat-label>Phone Number</mat-label>
+                <input type="text" matInput formControlName="phone_number" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>No. of employees</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    formControlName="number_of_employees"
+                />
+            </mat-form-field>
+        </div>
+        <mat-form-field class="w-full">
+            <mat-label>Website</mat-label>
+            <input type="text" matInput formControlName="website_url" />
+        </mat-form-field>
+
+        <div class="flex w-full mt-2">
+            <div class="flex flex-col justify-center w-full items-center">
+                <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
+                    <img
+                        [src]="url + employer_form.get('logo1').value"
+                        *ngIf="data.user_details.logo1"
+                        class="w-40 rounded"
+                    />
+                </div>
+                <button mat-flat-button (click)="uploadImage('profile_url')">
+                    Change Profile Picture
+                </button>
+            </div>
+            <div class="flex flex-col justify-center w-full items-center">
+                <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
+                    <img
+                        [src]="
+                            url +
+                            data.user_details.employer_form.get('logo1').value
+                        "
+                        *ngIf="data.user_details.employer_cover_url"
+                        class="w-40 rounded"
+                    />
+                </div>
+
+                <button mat-flat-button (click)="uploadImage('cover_url')">
+                    Change Cover Picture
+                </button>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <!-- <button mat-raised-button color="primary" (click)="saveVacancy()">Submit</button> -->
+    <button mat-button mat-dialog-close [disabled]="employer_form.disabled">
+        Cancel
+    </button>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="updateEmployerDetails()"
+        [disabled]="employer_form.disabled"
+    >
+        Submit
+    </button>
 </mat-dialog-actions>

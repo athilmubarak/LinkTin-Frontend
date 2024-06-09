@@ -136,11 +136,6 @@ export class UpdateEmployeeComponent implements OnInit {
                     this.employee_form
                         .get(form_control_name)
                         ?.setValue(res.data);
-                    if (form_control_name === 'cover_url') {
-                        this.data.user_details.employee_cover_url = res.data;
-                    } else {
-                        this.data.user_details.profile_url = res.data;
-                    }
                 }
             },
         });

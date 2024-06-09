@@ -11,13 +11,7 @@
             id="fileDropRef"
             (change)="fileBrowseHandler($event.target.files)"
             class="opacity-0"
-            [accept]="
-                user_type_id === 2
-                    ? '.pdf, .jpg'
-                    : data.is_user_attachment && user_type_id === 1
-                    ? '.pdf'
-                    : '.jpg'
-            "
+            [accept]="data.accept"
         />
         <img
             src="./assets/images/ui/angular-material/scenes/ic-upload-file.svg"

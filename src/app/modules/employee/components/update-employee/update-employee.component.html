@@ -61,7 +61,7 @@
             <div class="flex flex-col justify-center w-full items-center">
                 <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
                     <img
-                        [src]="url + data.user_details.profile_url"
+                        [src]="url + employee_form.get('profile_url').value"
                         *ngIf="data.user_details.profile_url"
                         class="w-40 rounded"
                     />
@@ -73,7 +73,7 @@
             <div class="flex flex-col justify-center w-full items-center">
                 <div class="flex bg-card rounded border-2 h-40 w-40 mb-1">
                     <img
-                        [src]="url + data.user_details.employee_cover_url"
+                        [src]="url + employee_form.get('cover_url').value"
                         *ngIf="data.user_details.employee_cover_url"
                         class="w-40 rounded"
                     />
