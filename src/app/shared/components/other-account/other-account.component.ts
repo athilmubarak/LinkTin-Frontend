@@ -95,8 +95,8 @@ export class OtherAccountComponent implements OnInit {
                         this.data.user.other_accounts =
                             this.data.user.other_accounts.map((x) => {
                                 if (
-                                    x.account_type_id ===
-                                    account.account_type_id
+                                    x.other_account_id ===
+                                    res.data.other_account_id
                                 ) {
                                     return res.data;
                                 } else {

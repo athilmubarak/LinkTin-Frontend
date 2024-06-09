@@ -118,11 +118,21 @@
             >
                 <div
                     class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
-                    *ngFor="let account of user.other_accounts; let i = index"
+                    *ngFor="
+                        let account of user_details.other_accounts;
+                        let i = index
+                    "
                 >
                     <div class="flex justify-between items-center">
-                        <div class="flex font-bold text-lg">
-                            {{ account.certificate_name }}
+                        <div class="flex mr-2">
+                            <img
+                                [src]="account.logo"
+                                class="w-10 rounded"
+                                alt=""
+                            />
+                        </div>
+                        <div class="flex font-semibold text-lg">
+                            {{ account.account_name }}
                         </div>
                         <div class="flex">
                             <button
@@ -132,7 +142,10 @@
                                     onClickDetails('other_accounts', account)
                                 "
                             >
-                                <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                                <mat-icon
+                                    svgIcon="mat_outline:edit"
+                                    class="icon-size-5"
+                                ></mat-icon>
                             </button>
                             <button
                                 mat-icon-button
@@ -141,13 +154,16 @@
                             >
                                 <mat-icon
                                     svgIcon="mat_outline:delete_outline"
+                                    class="icon-size-5"
+                                ></mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="goToAccount(account)">
+                                <mat-icon
+                                    svgIcon="mat_solid:link"
+                                    class="icon-size-5"
                                 ></mat-icon>
                             </button>
                         </div>
-                    </div>
-
-                    <div class="flex font-semibold">
-                        {{ account.description }}
                     </div>
                 </div>
             </div>

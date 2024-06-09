@@ -22,6 +22,7 @@ import {
 } from '../../constants/my-account-details.const';
 import { Attachment } from 'app/models/attachment.types';
 import { environment } from 'environments/environment';
+import { OtherAccount } from 'app/models/other-account.types';
 
 @Component({
     selector: 'app-my-account',
@@ -112,7 +113,7 @@ export class MyAccountComponent implements OnInit {
                     break;
 
                 case 'other_accounts':
-                    request = this.shared_service.removeAttachment(
+                    request = this.shared_service.removeOtherAccount(
                         this.user.other_accounts[index].other_account_id
                     );
                     break;
@@ -269,5 +270,14 @@ export class MyAccountComponent implements OnInit {
      */
     viewAttachment(attachment: Attachment) {
         window.open(`${this.url}${attachment.attachment_url}`, '_blank');
+    }
+
+    /**
+     * to view account
+     *
+     * @param account
+     */
+    goToAccount(account: OtherAccount) {
+        window.open(account.account_url, '_blank');
     }
 }

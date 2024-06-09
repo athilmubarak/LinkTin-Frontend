@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable arrow-parens */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
@@ -9,6 +10,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UserService } from 'app/core/user/user.service';
 import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
+import { OtherAccount } from 'app/models/other-account.types';
 import { User } from 'app/models/user.types';
 import {
     ArrayTypes,
@@ -106,7 +108,7 @@ export class MyAccountComponent implements OnInit {
                     break;
 
                 case 'other_accounts':
-                    request = this.shared_service.removeAttachment(
+                    request = this.shared_service.removeOtherAccount(
                         this.user_details.other_accounts[index].other_account_id
                     );
                     break;
@@ -212,5 +214,14 @@ export class MyAccountComponent implements OnInit {
      */
     viewAttachment(attachment: Attachment) {
         window.open(`${this.url}${attachment.attachment_url}`, '_blank');
+    }
+
+    /**
+     * to view account
+     *
+     * @param account
+     */
+    goToAccount(account: OtherAccount) {
+        window.open(account.account_url, '_blank');
     }
 }
