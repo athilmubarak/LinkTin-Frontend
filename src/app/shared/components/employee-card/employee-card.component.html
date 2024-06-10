@@ -19,7 +19,7 @@
             <img
                 *ngIf="employee.cover_url; else elseCover"
                 class="object-cover"
-                [src]="employee.cover_url"
+                [src]="url + employee.cover_url"
                 alt="Card cover image"
             />
             <ng-template #elseCover>
@@ -32,7 +32,7 @@
                     class="w-24 h-24 rounded-full"
                     [src]="
                         employee.profile_url
-                            ? employee.profile_url
+                            ? url + employee.profile_url
                             : 'assets/images/avatars/male-04.jpg'
                     "
                     alt="Card cover image"
@@ -75,6 +75,15 @@
                 <div class="text-md font-medium text-secondary mr-3">
                     {{ employee.job_name }}
                 </div>
+            </div>
+            <div class="flex justify-center mt-3">
+                <button class="px-3" mat-button class="text-sm">
+                    Read More
+                    <mat-icon
+                        svgIcon="mat_solid:expand_more"
+                        class="icon-size-6"
+                    ></mat-icon>
+                </button>
             </div>
         </div>
     </fuse-card>
