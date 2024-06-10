@@ -52,7 +52,7 @@
                 <div
                     class="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-green-100/10 ease-in-out cursor-pointer"
                 >
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="onSwipeRight(employee)">
                         <mat-icon
                             class="icon-size-5 text-green-300"
                             [svgIcon]="'heroicons_solid:check-circle'"
@@ -62,7 +62,7 @@
                 <div
                     class="flex items-center justify-center w-10 h-10 border rounded-full"
                 >
-                    <button mat-icon-button color="warn">
+                    <button mat-icon-button color="warn" (click)="onSwipeLeft(employee)">
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'heroicons_solid:x-circle'"

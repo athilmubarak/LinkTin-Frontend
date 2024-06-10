@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -85,8 +86,8 @@ export class EmployeeCardComponent implements OnInit {
 
     /**
      * to reject
-     * 
-     * @param employee 
+     *
+     * @param employee
      */
     onSwipeLeft(employee: HomeEmployee) {
         employee.swipe_state = 'swipe-left';
@@ -95,9 +96,9 @@ export class EmployeeCardComponent implements OnInit {
     }
 
     /**
-     * to approve 
-     * 
-     * @param employee 
+     * to approve
+     *
+     * @param employee
      */
     onSwipeRight(employee: HomeEmployee) {
         employee.swipe_state = 'swipe-right';
@@ -128,6 +129,28 @@ export class EmployeeCardComponent implements OnInit {
 
                 if (res.success) {
                     if (res.data.length > 0) {
+                        const index = this.employees.findIndex(
+                            (x) =>
+                                x.employee_user_id ===
+                                    employee.employee_user_id &&
+                                x.vacancy_id === employee.vacancy_id
+                        );
+
+                        if (index >= 0) {
+                            this.employees.splice(index, 1);
+                            res.data.forEach((x) => {
+                                const employee_index = this.employees.findIndex(
+                                    (emp) =>
+                                        x.employee_user_id ===
+                                            emp.employee_user_id &&
+                                        x.vacancy_id === emp.vacancy_id
+                                );
+
+                                if (employee_index === -1) {
+                                    this.employees.push(x);
+                                }
+                            });
+                        }
                     }
                 }
             },
