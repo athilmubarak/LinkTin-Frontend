@@ -100,6 +100,8 @@ export class UpdateEmployerComponent implements OnInit {
                         this.dialog_ref.close();
                     }
                 },
+                error: () => this.employer_form.enable(),
+                complete: () => this.employer_form.enable(),
             });
     }
 
@@ -128,15 +130,7 @@ export class UpdateEmployerComponent implements OnInit {
                     this.employer_form
                         .get(form_control_name)
                         ?.setValue(res.data);
-
-                    if (form_control_name === 'cover_url') {
-                        this.data.user_details.employer_cover_url = res.data;
-                    } else {
-                        this.data.user_details.logo1 = res.data;
-                    }
                 }
-
-                console.log(this.employer_form.value);
             },
         });
     }

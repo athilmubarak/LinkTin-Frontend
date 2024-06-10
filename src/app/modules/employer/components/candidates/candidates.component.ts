@@ -52,6 +52,7 @@ export class CandidatesComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.filter_type = 0;
         this.getVacancies();
 
         this.user_service.user$

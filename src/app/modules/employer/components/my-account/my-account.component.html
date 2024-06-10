@@ -79,7 +79,14 @@
                         [svgIcon]="'feather:globe'"
                     ></mat-icon>
                     <span class="leading-none">
-                        {{ user_details?.user_details?.website_url }}
+                        <a
+                        *ngIf="user_details?.user_details?.website_url"
+                            [href]="user_details?.user_details?.website_url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                        Website
+                    </a>
                     </span>
                 </div>
 

@@ -124,12 +124,11 @@ export class VacancyCardComponent implements OnInit {
 
     /**
      * to register entry in sync registry
-     * 
-     * @param status 
-     * @param vacancy 
+     *
+     * @param status
+     * @param vacancy
      */
     registerVacancy(status: 0 | 1, vacancy: HomeVacancy) {
-        const vacancy_ids: number[] = this.vacancies.map((x) => x.vacancy_id);
         const request_body: SyncRegister = {
             vacancy_id: vacancy.vacancy_id,
             status: status,
@@ -138,9 +137,6 @@ export class VacancyCardComponent implements OnInit {
                 this.user.attachments.length > 0
                     ? this.user.attachments[0].attachment_id
                     : null,
-            other_vacancy_ids: vacancy_ids.filter(
-                (x) => x !== vacancy.vacancy_id
-            ),
         };
 
         this.shared_service.syncVacancy(request_body).subscribe({
@@ -152,7 +148,11 @@ export class VacancyCardComponent implements OnInit {
                         (x) => x.vacancy_id !== vacancy.vacancy_id
                     );
                     if (res.data.length > 0) {
-                        this.vacancies.push(...res.data);
+                        const vacancy_ids: number[] = this.vacancies
+                            .map((x) => x.vacancy_id)
+                            .filter((x) => x !== vacancy.vacancy_id);
+
+                        // this.vacancies.push(...res.data);
                     }
                 }
             },

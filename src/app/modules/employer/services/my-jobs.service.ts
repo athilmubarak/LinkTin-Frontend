@@ -23,7 +23,7 @@ export class MyJobsService {
      */
     getAllJobVacancies() {
         return this.http.get<CommonResponse<MyJobs[]>>(
-            `${this.root_url}/job-vacancy/sync/get`
+            `${this.root_url}/job_vacancy/sync/get`
         );
     }
     /**
@@ -34,7 +34,7 @@ export class MyJobsService {
      */
     deleteJob(sync_registry_id: number) {
         return this.http.get<CommonResponse<number>>(
-            `${this.root_url}job-vacancy/sync/delete/${sync_registry_id}`
+            `${this.root_url}/job_vacancy/sync/delete/${sync_registry_id}`
         );
     }
 
@@ -49,7 +49,7 @@ export class MyJobsService {
         request: { resume_attachment_id: number }
     ) {
         return this.http.put<CommonResponse<number>>(
-            `${this.root_url}job-vacancy/sync/attachment/update/${sync_registry_id}`,
+            `${this.root_url}/job_vacancy/sync/attachment/update/${sync_registry_id}`,
             request
         );
     }
