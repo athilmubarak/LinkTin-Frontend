@@ -33,63 +33,6 @@ export class HomeComponent implements OnInit {
 
                     this.home_data = res.data;
                 },
-                error: (err) => {
-                    console.log(err);
-                    this.home_data = [
-                        {
-                            vacancy_id: 1,
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            employment_type_id: 1,
-                            placement_type: 'Full-Time',
-                            location: 'Kochi',
-                            salary_range: '20000/- to 35000/-',
-                            employer_info_id: 1,
-                            company_name: 'Company Name',
-                            company_location: 'Location',
-                            company_logo: '',
-                        },
-                        {
-                            vacancy_id: 1,
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            employment_type_id: 1,
-                            placement_type: 'Full-Time',
-                            location: 'Kochi',
-                            salary_range: '20000/- to 35000/-',
-                            employer_info_id: 1,
-                            company_name: 'Company Name',
-                            company_location: 'Location',
-                            company_logo: '',
-                        },
-                        {
-                            vacancy_id: 1,
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            employment_type_id: 1,
-                            placement_type: 'Full-Time',
-                            location: 'Kochi',
-                            salary_range: '20000/- to 35000/-',
-                            employer_info_id: 1,
-                            company_name: 'Company Name',
-                            company_location: 'Location',
-                            company_logo: '',
-                        },
-                        {
-                            vacancy_id: 1,
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            employment_type_id: 1,
-                            placement_type: 'Full-Time',
-                            location: 'Kochi',
-                            salary_range: '20000/- to 35000/-',
-                            employer_info_id: 1,
-                            company_name: 'Company Name',
-                            company_location: 'Location',
-                            company_logo: '',
-                        },
-                    ];
-                },
             });
         } else {
             //Employer

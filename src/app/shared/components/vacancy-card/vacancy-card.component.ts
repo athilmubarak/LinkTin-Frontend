@@ -12,6 +12,7 @@ import {
     transition,
     animate,
 } from '@angular/animations';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-vacancy-card',
@@ -51,6 +52,8 @@ import {
 export class VacancyCardComponent implements OnInit {
     //Variables
     @Input() vacancies: HomeVacancy[];
+
+    readonly url: string = environment.url;
 
     constructor(private mat_dialog: MatDialog) {}
 

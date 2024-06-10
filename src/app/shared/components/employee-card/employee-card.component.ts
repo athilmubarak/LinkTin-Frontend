@@ -8,6 +8,7 @@ import {
 } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { HomeEmployee } from 'app/models/home-employee.types';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-employee-card',
@@ -48,6 +49,8 @@ import { HomeEmployee } from 'app/models/home-employee.types';
 export class EmployeeCardComponent implements OnInit {
     //Variables
     @Input() employees: HomeEmployee[];
+
+    readonly url: string = environment.url;
 
     constructor() {}
 

@@ -1,6 +1,6 @@
-<div class="flex flex-col md:flex-row w-full px-14 py-4">
+<div class="flex flex-col md:flex-row flex-wrap w-full px-14 py-4 mt-6">
     <fuse-card
-        class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article mr-6"
+        class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article mb-2 md:mr-6 md:mb-6"
         *ngFor="let vacancy of vacancies"
         (swipeleft)="onSwipeLeft(vacancy)"
         (swiperight)="onSwipeRight(vacancy)"
@@ -8,9 +8,9 @@
         <div
             class="background-overlay {{
                 vacancy?.swipe_state === 'swipe-right'
-                    ? 'bg-green-200'
+                    ? 'bg-green-200 background-overlay-running'
                     : vacancy?.swipe_state === 'swipe-left'
-                    ? 'bg-red-200'
+                    ? 'bg-red-200 background-overlay-running'
                     : ''
             }}"
             [@swipeAnimation]="vacancy?.swipe_state"
@@ -20,7 +20,7 @@
                 class="w-20 rounded-lg object-cover"
                 [src]="
                     vacancy.company_logo
-                        ? vacancy.company_logo
+                        ? url + vacancy.company_logo
                         : 'assets/images/avatars/male-04.jpg'
                 "
                 alt="Card cover image"
@@ -40,38 +40,49 @@
                     {{ vacancy.company_location }}
                 </div>
                 <div class="text-secondary font-medium text-sm">
-                    {{ vacancy.salary_range }}
+                    {{
+                        vacancy.salary_range
+                            ? vacancy.salary_range
+                            : "Salary not disclosed"
+                    }}
                 </div>
                 <div class="text-secondary font-medium text-sm">
                     {{ vacancy.placement_type }}
                 </div>
             </div>
-            <div
-                class="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-green-100/10 ease-in-out"
-            >
-                <button mat-icon-button>
-                    <mat-icon
-                        class="icon-size-5 text-green-300"
-                        [svgIcon]="'heroicons_solid:check-circle'"
-                    ></mat-icon>
-                </button>
-            </div>
-            <div
-                class="flex items-center justify-center w-10 h-10 border rounded-full"
-            >
-                <button mat-icon-button color="warn">
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:x-circle'"
-                    ></mat-icon>
-                </button>
+            <div class="flex items-center">
+                <div
+                    class="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-green-100/10 ease-in-out mr-2 cursor-pointer"
+                    (click)="onSwipeRight(vacancy)"
+                >
+                    <button mat-icon-button (click)="onSwipeRight(vacancy)">
+                        <mat-icon
+                            class="icon-size-5 text-green-300"
+                            [svgIcon]="'heroicons_solid:check-circle'"
+                        ></mat-icon>
+                    </button>
+                </div>
+                <div
+                    class="flex items-center justify-center w-10 h-10 border rounded-full"
+                >
+                    <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="onSwipeLeft(vacancy)"
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:x-circle'"
+                        ></mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center mt-3">
             <button
                 class="px-3"
                 mat-button
-                class="text-sm hover:bg-slate-500 ease-in-out"
+                class="text-sm"
                 (click)="viewVacancy(vacancy)"
             >
                 Read More
