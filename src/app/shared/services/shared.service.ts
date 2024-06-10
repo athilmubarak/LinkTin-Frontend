@@ -252,7 +252,7 @@ export class SharedService {
         request: SyncRegister
     ): Observable<CommonResponse<HomeVacancy[] | HomeEmployee[]>> {
         return this.http.post<CommonResponse<HomeVacancy[] | HomeEmployee[]>>(
-            `${this.root_url}/job-vacancy/sync/register`,
+            `${this.root_url}/job_vacancy/sync/register`,
             request
         );
     }

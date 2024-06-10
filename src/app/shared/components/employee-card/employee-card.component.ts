@@ -102,7 +102,7 @@ export class EmployeeCardComponent implements OnInit {
     onSwipeRight(employee: HomeEmployee) {
         employee.swipe_state = 'swipe-right';
         setTimeout(() => (employee.swipe_state = 'inactive'), 1000);
-        this.registerVacancy(1, employee);
+        this.registerVacancy(2, employee);
     }
 
     /**
@@ -111,7 +111,7 @@ export class EmployeeCardComponent implements OnInit {
      * @param status
      * @param employee
      */
-    registerVacancy(status: 0 | 1, employee: HomeEmployee) {
+    registerVacancy(status: 0 | 2, employee: HomeEmployee) {
         const request_body: SyncRegister = {
             vacancy_id: employee.vacancy_id,
             status: status,

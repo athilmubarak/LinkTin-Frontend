@@ -119,7 +119,7 @@ export class VacancyCardComponent implements OnInit {
     onSwipeRight(vacancy: HomeVacancy) {
         vacancy.swipe_state = 'swipe-right';
         setTimeout(() => (vacancy.swipe_state = 'inactive'), 1000);
-        this.registerVacancy(1, vacancy);
+        this.registerVacancy(2, vacancy);
     }
 
     /**
@@ -128,7 +128,7 @@ export class VacancyCardComponent implements OnInit {
      * @param status
      * @param vacancy
      */
-    registerVacancy(status: 0 | 1, vacancy: HomeVacancy) {
+    registerVacancy(status: 0 | 2, vacancy: HomeVacancy) {
         const request_body: SyncRegister = {
             vacancy_id: vacancy.vacancy_id,
             status: status,
@@ -152,7 +152,11 @@ export class VacancyCardComponent implements OnInit {
                             .map((x) => x.vacancy_id)
                             .filter((x) => x !== vacancy.vacancy_id);
 
-                        // this.vacancies.push(...res.data);
+                        this.vacancies.push(
+                            ...res.data.filter(
+                                (x) => !vacancy_ids.includes(x.vacancy_id)
+                            )
+                        );
                     }
                 }
             },
