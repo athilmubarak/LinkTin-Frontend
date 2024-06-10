@@ -57,7 +57,7 @@
                             }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="vacancy_count">
+                    <ng-container matColumnDef="applied_date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                             Applied / Requested on
                         </th>
@@ -65,7 +65,7 @@
                             {{ row?.applied_date | date : "MM/dd/yyyy" }}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="application_starts_from">
+                    <ng-container matColumnDef="status_description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                             status
                         </th>
@@ -122,6 +122,14 @@
                         mat-row
                         *matRowDef="let row; columns: displayed_columns"
                     ></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td
+                            class="mat-cell font-semibold text-red-500 text-center"
+                            [attr.colspan]="displayed_columns.length"
+                        >
+                            No Records Found
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

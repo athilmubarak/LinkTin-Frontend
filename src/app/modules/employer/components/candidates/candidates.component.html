@@ -60,7 +60,7 @@
                             Applied / Requested on
                         </th>
                         <td mat-cell *matCellDef="let row">
-                            {{ row?.applied_date | date: 'MM/dd/yyyy' }}
+                            {{ row?.applied_date | date : "MM/dd/yyyy" }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="application_starts_from">
@@ -113,6 +113,14 @@
                         mat-row
                         *matRowDef="let row; columns: displayed_columns"
                     ></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td
+                            class="mat-cell font-semibold text-red-500 text-center"
+                            [attr.colspan]="displayed_columns.length"
+                        >
+                            No Records Found
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

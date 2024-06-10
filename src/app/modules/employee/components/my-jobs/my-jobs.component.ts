@@ -47,7 +47,7 @@ export class MyJobsComponent implements OnInit {
         'sl',
         'job_name',
         'company_name',
-        'application_starts_from',
+        'applied_date',
         'status_description',
         'admin',
     ];
