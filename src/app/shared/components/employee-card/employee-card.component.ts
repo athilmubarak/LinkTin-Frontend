@@ -10,6 +10,7 @@ import {
     animate,
 } from '@angular/animations';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'app/core/user/user.service';
 import { CommonResponse } from 'app/models/common-response.types';
 import { HomeEmployee } from 'app/models/home-employee.types';
@@ -18,6 +19,7 @@ import { User } from 'app/models/user.types';
 import { SharedService } from 'app/shared/services/shared.service';
 import { environment } from 'environments/environment';
 import { Subject, takeUntil } from 'rxjs';
+import { EmployeeViewComponent } from '../employee-view/employee-view.component';
 
 @Component({
     selector: 'app-employee-card',
@@ -67,7 +69,8 @@ export class EmployeeCardComponent implements OnInit {
     constructor(
         private shared_service: SharedService,
         private user_service: UserService,
-        private change_detector_ref: ChangeDetectorRef
+        private change_detector_ref: ChangeDetectorRef,
+        private mat_dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -154,6 +157,21 @@ export class EmployeeCardComponent implements OnInit {
                     }
                 }
             },
+        });
+    }
+
+    /**
+     * to view employee details
+     *
+     * @param employee
+     */
+    viewEmployee(employee: HomeEmployee) {
+        this.mat_dialog.open(EmployeeViewComponent, {
+            width: '640px',
+            data: {
+                employee_user_id: employee.employee_user_id,
+            },
+            disableClose: true
         });
     }
 }
