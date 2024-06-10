@@ -1,8 +1,22 @@
 <div class="flex flex-col w-full p-4">
-    <ng-container *ngIf="user_type === 1; else employeeCard">
-        <app-vacancy-card [vacancies]="home_data"></app-vacancy-card>
+    <ng-container *ngIf="home_data.length > 0; else elseMessage">
+        <ng-container *ngIf="user_type === 1; else employeeCard">
+            <app-vacancy-card [vacancies]="home_data"></app-vacancy-card>
+        </ng-container>
+        <ng-template #employeeCard>
+            <app-employee-card [employees]="home_data"></app-employee-card>
+        </ng-template>
     </ng-container>
-    <ng-template #employeeCard>
-        <app-employee-card [employees]="home_data"></app-employee-card>
+    <ng-template #elseMessage>
+        <div class="flex flex-col w-full justify-center items-center md:mt-30">
+            <img
+                src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                class="w-60"
+                alt=""
+            />
+            <div class="flex flex-col items-center font-bold mt-4">
+                No Vacancies for you
+            </div>
+        </div>
     </ng-template>
 </div>
