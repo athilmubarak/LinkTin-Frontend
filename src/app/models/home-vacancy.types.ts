@@ -7,7 +7,7 @@ export interface HomeVacancy {
     placement_type: string;
     location: string;
     salary_range: string;
-    employer_info_id: number;
+    user_id: number;
     company_name: string;
     company_location: string;
     company_logo: string;

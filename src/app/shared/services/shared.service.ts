@@ -8,10 +8,12 @@ import { Attachment } from 'app/models/attachment.types';
 import { CommonResponse } from 'app/models/common-response.types';
 import { Country } from 'app/models/country.types';
 import { Gender } from 'app/models/gender.types';
+import { HomeEmployee } from 'app/models/home-employee.types';
+import { HomeVacancy } from 'app/models/home-vacancy.types';
 import { Job } from 'app/models/job.types';
 import { OtherAccount } from 'app/models/other-account.types';
 import { Skill } from 'app/models/skill.types';
-import { User } from 'app/models/user.types';
+import { SyncRegister } from 'app/models/sync-register.types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -237,6 +239,21 @@ export class SharedService {
         return this.http.post<CommonResponse<Attachment>>(
             `${this.root_url}/user/attachment/insert`,
             attachment
+        );
+    }
+
+    /**
+     * to register vacancy request
+     * 
+     * @param request 
+     * @returns 
+     */
+    syncVacancy(
+        request: SyncRegister
+    ): Observable<CommonResponse<HomeVacancy[] | HomeEmployee[]>> {
+        return this.http.post<CommonResponse<HomeVacancy[] | HomeEmployee[]>>(
+            `${this.root_url}/job-vacancy/sync/register`,
+            request
         );
     }
 }
