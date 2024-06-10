@@ -42,68 +42,6 @@ export class HomeComponent implements OnInit {
 
                     this.home_data = res.data;
                 },
-                error: (err) => {
-                    console.log(err);
-
-                    this.home_data = [
-                        {
-                            vacancy_id: 1,
-                            personal_info_id: 1,
-                            name: 'Jacob John',
-                            email: '',
-                            phone_number: '',
-                            profile_url: '',
-                            cover_url: '',
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            resume_attachment_id: 1,
-                            country_id: 1,
-                            country_name: 'United Kingdom',
-                        },
-                        {
-                            vacancy_id: 1,
-                            personal_info_id: 1,
-                            name: 'Jacob John',
-                            email: '',
-                            phone_number: '',
-                            profile_url: '',
-                            cover_url: '',
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            resume_attachment_id: 1,
-                            country_id: 1,
-                            country_name: 'United Kingdom',
-                        },
-                        {
-                            vacancy_id: 1,
-                            personal_info_id: 1,
-                            name: 'Jacob John',
-                            email: '',
-                            phone_number: '',
-                            profile_url: '',
-                            cover_url: '',
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            resume_attachment_id: 1,
-                            country_id: 1,
-                            country_name: 'United Kingdom',
-                        },
-                        {
-                            vacancy_id: 1,
-                            personal_info_id: 1,
-                            name: 'Jacob John',
-                            email: '',
-                            phone_number: '',
-                            profile_url: '',
-                            cover_url: '',
-                            job_id: 1,
-                            job_name: 'Software Engineer',
-                            resume_attachment_id: 1,
-                            country_id: 1,
-                            country_name: 'United Kingdom',
-                        },
-                    ];
-                },
             });
         }
     }

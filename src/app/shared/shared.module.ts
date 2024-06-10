@@ -10,6 +10,7 @@ import { HammerModule } from '@angular/platform-browser';
 import { OtherAccountComponent } from './components/other-account/other-account.component';
 import { AttachmentComponent } from './components/attachment/attachment.component';
 import { DndDirective } from './directives/dnd.directive';
+import { EmployeeViewComponent } from './components/employee-view/employee-view.component';
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import { DndDirective } from './directives/dnd.directive';
         VacancyCardComponent,
         OtherAccountComponent,
         AttachmentComponent,
-        DndDirective
+        DndDirective,
+        EmployeeViewComponent
     ],
     entryComponents: [
         VacancyViewComponent
