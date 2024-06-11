@@ -277,14 +277,17 @@ export class UpdateVacancyComponent implements OnInit {
      */
     saveNewSkill() {
         this.shared_service
-            .createNewSkill({ skill: this.vacancy_form.get('skill').value })
+            .createNewSkill({ skill1: this.vacancy_form.get('skill').value })
             .subscribe({
                 next: (res: CommonResponse<Skill>) => {
                     console.log(res);
 
                     if (res.success) {
                         this.vacancy_form.get('skill').setValue('');
-                        this.shared_service.skills.push(res.data);
+                        this.shared_service.skills.push({
+                            skill_id: res.data.skill_id,
+                            skill1: res.data.skill1,
+                        });
                     }
                 },
             });
@@ -304,7 +307,7 @@ export class UpdateVacancyComponent implements OnInit {
             if (this.data) {
                 this.vacancy_service
                     .addNewRequiredSkill(this.data.vacancy_id, {
-                        skill_id: skill.skill_id
+                        skill_id: skill.skill_id,
                     })
                     .subscribe({
                         next: (res: CommonResponse<Skill>) => {

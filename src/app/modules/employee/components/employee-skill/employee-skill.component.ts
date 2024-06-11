@@ -92,14 +92,25 @@ export class EmployeeSkillComponent implements OnInit {
      */
     saveNewSkill() {
         this.shared_service
-            .createNewSkill({ skill: this.skill_control.value })
+            .createNewSkill({ skill1: this.skill_control.value })
             .subscribe({
                 next: (res: CommonResponse<Skill>) => {
                     console.log(res);
 
                     if (res.success) {
                         this.skill_control.setValue('');
-                        this.shared_service.skills.push(res.data);
+                        this.shared_service.skills.push({
+                            skill_id: res.data.skill_id,
+                            skill1: res.data.skill1,
+                        });
+                        this.skills = [{
+                            skill_id: res.data.skill_id,
+                            skill1: res.data.skill1,
+                        }];
+                        this.skillSelected({
+                            skill_id: res.data.skill_id,
+                            skill1: res.data.skill1,
+                        });
                     }
                 },
             });

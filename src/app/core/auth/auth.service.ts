@@ -217,4 +217,36 @@ export class AuthService {
             credentials
         );
     }
+
+    /**
+     * to sent reset otp to entered mail, if a registered user
+     *
+     * @param request
+     * @returns
+     */
+    sendResetOTP(request: {
+        mail: string;
+    }): Observable<CommonResponse<{ user_id: number }>> {
+        return this.http.post<CommonResponse<{ user_id: number }>>(
+            `${this.root_url}/auth/password-reset-otp/get?mail=${request.mail}`,
+            request
+        );
+    }
+
+    /**
+     * to reset password
+     * 
+     * @param request 
+     * @returns 
+     */
+    resetUserPassword(request: {
+        user_id: number;
+        password: string;
+        otp: string;
+    }): Observable<CommonResponse<undefined>> {
+        return this.http.post<CommonResponse<undefined>>(
+            `${this.root_url}/auth/password-reset`,
+            request
+        );
+    }
 }

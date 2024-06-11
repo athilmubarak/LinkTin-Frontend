@@ -106,9 +106,9 @@ export class SharedService {
      * @param request
      * @returns
      */
-    createNewSkill(request: { skill: string }) {
+    createNewSkill(request: { skill1: string }) {
         return this.http.post<CommonResponse<Skill>>(
-            `${this.root_url}/skills/insert`,
+            `${this.root_url}/skill/insert`,
             request
         );
     }
