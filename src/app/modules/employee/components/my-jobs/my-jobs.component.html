@@ -111,7 +111,16 @@
                                     svgIcon="mat_outline:delete"
                                 ></mat-icon>
                             </button>
-                            <a href="mailto:" *ngIf="row.status === 1">
+                            <a
+                                href="mailto:{{
+                                    row?.approved_user_id ===
+                                    user.user_details.user_id
+                                        ? row?.applied_user_Email
+                                        : row?.approved_user_Email
+                                }}"
+                                *ngIf="row.status === 1"
+                                class="mx-2"
+                            >
                                 <mat-icon svgIcon="mat_solid:email"></mat-icon>
                             </a>
                             <button

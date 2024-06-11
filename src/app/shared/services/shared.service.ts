@@ -266,7 +266,7 @@ export class SharedService {
      */
     getEmployeeDetails(user_id: number): Observable<CommonResponse<User>> {
         return this.http.get<CommonResponse<User>>(
-            `${this.root_url}/employee/details/get/${user_id}`
+            `${this.root_url}/employee/information/get/${user_id}`
         );
     }
 }

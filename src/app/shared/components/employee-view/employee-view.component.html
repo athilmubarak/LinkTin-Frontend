@@ -63,7 +63,92 @@
             </a>
         </span>
     </div>
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">Skills</div>
+            </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user?.skill?.length > 0; else noSkills"
+            >
+                <mat-chip-list class="flex flex-wrap">
+                    <mat-chip *ngFor="let skill of user?.skill; let i = index">
+                        {{ skill?.skill }}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <ng-template #noSkills>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No skills yet.
+                    </div>
+                </div>
+            </ng-template>
+        </fuse-card>
+    </div>
+    <div class="lg:flex flex-col items-start mt-4 mx-14">
+        <fuse-card class="flex flex-col w-full p-8">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-semibold leading-tight">
+                    Experiences
+                </div>
+            </div>
+            <div
+                class="flex flex-col md:flex-row w-full flex-wrap"
+                *ngIf="user?.experiences?.length > 0; else noExperiences"
+            >
+                <div
+                    class="flex flex-col rounded border-2 px-4 p-2 mr-2 my-1"
+                    *ngFor="let experience of user?.experiences; let i = index"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex font-bold text-lg">
+                            {{ experience?.job_name }}
+                        </div>
+                    </div>
 
+                    <div class="flex font-semibold">
+                        {{ experience?.company }}
+                    </div>
+                    <div class="flex text-secondary">
+                        {{ experience?.joining_date | date : "MMM yyyy" }} -
+                        <ng-container
+                            *ngIf="
+                                experience.is_currently_working;
+                                else endDate
+                            "
+                        >
+                            Present
+                        </ng-container>
+                        <ng-template #endDate>
+                            {{ experience?.relieving_date | date : "MMM yyyy" }}
+                        </ng-template>
+                    </div>
+                    <div class="flex text-secondary">
+                        {{ experience?.location }}
+                    </div>
+                </div>
+            </div>
+            <ng-template #noExperiences>
+                <div class="flex flex-col w-full justify-center items-center">
+                    <img
+                        src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                        class="w-50"
+                        alt=""
+                    />
+                    <div class="flex flex-col items-center font-bold mt-2">
+                        No experiences yet.
+                    </div>
+                </div>
+            </ng-template>
+        </fuse-card>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>

@@ -14,4 +14,6 @@ export interface MyJobs {
     statusName: string;
     resume_attachment_id: number;
     attachment_url: string;
+    approved_user_Email: string;
+    applied_user_Email: string;
 }
