@@ -114,6 +114,35 @@
                             <a href="mailto:" *ngIf="row.status === 1">
                                 <mat-icon svgIcon="mat_solid:email"></mat-icon>
                             </a>
+                            <button
+                                mat-icon-button
+                                *ngIf="
+                                    row?.approved_user_id ===
+                                        user.user_details.user_id &&
+                                    row.status === 2
+                                "
+                                (click)="updateStatus(row, 1)"
+                            >
+                                <mat-icon
+                                    class="icon-size-5 text-green-300"
+                                    [svgIcon]="'heroicons_solid:check-circle'"
+                                ></mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                *ngIf="
+                                    row?.approved_user_id ===
+                                        user.user_details.user_id &&
+                                    row.status === 2
+                                "
+                                (click)="updateStatus(row, 0)"
+                            >
+                                <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:x-circle'"
+                                ></mat-icon>
+                            </button>
                         </td>
                     </ng-container>
 

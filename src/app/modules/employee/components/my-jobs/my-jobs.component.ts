@@ -242,4 +242,43 @@ export class MyJobsComponent implements OnInit {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
+
+    /**
+     * to update status of job request, either accept or reject
+     *
+     * @param job
+     * @param status
+     */
+    updateStatus(job: MyJobs, status: 1 | 0): void {
+        this.myJobs_service
+            .updateRequestStatus(job.sync_registry_id, status)
+            .subscribe({
+                next: (res: CommonResponse<number>) => {
+                    console.log(res);
+
+                    this.snack_bar.open(res.message, 'Close', {
+                        duration: 2000,
+                        panelClass: res.success
+                            ? 'success-message'
+                            : 'error-message',
+                    });
+
+                    if (res.success) {
+                        this.my_jobs = this.my_jobs.map((x) => {
+                            if (x.sync_registry_id === job.sync_registry_id) {
+                                return {
+                                    ...x,
+                                    status: status,
+                                    statusName:
+                                        status === 1 ? 'Approved' : 'Rejected',
+                                };
+                            } else {
+                                return x;
+                            }
+                        });
+                        this.filterDataByType();
+                    }
+                },
+            });
+    }
 }
