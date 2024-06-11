@@ -15,7 +15,9 @@
                 alt=""
             />
             <div class="flex flex-col items-center font-bold mt-4">
-                No Vacancies for you
+                No
+                {{ user_type === 1 ? "Vacancies" : "candidate" }} recommendation
+                for you
             </div>
         </div>
     </ng-template>

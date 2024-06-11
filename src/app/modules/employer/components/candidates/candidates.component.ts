@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable quotes */
 /* eslint-disable @typescript-eslint/member-ordering */
@@ -17,6 +19,7 @@ import { editAttachmentComponent } from 'app/modules/employee/components/dialog/
 import { Subject, takeUntil } from 'rxjs';
 import { MyJobsService } from '../../services/my-jobs.service';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-candidates',
@@ -28,6 +31,7 @@ export class CandidatesComponent implements OnInit {
     user: User;
     candidates: MyJobs[] = [];
     filter_type: number = 0;
+    readonly url: string = environment.url;
 
     //Mat-table related variables
     data_source = new MatTableDataSource<MyJobs>();
@@ -35,8 +39,8 @@ export class CandidatesComponent implements OnInit {
         'sl',
         'jobName',
         'candidate',
-        'vacancy_count',
-        'application_starts_from',
+        'applied_date',
+        'statusName',
         'admin',
     ];
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -81,7 +85,6 @@ export class CandidatesComponent implements OnInit {
                     application.applied_user_id ===
                     this.user.user_details.user_id
             );
-            data = [];
         } else {
             //Candidate Applications
             data = this.candidates.filter(
@@ -94,6 +97,7 @@ export class CandidatesComponent implements OnInit {
         this.data_source = new MatTableDataSource(data);
         this.data_source.sort = this.sort;
     }
+
     /**
      * to get all my jobs
      */
@@ -110,8 +114,9 @@ export class CandidatesComponent implements OnInit {
             },
         });
     }
+
     redirectUrl(row: any) {
-        window.open(row.attachment_url, '_blank');
+        window.open(this.url + row.attachment_url, '_blank');
     }
 
     /**
@@ -121,9 +126,9 @@ export class CandidatesComponent implements OnInit {
      */
     deleteJob(job: MyJobs) {
         const dialog_ref = this.confirmation_dialog.open({
-            title: 'Remove Jobs',
+            title: 'Remove Job Request',
             message:
-                "Are you sure you want to delete this job? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the job details.",
+                "Are you sure you want to delete this job request ? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the job request.",
             icon: {
                 show: false,
             },

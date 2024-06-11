@@ -23,7 +23,7 @@ export class MyJobsService {
      */
     getAllJobVacancies() {
         return this.http.get<CommonResponse<MyJobs[]>>(
-            `${this.root_url}/job_vacancy/sync/get`
+            `${this.root_url}/job_vacancy/sync/getv1`
         );
     }
     /**

@@ -133,9 +133,9 @@ export class MyJobsComponent implements OnInit {
      */
     deleteJob(job: MyJobs) {
         const dialog_ref = this.confirmation_dialog.open({
-            title: 'Remove Jobs',
+            title: 'Remove Job Request',
             message:
-                "Are you sure you want to delete this cancel this job application or request? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the job details.",
+                "Are you sure you want to delete this cancel this job application ? This action cannot be undone. Click 'Confirm' to proceed with the deletion, or 'Cancel' to return to the job request.",
             icon: {
                 show: false,
             },
