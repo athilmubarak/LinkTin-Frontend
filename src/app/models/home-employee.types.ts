@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface HomeEmployee {
     vacancy_id: number;
-    employee_user_id: number;
+    user_id: number;
     name: string;
     email: string;
     phone_number: string;

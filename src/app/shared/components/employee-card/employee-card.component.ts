@@ -119,11 +119,8 @@ export class EmployeeCardComponent implements OnInit {
         const request_body: SyncRegister = {
             vacancy_id: employee.vacancy_id,
             status: status,
-            approved_user_id: employee.employee_user_id,
-            resume_attachment_id:
-                this.user.attachments.length > 0
-                    ? this.user.attachments[0].attachment_id
-                    : null,
+            approved_user_id: employee.user_id,
+            resume_attachment_id: employee.resume_attachment_id
         };
 
         this.shared_service.syncVacancy(request_body).subscribe({
@@ -134,8 +131,8 @@ export class EmployeeCardComponent implements OnInit {
                     if (res.data.length > 0) {
                         const index = this.employees.findIndex(
                             (x) =>
-                                x.employee_user_id ===
-                                    employee.employee_user_id &&
+                                x.user_id ===
+                                    employee.user_id &&
                                 x.vacancy_id === employee.vacancy_id
                         );
 
@@ -144,8 +141,8 @@ export class EmployeeCardComponent implements OnInit {
                             res.data.forEach((x) => {
                                 const employee_index = this.employees.findIndex(
                                     (emp) =>
-                                        x.employee_user_id ===
-                                            emp.employee_user_id &&
+                                        x.user_id ===
+                                            emp.user_id &&
                                         x.vacancy_id === emp.vacancy_id
                                 );
 
@@ -169,7 +166,7 @@ export class EmployeeCardComponent implements OnInit {
         this.mat_dialog.open(EmployeeViewComponent, {
             width: '640px',
             data: {
-                employee_user_id: employee.employee_user_id,
+                employee_user_id: employee.user_id,
             },
             disableClose: true
         });

@@ -1,6 +1,6 @@
-<div class="flex flex-col md:flex-row w-full px-14 py-4">
+<div class="flex flex-col flex-wrap justify-center md:flex-row w-full px-14 py-4">
     <fuse-card
-        class="flex flex-col max-w-80 w-full filter-info mr-6"
+        class="flex flex-col max-w-80 w-full filter-info md:mr-6 mt-2 md:mt-4"
         *ngFor="let employee of employees"
         (swipeleft)="onSwipeLeft(employee)"
         (swiperight)="onSwipeRight(employee)"
