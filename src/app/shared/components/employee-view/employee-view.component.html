@@ -1,4 +1,70 @@
-<mat-dialog-content></mat-dialog-content>
+<h2 mat-dialog-title>{{ user?.user_details?.name }}</h2>
+<mat-dialog-content>
+    <div class="flex flex-col">
+        <div class="flex font-bold">About Me</div>
+        <p class="text-justify">
+            {{ user?.user_details?.employee_about_us }}
+        </p>
+    </div>
+    <div class="flex w-full mt-2">
+        <div class="flex flex-1 mr-2">
+            <mat-icon
+                class="icon-size-5 mr-3"
+                [svgIcon]="'mat_outline:location_on'"
+            ></mat-icon>
+            <span class="leading-none">
+                {{ user?.user_details?.country_name }}
+            </span>
+        </div>
+        <div class="flex flex-1mr-1">
+            <mat-icon
+                class="icon-size-5 mr-3"
+                [svgIcon]="'mat_outline:transgender'"
+            ></mat-icon>
+            <span class="leading-none">
+                {{ user?.user_details?.description }}
+            </span>
+        </div>
+    </div>
+    <div class="flex w-full mt-2">
+        <div class="flex flex-1 mr-2">
+            <mat-icon
+                class="icon-size-5 mr-3"
+                [svgIcon]="'mat_solid:email'"
+            ></mat-icon>
+            <span class="leading-none">
+                {{ user?.user_details?.employee_email }}
+            </span>
+        </div>
+        <div class="flex flex-1">
+            <mat-icon
+                class="icon-size-5 mr-3"
+                [svgIcon]="'mat_solid:phone'"
+            ></mat-icon>
+            <span class="leading-none">
+                {{ user?.user_details?.employee_phone_number }}
+            </span>
+        </div>
+    </div>
+    <div class="flex mt-2">
+        <mat-icon
+            class="icon-size-5 mr-3"
+            [svgIcon]="'mat_solid:web'"
+        ></mat-icon>
+        <span class="leading-none">
+            <a
+                *ngIf="user?.user_details?.portfolio"
+                [href]="user.user_details.portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cursor-pointer"
+            >
+                View Portfolio
+            </a>
+        </span>
+    </div>
+
+</mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

@@ -14,6 +14,7 @@ import { Job } from 'app/models/job.types';
 import { OtherAccount } from 'app/models/other-account.types';
 import { Skill } from 'app/models/skill.types';
 import { SyncRegister } from 'app/models/sync-register.types';
+import { User } from 'app/models/user.types';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -244,9 +245,9 @@ export class SharedService {
 
     /**
      * to register vacancy request
-     * 
-     * @param request 
-     * @returns 
+     *
+     * @param request
+     * @returns
      */
     syncVacancy(
         request: SyncRegister
@@ -254,6 +255,18 @@ export class SharedService {
         return this.http.post<CommonResponse<HomeVacancy[] | HomeEmployee[]>>(
             `${this.root_url}/job_vacancy/sync/register`,
             request
+        );
+    }
+
+    /**
+     * to get employee's details by user_id
+     *
+     * @param user_id
+     * @returns
+     */
+    getEmployeeDetails(user_id: number): Observable<CommonResponse<User>> {
+        return this.http.get<CommonResponse<User>>(
+            `${this.root_url}/employee/details/get/${user_id}`
         );
     }
 }
