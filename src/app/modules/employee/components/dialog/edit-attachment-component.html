@@ -3,27 +3,76 @@
 </h1>
 <div mat-dialog-content>
     <div class="flex flex-row flex-wrap items-start mt-8">
-        <div class="flex flex-col  w-40 h-40 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card ng-star-inserted text-black bg-white" *ngFor="let item of allAttachments;" (click)="updateAttachment(item)">
-            <div class="aspect-w-10 aspect-h-5 mt-4">
-                <div class="flex items-center justify-center border rounded-lg ">
-                    <div class="relative">
-                        <mat-icon
-                        class="icon-size-14 text-hint"
-                        [svgIcon]="'iconsmind:file'"> 
-                    </mat-icon>
-                    <div class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-red-600"
-                    [class.bg-red-600]> PDF 
-                </div>
+        <div
+            class="flex flex-row md:flex-row w-full flex-wrap"
+            *ngIf="attachments.length > 0; else noAttachments"
+        >
+            <ng-container *ngFor="let file of attachments; let i = index">
+                <a
+                    class="flex flex-col w-40 h-50 m-2 p-4 shadow rounded-2xl cursor-pointer bg-card border-2 my-1 {{ selected_attachment_id === file.attachment_id ? 'border-2 border-primary-500' : '' }}"
+                >
+                    <div
+                        class="aspect-w-9 aspect-h-6"
+                        (click)="selected_attachment_id = file.attachment_id"
+                    >
+                        <div class="flex items-center justify-center">
+                            <!-- Icons -->
+                            <div class="flex flex-col justify-center">
+                                <mat-icon
+                                    class="icon-size-14 text-hint mx-auto"
+                                    [svgIcon]="'iconsmind:file'"
+                                ></mat-icon>
+                                <div
+                                    class="flex justify-center mt-2 px-1.5 rounded text-sm font-semibold leading-5 text-white"
+                                    [class.bg-red-600]="
+                                            returnFile(file, 'file-type') ===
+                                            'PDF'
+                                        "
+                                    [class.bg-amber-600]="
+                                            returnFile(file, 'file-type') ===
+                                            'JPG'
+                                        "
+                                >
+                                    {{ returnFile(file, "file-type") }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                </div>
-                
-            </div>
-            
-            <div class="flex flex-col items-start mt-4 text-sm text-center justify-center items-center">
-                <div class="text-xl font-medium">{{item.attachment_name}}</div>
-                
-            </div>
+                    <div
+                        class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+                    >
+                        <div
+                            class="truncate"
+                            [matTooltip]="returnFile(file, 'name')"
+                        >
+                            {{ returnFile(file, "name") }}
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-2">
+                        <button mat-flat-button (click)="viewAttachment(file)">
+                            View
+                        </button>
+                    </div>
+                </a>
+            </ng-container>
         </div>
+        <ng-template #noAttachments>
+            <div class="flex flex-col w-full justify-center items-center">
+                <img
+                    src="./assets/images/ui/angular-material/scenes/undraw_no_data_re_kwbl.svg"
+                    class="w-50"
+                    alt=""
+                />
+                <div class="flex flex-col items-center font-bold mt-2">
+                    No attachments yet.
+                </div>
+            </div>
+        </ng-template>
     </div>
 </div>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="updateAttachment()">
+        Submit
+    </button>
+</mat-dialog-actions>

@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonResponse } from 'app/models/common-response.types';
 import { MyJobs } from 'app/models/my-jobs.type';
-import { Skill } from 'app/models/skill.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -23,7 +22,7 @@ export class MyJobsService {
      */
     getAllJobVacancies() {
         return this.http.get<CommonResponse<MyJobs[]>>(
-            `${this.root_url}/job-vacancy/sync/get`
+            `${this.root_url}/job_vacancy/sync/getv1`
         );
     }
     /**
@@ -33,8 +32,8 @@ export class MyJobsService {
      * @returns
      */
     deleteJob(sync_registry_id: number) {
-        return this.http.get<CommonResponse<number>>(
-            `${this.root_url}job-vacancy/sync/delete/${sync_registry_id}`
+        return this.http.delete<CommonResponse<number>>(
+            `${this.root_url}/job_vacancy/sync/delete/${sync_registry_id}`
         );
     }
 
@@ -49,7 +48,7 @@ export class MyJobsService {
         request: { resume_attachment_id: number }
     ) {
         return this.http.put<CommonResponse<number>>(
-            `${this.root_url}job-vacancy/sync/attachment/update/${sync_registry_id}`,
+            `${this.root_url}/job_vacancy/sync/attachment/update/${sync_registry_id}`,
             request
         );
     }

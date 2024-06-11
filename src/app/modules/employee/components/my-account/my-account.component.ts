@@ -236,7 +236,7 @@ export class MyAccountComponent implements OnInit {
             }
 
             if (array_type === 'attachments') {
-                dialog_data['accept'] = '.jpg';
+                dialog_data['accept'] = '.pdf';
             }
 
             this.mat_dialog.open(content_type.component, {

@@ -6,8 +6,8 @@
         <div class="flex items-center">
             <img
                 [src]="url + vacancy_details?.company_logo"
-                width="200"
-                height="200"
+                class="rounded"
+                style="width: 50px; height: 50px;"
             />
         </div>
         <div class="flex flex-col ml-2 justify-start">
@@ -15,7 +15,7 @@
                 {{ vacancy_details?.company_name }}
             </div>
             <div class="flex">
-                {{ vacancy_details.company_location }}
+                {{ vacancy_details?.company_location }}
             </div>
         </div>
     </div>

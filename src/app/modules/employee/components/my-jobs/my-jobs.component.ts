@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable quotes */
 /* eslint-disable no-trailing-spaces */
@@ -18,17 +19,19 @@ import { MyJobsService } from '../../services/my-jobs.service';
 import { MatSort } from '@angular/material/sort';
 import { CommonResponse } from 'app/models/common-response.types';
 import { MyJobs } from 'app/models/my-jobs.type';
-import { FuseAlertType } from '@fuse/components/alert';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/models/user.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { editAttachmentComponent } from '../dialog/edit-attachment-component';
 import { UserService } from 'app/core/user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
+import { VacancyViewComponent } from 'app/shared/components/vacancy-view/vacancy-view.component';
+import { Attachment } from 'app/models/attachment.types';
 
 export interface DialogData {
-    item: any;
+    item: MyJobs;
 }
 @Component({
     selector: 'app-my-jobs',
@@ -40,15 +43,16 @@ export class MyJobsComponent implements OnInit {
     user: User;
     filter_type: number = 0;
     my_jobs: MyJobs[] = [];
+    readonly url: string = environment.url;
 
     //Mat-table related variables
     data_source = new MatTableDataSource<MyJobs>();
     displayed_columns: string[] = [
         'sl',
-        'job_name',
+        'jobName',
         'company_name',
         'applied_date',
-        'status_description',
+        'statusName',
         'admin',
     ];
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -93,7 +97,7 @@ export class MyJobsComponent implements OnInit {
         } else if (this.filter_type === 2) {
             //Approached by company
             data = this.my_jobs.filter(
-                (job) => job.applied_user_id === this.user.user_details.user_id
+                (job) => job.approved_user_id === this.user.user_details.user_id
             );
         }
 
@@ -115,50 +119,11 @@ export class MyJobsComponent implements OnInit {
                 this.data_source.sort = this.sort;
                 this.my_jobs = res.data;
             },
-            error: () => {
-                const data: MyJobs[] = [
-                    {
-                        sync_registry_id: 1,
-                        vacancy_id: 1,
-                        job_id: '1',
-                        job_name: 'Frontend Developer',
-                        applied_user_id: 101,
-                        applied_user: '',
-                        approved_user_id: 1,
-                        approved_user: 'ABC',
-                        applied_date: '',
-                        approved_date: '',
-                        status: 2,
-                        status_description: 'Open',
-                        resume_attachment_id: 1,
-                        attachment_url: '',
-                    },
-                    {
-                        sync_registry_id: 1,
-                        vacancy_id: 1,
-                        job_id: '1',
-                        job_name: 'Backend Developer',
-                        applied_user_id: 0,
-                        applied_user: 'test',
-                        approved_user_id: 1,
-                        approved_user: 'Lyca Group',
-                        applied_date: '',
-                        approved_date: '',
-                        status: 0,
-                        status_description: 'Open',
-                        resume_attachment_id: 1,
-                        attachment_url: 'https://www.lycamobile.co.uk/en/',
-                    },
-                ];
-
-                this.data_source = new MatTableDataSource(data);
-                this.data_source.sort = this.sort;
-            },
         });
     }
-    
-    redirectUrl(row: any) {
-        window.open(row.attachment_url, '_blank');
+
+    redirectUrl(row: MyJobs) {
+        window.open(this.url + row.attachment_url, '_blank');
     }
 
     /**
@@ -226,13 +191,55 @@ export class MyJobsComponent implements OnInit {
     /**
      * to edit attachments
      *
-     * @param jobs
+     * @param item
      *
      */
-    openDialog(item: any) {
-        this.dialog.open(editAttachmentComponent, {
+    openDialog(item: MyJobs) {
+        const dialog_ref = this.dialog.open(editAttachmentComponent, {
             width: '800px',
             data: { item },
+            disableClose: true,
         });
+
+        dialog_ref.afterClosed().subscribe({
+            next: (res: CommonResponse<Attachment>) => {
+                if (res && res.success) {
+                    this.my_jobs = this.my_jobs.map((x) => {
+                        if (x.sync_registry_id === item.sync_registry_id) {
+                            return {
+                                ...x,
+                                resume_attachment_id: res.data.attachment_id,
+                                attachment_url: res.data.attachment_url,
+                            };
+                        } else {
+                            return x;
+                        }
+                    });
+                    this.filterDataByType();
+                }
+            },
+        });
+    }
+
+    /**
+     * to view vacancy
+     *
+     * @param job
+     */
+    viewVacancy(job: MyJobs) {
+        this.dialog.open(VacancyViewComponent, {
+            disableClose: true,
+            data: { vacancy_id: job.vacancy_id },
+            width: '640px',
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }

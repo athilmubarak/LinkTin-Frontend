@@ -33,7 +33,7 @@ export class CandidatesComponent implements OnInit {
     data_source = new MatTableDataSource<MyJobs>();
     displayed_columns: string[] = [
         'sl',
-        'job_name',
+        'jobName',
         'candidate',
         'vacancy_count',
         'application_starts_from',
@@ -107,45 +107,6 @@ export class CandidatesComponent implements OnInit {
                 this.data_source = new MatTableDataSource(res.data);
                 this.data_source.sort = this.sort;
                 this.candidates = res.data;
-            },
-            error: () => {
-                const data: MyJobs[] = [
-                    {
-                        sync_registry_id: 1,
-                        vacancy_id: 1,
-                        job_id: '1',
-                        job_name: 'Frontend Developer',
-                        applied_user_id: 101,
-                        applied_user: '',
-                        approved_user_id: 1,
-                        approved_user: 'ABC',
-                        applied_date: '',
-                        approved_date: '',
-                        status: 2,
-                        status_description: 'Open',
-                        resume_attachment_id: 1,
-                        attachment_url: '',
-                    },
-                    {
-                        sync_registry_id: 1,
-                        vacancy_id: 1,
-                        job_id: '1',
-                        job_name: 'Backend Developer',
-                        applied_user_id: 0,
-                        applied_user: 'test',
-                        approved_user_id: 1,
-                        approved_user: 'Lyca Group',
-                        applied_date: '',
-                        approved_date: '',
-                        status: 0,
-                        status_description: 'Open',
-                        resume_attachment_id: 1,
-                        attachment_url: 'https://www.lycamobile.co.uk/en/',
-                    },
-                ];
-
-                this.data_source = new MatTableDataSource(data);
-                this.data_source.sort = this.sort;
             },
         });
     }
