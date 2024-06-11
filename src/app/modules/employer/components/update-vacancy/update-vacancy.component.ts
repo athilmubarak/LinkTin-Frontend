@@ -288,6 +288,10 @@ export class UpdateVacancyComponent implements OnInit {
                             skill_id: res.data.skill_id,
                             skill1: res.data.skill1,
                         });
+                        this.skillSelected({
+                            skill_id: res.data.skill_id,
+                            skill1: res.data.skill1,
+                        });
                     }
                 },
             });
