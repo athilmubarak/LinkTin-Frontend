@@ -20,6 +20,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { MyJobsService } from '../../services/my-jobs.service';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
+import { VacancyViewComponent } from 'app/shared/components/vacancy-view/vacancy-view.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-candidates',
@@ -52,7 +54,8 @@ export class CandidatesComponent implements OnInit {
         private change_detector_ref: ChangeDetectorRef,
         private confirmation_dialog: FuseConfirmationService,
         private user_service: UserService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private snack_bar: MatSnackBar
     ) {}
 
     ngOnInit(): void {
@@ -172,5 +175,57 @@ export class CandidatesComponent implements OnInit {
                 }
             },
         });
+    }
+
+    /**
+     * to view vacancy
+     *
+     * @param job
+     */
+    viewVacancy(job: MyJobs) {
+        this.dialog.open(VacancyViewComponent, {
+            disableClose: true,
+            data: { vacancy_id: job.vacancy_id },
+            width: '640px',
+        });
+    }
+
+    /**
+     * to update status of job request, either accept or reject
+     *
+     * @param job
+     * @param status
+     */
+    updateStatus(job: MyJobs, status: 1 | 0): void {
+        this.myJobs_service
+            .updateRequestStatus(job.sync_registry_id, status)
+            .subscribe({
+                next: (res: CommonResponse<number>) => {
+                    console.log(res);
+
+                    this.snack_bar.open(res.message, 'Close', {
+                        duration: 2000,
+                        panelClass: res.success
+                            ? 'success-message'
+                            : 'error-message',
+                    });
+
+                    if (res.success) {
+                        this.candidates = this.candidates.map((x) => {
+                            if (x.sync_registry_id === job.sync_registry_id) {
+                                return {
+                                    ...x,
+                                    status: status,
+                                    statusName:
+                                        status === 1 ? 'Approved' : 'Rejected',
+                                };
+                            } else {
+                                return x;
+                            }
+                        });
+                        this.filterDataByType();
+                    }
+                },
+            });
     }
 }

@@ -7,6 +7,7 @@ import { CommonResponse } from 'app/models/common-response.types';
 import { MyJobs } from 'app/models/my-jobs.type';
 import { Skill } from 'app/models/skill.types';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -51,6 +52,23 @@ export class MyJobsService {
         return this.http.put<CommonResponse<number>>(
             `${this.root_url}/job_vacancy/sync/attachment/update/${sync_registry_id}`,
             request
+        );
+    }
+
+    /**
+     * to update request status
+     *
+     * @param sync_registry_id
+     * @param status
+     * @returns
+     */
+    updateRequestStatus(
+        sync_registry_id: number,
+        status: number
+    ): Observable<CommonResponse<number>> {
+        return this.http.put<CommonResponse<number>>(
+            `${this.root_url}/job_vacancy/sync/status/update/${sync_registry_id}`,
+            { status: status }
         );
     }
 }
