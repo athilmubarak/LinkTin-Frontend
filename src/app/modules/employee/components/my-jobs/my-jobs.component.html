@@ -111,6 +111,9 @@
                                     svgIcon="mat_outline:delete"
                                 ></mat-icon>
                             </button>
+                            <a href="mailto:" *ngIf="row.status === 1">
+                                <mat-icon svgIcon="mat_solid:email"></mat-icon>
+                            </a>
                         </td>
                     </ng-container>
 
