@@ -5,8 +5,8 @@
 
 export const environment = {
     production: false,
-    url: 'http://192.168.251.168/',
-    api_url: 'http://192.168.251.168/api'
+    url: 'http://192.168.18.172:81/',
+    api_url: 'http://192.168.18.172:81/api'
 };
 
 /*
