@@ -120,7 +120,7 @@ export class EmployeeCardComponent implements OnInit {
             vacancy_id: employee.vacancy_id,
             status: status,
             approved_user_id: employee.user_id,
-            resume_attachment_id: employee.resume_attachment_id
+            resume_attachment_id: employee.resume_attachment_id,
         };
 
         this.shared_service.syncVacancy(request_body).subscribe({
@@ -128,29 +128,27 @@ export class EmployeeCardComponent implements OnInit {
                 console.log(res);
 
                 if (res.success) {
+                    const index = this.employees.findIndex(
+                        (x) =>
+                            x.user_id === employee.user_id &&
+                            x.vacancy_id === employee.vacancy_id
+                    );
+
+                    if (index >= 0) {
+                        this.employees.splice(index, 1);
+                    }
                     if (res.data.length > 0) {
-                        const index = this.employees.findIndex(
-                            (x) =>
-                                x.user_id ===
-                                    employee.user_id &&
-                                x.vacancy_id === employee.vacancy_id
-                        );
+                        res.data.forEach((x) => {
+                            const employee_index = this.employees.findIndex(
+                                (emp) =>
+                                    x.user_id === emp.user_id &&
+                                    x.vacancy_id === emp.vacancy_id
+                            );
 
-                        if (index >= 0) {
-                            this.employees.splice(index, 1);
-                            res.data.forEach((x) => {
-                                const employee_index = this.employees.findIndex(
-                                    (emp) =>
-                                        x.user_id ===
-                                            emp.user_id &&
-                                        x.vacancy_id === emp.vacancy_id
-                                );
-
-                                if (employee_index === -1) {
-                                    this.employees.push(x);
-                                }
-                            });
-                        }
+                            if (employee_index === -1) {
+                                this.employees.push(x);
+                            }
+                        });
                     }
                 }
             },
@@ -168,7 +166,7 @@ export class EmployeeCardComponent implements OnInit {
             data: {
                 employee_user_id: employee.user_id,
             },
-            disableClose: true
+            disableClose: true,
         });
     }
 }

@@ -144,9 +144,13 @@ export class VacancyCardComponent implements OnInit {
                 console.log(res);
 
                 if (res.success) {
-                    this.vacancies = this.vacancies.filter(
-                        (x) => x.vacancy_id !== vacancy.vacancy_id
+                    const index = this.vacancies.findIndex(
+                        (x) => x.vacancy_id === vacancy.vacancy_id
                     );
+
+                    if (index >= 0) {
+                        this.vacancies.splice(index, 1);
+                    }
                     if (res.data.length > 0) {
                         const vacancy_ids: number[] = this.vacancies
                             .map((x) => x.vacancy_id)
