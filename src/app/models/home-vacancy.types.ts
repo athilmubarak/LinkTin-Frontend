@@ -10,6 +10,6 @@ export interface HomeVacancy {
     user_id: number;
     company_name: string;
     location1: string;
-    company_logo: string;
+    logo1: string;
     swipe_state?: 'swipe-right' | 'swipe-left' | 'inactive';
 }
